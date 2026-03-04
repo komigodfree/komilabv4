@@ -1,6 +1,6 @@
 <footer class="site-footer" role="contentinfo">
   <div class="container">
-    <div class="footer-grid" style="grid-template-columns:1.5fr 1fr 1fr">
+    <div class="footer-grid">
 
       <div>
         <div class="footer-brand-name"><span>komi</span>lab</div>
@@ -45,13 +45,23 @@
       </div>
 
       <div>
+        <div class="footer-col-title">Veille</div>
+        <div class="footer-links">
+          <a href="/veille/" class="footer-link">Flux temps reel</a>
+          <a href="/veille/?cat=cyber" class="footer-link">Cybersecurite</a>
+          <a href="/veille/?cat=tech" class="footer-link">Tech</a>
+          <a href="/veille/?cat=vuln" class="footer-link">Vulnerabilites</a>
+        </div>
+      </div>
+
+      <div>
         <div class="footer-col-title">A propos</div>
         <div class="footer-links">
           <a href="/a-propos/" class="footer-link">Komi Kpodohouin</a>
           {{ with .Site.Params.linkedinURL }}<a href="{{ . }}" target="_blank" rel="noopener" class="footer-link">LinkedIn</a>{{ end }}
-          <a href="/veille/" class="footer-link">Veille technologique</a>
           <a href="mailto:contact@komilab.org" class="footer-link">Contact</a>
           <a href="/mentions-legales/" class="footer-link">Mentions legales</a>
+          <a href="/confidentialite/" class="footer-link">Confidentialite</a>
         </div>
       </div>
 
