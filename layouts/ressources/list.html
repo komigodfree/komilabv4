@@ -1,0 +1,29 @@
+{{ define "main" }}
+<div class="container">
+  <div style="margin-bottom:2.5rem">
+    <div class="section-label">Boite a outils</div>
+    <h1 style="font-size:2.25rem;margin-bottom:0.5rem">Ressources</h1>
+    <p style="color:var(--text-secondary)">Configs, scripts, blueprints et outils recommandes. Prets a deployer.</p>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" type="button">Tout</button>
+    <button class="filter-btn" type="button">Scripts</button>
+    <button class="filter-btn" type="button">Configs</button>
+    <button class="filter-btn" type="button">Blueprints</button>
+    <button class="filter-btn" type="button">Outils</button>
+  </div>
+
+  {{ if .Pages }}
+  <div class="labs-grid">
+    {{ range .Pages }}{{ partial "lab/card.html" . }}{{ end }}
+  </div>
+  {{ else }}
+  <div style="padding:4rem 2rem;text-align:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg)">
+    <p style="font-family:var(--font-mono);color:var(--text-muted);font-size:0.875rem">
+      // Ressources en cours de publication &mdash; revenez bientot
+    </p>
+  </div>
+  {{ end }}
+</div>
+{{ end }}

@@ -1,0 +1,47 @@
+{{- $title := cond .IsHome .Site.Title (printf "%s — %s" .Title .Site.Title) -}}
+{{- $desc  := cond (ne .Description "") .Description .Site.Params.description -}}
+{{- $image := cond (isset .Params "image") (absURL .Params.image) (absURL "/images/og-default.png") -}}
+
+<!-- Open Graph -->
+<meta property="og:type"        content="{{ if .IsHome }}website{{ else }}article{{ end }}">
+<meta property="og:title"       content="{{ $title }}">
+<meta property="og:description" content="{{ $desc }}">
+<meta property="og:url"         content="{{ .Permalink }}">
+<meta property="og:image"       content="{{ $image }}">
+<meta property="og:site_name"   content="{{ .Site.Title }}">
+<meta property="og:locale"      content="{{ .Site.Params.locale | default "fr_FR" }}">
+{{ if not .IsHome }}
+<meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+{{ with .Params.lastmod }}<meta property="article:modified_time" content="{{ . }}">{{ end }}
+{{ with .Params.author }}<meta property="article:author" content="{{ . }}">{{ end }}
+{{ range .Params.tags }}<meta property="article:tag" content="{{ . }}">{{ end }}
+{{ end }}
+
+<!-- Twitter Cards -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="{{ $title }}">
+<meta name="twitter:description" content="{{ $desc }}">
+<meta name="twitter:image"       content="{{ $image }}">
+{{ with .Site.Params.twitterHandle }}<meta name="twitter:site" content="{{ . }}">{{ end }}
+
+<!-- Schema.org -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "{{ if .IsHome }}WebSite{{ else }}TechArticle{{ end }}",
+  "name": "{{ $title }}",
+  "description": "{{ $desc }}",
+  "url": "{{ .Permalink }}"
+  {{- if not .IsHome -}}
+  ,"headline": "{{ .Title }}"
+  ,"datePublished": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}"
+  {{ with .Params.lastmod }},"dateModified": "{{ . }}"{{ end }}
+  {{ with .Params.author }},"author": { "@type": "Person", "name": "{{ . }}" }{{ end }}
+  ,"publisher": {
+    "@type": "Organization",
+    "name": "KomiLab",
+    "url": "{{ .Site.BaseURL }}"
+  }
+  {{- end }}
+}
+</script>

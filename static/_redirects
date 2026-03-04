@@ -1,0 +1,7 @@
+# KomiLab — Redirects Cloudflare Pages
+
+# Redirect www to apex
+https://www.komilab.org/* https://komilab.org/:splat 301
+
+# Legacy URL aliases (to add as needed)
+# /blog/* /labs/:splat 301

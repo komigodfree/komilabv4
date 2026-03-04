@@ -1,0 +1,34 @@
+<a href="{{ .RelPermalink }}" class="lab-card">
+  <div class="lab-card-meta">
+    {{ with .Params.categories }}
+      {{ range first 1 . }}
+        <span class="badge badge-cat">{{ . }}</span>
+      {{ end }}
+    {{ end }}
+    {{ with .Params.difficulty }}
+      {{ $cls := . | lower | replaceRE "é" "e" | replaceRE "è" "e" | replaceRE "â" "a" | replaceRE "[^a-z]" "" }}
+      <span class="badge badge-{{ $cls }}">{{ . }}</span>
+    {{ end }}
+    {{ with .Params.version }}
+      <span class="text-mono" style="font-size:0.7rem;color:var(--text-muted)">v{{ . }}</span>
+    {{ end }}
+  </div>
+
+  <h3 class="lab-card-title">{{ .Title }}</h3>
+
+  <p class="lab-card-desc">
+    {{ with .Description }}{{ . }}{{ else }}{{ .Summary | truncate 110 }}{{ end }}
+  </p>
+
+  <div class="lab-card-footer">
+    <div class="lab-card-author">
+      <div class="author-avatar">
+        {{ with .Params.author }}{{ substr . 0 1 | upper }}{{ else }}K{{ end }}
+      </div>
+      <span>{{ with .Params.author }}{{ . }}{{ else }}KomiLab{{ end }}</span>
+    </div>
+    <div class="deploy-time">
+      {{ with .Params.deploy_time }}{{ . }}{{ else }}{{ mul .WordCount 2 | div 1000 | lang.FormatNumber 0 }}h deploiement{{ end }}
+    </div>
+  </div>
+</a>

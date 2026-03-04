@@ -1,0 +1,45 @@
+{{ define "main" }}
+<div class="container">
+
+  <div class="section-header" style="margin-bottom:var(--space-6)">
+    <h1 class="section-title">Labs d'ingénierie</h1>
+    <p class="section-subtitle">
+      Documentation technique ultra-détaillée, orientée production.
+      {{ len .Pages }} labs disponibles.
+    </p>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar" role="group" aria-label="Filtrer par catégorie">
+    <button class="filter-btn active" data-filter="all" type="button">Tous</button>
+    <button class="filter-btn" data-filter="Réseaux" type="button">Réseaux</button>
+    <button class="filter-btn" data-filter="Cybersécurité" type="button">Cybersécurité</button>
+    <button class="filter-btn" data-filter="Virtualisation" type="button">Virtualisation</button>
+    <button class="filter-btn" data-filter="Cloud" type="button">Cloud</button>
+    <button class="filter-btn" data-filter="Linux" type="button">Linux</button>
+    <button class="filter-btn" data-filter="Automatisation" type="button">Auto</button>
+    <button class="filter-btn" data-filter="Monitoring" type="button">Monitoring</button>
+    <button class="filter-btn" data-filter="Audit" type="button">Audit</button>
+  </div>
+
+  <!-- DIFFICULTY FILTER -->
+  <div style="display:flex;gap:var(--space-2);margin-bottom:var(--space-6);flex-wrap:wrap;align-items:center">
+    <span style="font-size:var(--text-xs);color:var(--color-text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.08em">Niveau :</span>
+    <span class="badge badge-debutant" style="cursor:pointer">Débutant</span>
+    <span class="badge badge-intermediaire" style="cursor:pointer">Intermédiaire</span>
+    <span class="badge badge-avance" style="cursor:pointer">Avancé</span>
+    <span class="badge badge-expert" style="cursor:pointer">Expert</span>
+  </div>
+
+  <!-- LABS GRID -->
+  <div class="labs-grid" id="labs-grid">
+    {{ range .Pages }}
+      {{ partial "lab/card.html" . }}
+    {{ end }}
+  </div>
+
+  <!-- PAGINATION -->
+  {{ template "_internal/pagination.html" . }}
+
+</div>
+{{ end }}

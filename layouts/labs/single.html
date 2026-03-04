@@ -1,0 +1,95 @@
+{{ define "main" }}
+<div class="container">
+<article>
+
+  <header class="lab-header">
+    <div class="lab-meta-row">
+      {{ with .Params.categories }}
+        {{ range first 1 . }}
+          <a href="/labs/categories/{{ . | urlize }}/" class="badge badge-cat">{{ . }}</a>
+        {{ end }}
+      {{ end }}
+      {{ with .Params.difficulty }}
+        {{ $cls := . | lower | replaceRE "é" "e" | replaceRE "è" "e" | replaceRE "â" "a" | replaceRE "[^a-z]" "" }}
+        <span class="badge badge-{{ $cls }}">{{ . }}</span>
+      {{ end }}
+      {{ with .Params.version }}
+        <span class="text-mono" style="font-size:0.75rem;color:var(--text-muted)">v{{ . }}</span>
+      {{ end }}
+      {{ range .Params.tags }}
+        <a href="/labs/tags/{{ . | urlize }}/" class="tag">{{ . }}</a>
+      {{ end }}
+    </div>
+
+    <h1 class="lab-title">{{ .Title }}</h1>
+
+    {{ with .Description }}
+    <p class="lab-description">{{ . }}</p>
+    {{ end }}
+
+    {{ with .Params.author }}
+    <div class="lab-author-block">
+      <div class="lab-author-avatar-lg">{{ substr . 0 1 | upper }}</div>
+      <div>
+        <div class="lab-author-name">{{ . }}</div>
+        <a href="/authors/{{ . | urlize }}/" class="lab-author-link text-mono" style="font-size:0.72rem">
+          Voir tous les labs &rarr;
+        </a>
+      </div>
+    </div>
+    {{ end }}
+
+    <div class="lab-meta-info">
+      {{ with .Params.version }}
+        <span>Version : v{{ . }}</span>
+        <span style="color:var(--border)">|</span>
+      {{ end }}
+      <span>
+        Publie le <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02 Jan 2006" }}</time>
+      </span>
+      {{ with .Params.lastmod }}
+        <span style="color:var(--border)">|</span>
+        <span>Mis a jour : <time>{{ dateFormat "02 Jan 2006" . }}</time></span>
+      {{ end }}
+      <span style="color:var(--border)">|</span>
+      <span class="deploy-time">
+        {{ with .Params.deploy_time }}{{ . }}{{ else }}~{{ mul .ReadingTime 3 }}min deploiement estime{{ end }}
+      </span>
+    </div>
+  </header>
+
+  <div class="lab-layout">
+    <div class="lab-content">
+      {{ .Content }}
+
+      {{ with .Params.tags }}
+      <div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--border)">
+        <span style="font-family:var(--font-mono);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-right:0.75rem">Tags</span>
+        {{ range . }}<a href="/labs/tags/{{ . | urlize }}/" class="tag" style="margin-right:0.35rem">{{ . }}</a>{{ end }}
+      </div>
+      {{ end }}
+
+      {{ with .Params.series }}
+      <div style="margin-top:1.5rem;padding:1rem 1.25rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius)">
+        <p style="font-family:var(--font-mono);font-size:0.7rem;text-transform:uppercase;color:var(--cyan);margin-bottom:0.3rem">Serie</p>
+        {{ range . }}<a href="/labs/series/{{ . | urlize }}/" style="font-weight:600">{{ . }}</a>{{ end }}
+      </div>
+      {{ end }}
+
+      <!-- Newsletter CTA in article -->
+      <div style="margin-top:3rem">
+        {{ partial "newsletter/block.html" . }}
+      </div>
+    </div>
+
+    {{ if .TableOfContents }}
+    <aside class="lab-toc" aria-label="Table des matieres">
+      <div class="lab-toc-title">Table des matieres</div>
+      {{ .TableOfContents }}
+    </aside>
+    {{ end }}
+  </div>
+
+</article>
+</div>
+{{ end }}

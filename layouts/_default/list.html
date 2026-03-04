@@ -1,0 +1,18 @@
+{{ define "main" }}
+<div class="container container--content">
+  <h1>{{ .Title }}</h1>
+  {{ with .Description }}<p class="text-muted" style="font-size:var(--text-lg);margin-bottom:var(--space-8)">{{ . }}</p>{{ end }}
+  <div class="lab-content">
+    {{ .Content }}
+  </div>
+  {{ if .Pages }}
+  <div style="margin-top:var(--space-8)">
+    <div class="labs-grid">
+      {{ range .Pages }}
+        {{ partial "lab/card.html" . }}
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+</div>
+{{ end }}

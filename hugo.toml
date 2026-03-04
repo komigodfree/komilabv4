@@ -1,0 +1,112 @@
+baseURL = "https://komilab.org"
+defaultContentLanguage = "fr"
+defaultContentLanguageInSubdir = false
+enableRobotsTXT = true
+enableGitInfo = true
+
+[build]
+  writeStats = true
+
+[minify]
+  minifyOutput = true
+
+[params]
+  description = "Plateforme d'ingénierie technique — Réseaux, Cybersécurité, Cloud, Infrastructure. Documentation production-ready."
+  descriptionEN = "Technical engineering platform — Networking, Cybersecurity, Cloud, Infrastructure. Production-ready documentation."
+  author = "KomiLab"
+  siteTagline = "Engineering Intelligence Lab"
+  linkedinURL = "https://www.linkedin.com/in/komi-kpodohouin"
+  githubURL = "https://github.com/komigodfree"
+  mailerliteFormID = "VOTRE_FORM_ID"
+  mailerliteGroupID = "VOTRE_GROUP_ID"
+  discordEnabled = false
+
+[params.veille]
+  workerURL = "https://komilab-veille.komigodfree.workers.dev"
+
+[markup]
+  [markup.highlight]
+    style = "dracula"
+    lineNos = false
+    guessSyntax = true
+    tabWidth = 2
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4
+    ordered = false
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+  author = "authors"
+  difficulty = "difficulty"
+  series = "series"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+  section = ["HTML", "RSS"]
+  page = ["HTML"]
+
+[outputFormats.JSON]
+  mediaType = "application/json"
+  baseName = "index"
+  isPlainText = true
+
+[sitemap]
+  changefreq = "weekly"
+  priority = 0.5
+  filename = "sitemap.xml"
+
+[languages]
+  [languages.fr]
+    languageName = "FR"
+    weight = 1
+    contentDir = "content"
+    [languages.fr.params]
+      locale = "fr_FR"
+    [[languages.fr.menus.main]]
+      name = "Labs"
+      url = "/labs/"
+      weight = 1
+    [[languages.fr.menus.main]]
+      name = "Veille"
+      url = "/veille/"
+      weight = 2
+    [[languages.fr.menus.main]]
+      name = "Ressources"
+      url = "/ressources/"
+      weight = 3
+    [[languages.fr.menus.main]]
+      name = "A propos"
+      url = "/a-propos/"
+      weight = 4
+
+  [languages.en]
+    languageName = "EN"
+    weight = 2
+    contentDir = "content.en"
+    [languages.en.params]
+      locale = "en_US"
+    [[languages.en.menus.main]]
+      name = "Labs"
+      url = "/en/labs/"
+      weight = 1
+    [[languages.en.menus.main]]
+      name = "Veille"
+      url = "/en/veille/"
+      weight = 2
+    [[languages.en.menus.main]]
+      name = "Resources"
+      url = "/en/ressources/"
+      weight = 3
+    [[languages.en.menus.main]]
+      name = "About"
+      url = "/en/a-propos/"
+      weight = 4
+
+[security]
+  enableInlineShortcodes = false
+  [security.funcs]
+    getenv = ["^HUGO_", "^CI$"]

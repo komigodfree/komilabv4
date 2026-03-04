@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang | default "fr" }}">
+<head>
+  {{ partial "head/meta.html" . }}
+  {{ partial "head/seo.html" . }}
+</head>
+<body>
+  <div id="reading-progress" aria-hidden="true"></div>
+  <div class="radar-sweep" aria-hidden="true"></div>
+
+  {{ partial "nav/main.html" . }}
+
+  <main class="site-main" id="main-content">
+    {{ block "main" . }}{{ end }}
+  </main>
+
+  {{ partial "footer/main.html" . }}
+
+  {{- $js := resources.Get "js/main.js" | minify -}}
+  <script src="{{ $js.RelPermalink }}" defer></script>
+</body>
+</html>
