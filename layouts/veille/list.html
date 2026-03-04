@@ -1,13 +1,16 @@
 {{ define "main" }}
 <div class="container">
 
-  <div style="margin-bottom:2.5rem">
+  <!-- HEADER -->
+  <div style="margin-bottom:2.5rem;padding-top:1rem">
     <div class="section-eyebrow">Flux temps reel</div>
-    <h1 style="font-family:var(--font-mono);font-size:2rem;color:var(--text-primary);margin-bottom:0.5rem">Tech & Cyber Intelligence</h1>
-    <p style="color:var(--text-secondary);font-size:0.9rem">Agregation de sources verifiees — actualisation automatique</p>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-top:0.5rem">
+      <h1 style="font-family:var(--font-mono);font-size:2rem;color:var(--text-primary);font-weight:600;letter-spacing:-0.02em">Tech & Cyber Intelligence</h1>
+      <span class="news-live" style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted)">Live &bull; Sources verifiees</span>
+    </div>
   </div>
 
-  <!-- FILTER -->
+  <!-- FILTER BAR -->
   <div class="filter-bar" style="margin-bottom:2rem">
     <button class="filter-btn active" onclick="filterFeed('all',this)" type="button">Tout</button>
     <button class="filter-btn" onclick="filterFeed('cyber',this)" type="button">Cybersecurite</button>
@@ -15,7 +18,7 @@
     <button class="filter-btn" onclick="filterFeed('vuln',this)" type="button">Vulnerabilites</button>
   </div>
 
-  <!-- FEEDS -->
+  <!-- FEEDS GRID — même style que homepage -->
   <div class="news-grid" id="feeds-grid">
 
     <div class="news-col" data-cat="cyber">
@@ -23,7 +26,9 @@
         <span class="news-col-title"><span>ZATAZ</span> · FR</span>
         <span class="news-live">Live</span>
       </div>
-      <div class="news-items" id="feed-zataz"><div class="news-loading">Chargement...<div class="news-loading-bar"></div></div></div>
+      <div class="news-items" id="feed-zataz">
+        <div class="news-loading">Chargement...<div class="news-loading-bar"></div></div>
+      </div>
     </div>
 
     <div class="news-col" data-cat="cyber">
@@ -31,7 +36,9 @@
         <span class="news-col-title"><span>BLEEPING</span> COMPUTER</span>
         <span class="news-live">Live</span>
       </div>
-      <div class="news-items" id="feed-bleeping"><div class="news-loading">Chargement...<div class="news-loading-bar"></div></div></div>
+      <div class="news-items" id="feed-bleeping">
+        <div class="news-loading">Chargement...<div class="news-loading-bar"></div></div>
+      </div>
     </div>
 
     <div class="news-col" data-cat="tech">
@@ -39,7 +46,9 @@
         <span class="news-col-title"><span>LeMonde</span> INFORMATIQUE · FR</span>
         <span class="news-live">Live</span>
       </div>
-      <div class="news-items" id="feed-lmi"><div class="news-loading">Chargement...<div class="news-loading-bar"></div></div></div>
+      <div class="news-items" id="feed-lmi">
+        <div class="news-loading">Chargement...<div class="news-loading-bar"></div></div>
+      </div>
     </div>
 
     <div class="news-col" data-cat="vuln">
@@ -47,7 +56,9 @@
         <span class="news-col-title"><span>THE HACKER</span> NEWS</span>
         <span class="news-live">Live</span>
       </div>
-      <div class="news-items" id="feed-thn"><div class="news-loading">Chargement...<div class="news-loading-bar"></div></div></div>
+      <div class="news-items" id="feed-thn">
+        <div class="news-loading">Chargement...<div class="news-loading-bar"></div></div>
+      </div>
     </div>
 
     <div class="news-col" data-cat="tech">
@@ -55,7 +66,9 @@
         <span class="news-col-title"><span>IT SOCIAL</span> · FR</span>
         <span class="news-live">Live</span>
       </div>
-      <div class="news-items" id="feed-itsocial"><div class="news-loading">Chargement...<div class="news-loading-bar"></div></div></div>
+      <div class="news-items" id="feed-itsocial">
+        <div class="news-loading">Chargement...<div class="news-loading-bar"></div></div>
+      </div>
     </div>
 
     <div class="news-col" data-cat="cyber">
@@ -63,11 +76,14 @@
         <span class="news-col-title"><span>KREBS</span> ON SECURITY</span>
         <span class="news-live">Live</span>
       </div>
-      <div class="news-items" id="feed-krebs"><div class="news-loading">Chargement...<div class="news-loading-bar"></div></div></div>
+      <div class="news-items" id="feed-krebs">
+        <div class="news-loading">Chargement...<div class="news-loading-bar"></div></div>
+      </div>
     </div>
 
   </div>
 
+  <!-- Articles de veille publiés -->
   {{ $posts := where .Site.RegularPages "Section" "veille" }}
   {{ if $posts }}
   <div style="margin-top:4rem">
@@ -89,12 +105,12 @@
 (function(){
   var P='https://api.rss2json.com/v1/api.json?rss_url=';
   var feeds=[
-    {id:'feed-zataz',    url:'https://www.zataz.com/feed/',                                              src:'ZATAZ',                cat:'cyber'},
-    {id:'feed-bleeping', url:'https://www.bleepingcomputer.com/feed/',                                   src:'Bleeping Computer',    cat:'cyber'},
-    {id:'feed-lmi',      url:'https://www.lemondeinformatique.fr/flux-rss/thematique/securite/rss.xml',  src:'LeMonde Informatique', cat:'tech'},
-    {id:'feed-thn',      url:'https://feeds.feedburner.com/TheHackersNews',                              src:'The Hacker News',      cat:'vuln'},
-    {id:'feed-itsocial', url:'https://itsocial.fr/feed/',                                                src:'IT Social',            cat:'tech'},
-    {id:'feed-krebs',    url:'https://feeds.feedburner.com/KrebsOnSecurity',                             src:'Krebs on Security',    cat:'cyber'}
+    {id:'feed-zataz',    url:'https://www.zataz.com/feed/',                                             src:'ZATAZ',                cat:'cyber'},
+    {id:'feed-bleeping', url:'https://www.bleepingcomputer.com/feed/',                                  src:'Bleeping Computer',    cat:'cyber'},
+    {id:'feed-lmi',      url:'https://www.lemondeinformatique.fr/flux-rss/thematique/securite/rss.xml', src:'LeMonde Informatique', cat:'tech'},
+    {id:'feed-thn',      url:'https://feeds.feedburner.com/TheHackersNews',                             src:'The Hacker News',      cat:'vuln'},
+    {id:'feed-itsocial', url:'https://itsocial.fr/feed/',                                               src:'IT Social',            cat:'tech'},
+    {id:'feed-krebs',    url:'https://feeds.feedburner.com/KrebsOnSecurity',                            src:'Krebs on Security',    cat:'cyber'}
   ];
 
   function ago(d){
