@@ -1,0 +1,136 @@
+{{ define "main" }}
+<div class="container">
+
+  <div style="margin-bottom:2.5rem">
+    <div class="section-eyebrow">Flux temps reel</div>
+    <h1 style="font-family:var(--font-mono);font-size:2rem;color:var(--text-primary);margin-bottom:0.5rem">Tech & Cyber Intelligence</h1>
+    <p style="color:var(--text-secondary);font-size:0.9rem">Agregation de sources verifiees — actualisation automatique</p>
+  </div>
+
+  <!-- FILTER -->
+  <div class="filter-bar" style="margin-bottom:2rem">
+    <button class="filter-btn active" onclick="filterFeed('all',this)" type="button">Tout</button>
+    <button class="filter-btn" onclick="filterFeed('cyber',this)" type="button">Cybersecurite</button>
+    <button class="filter-btn" onclick="filterFeed('tech',this)" type="button">Tech</button>
+    <button class="filter-btn" onclick="filterFeed('vuln',this)" type="button">Vulnerabilites</button>
+  </div>
+
+  <!-- FEEDS -->
+  <div class="news-grid" id="feeds-grid">
+
+    <div class="news-col" data-cat="cyber">
+      <div class="news-col-header">
+        <span class="news-col-title"><span>ZATAZ</span> · FR</span>
+        <span class="news-live">Live</span>
+      </div>
+      <div class="news-items" id="feed-zataz"><div class="news-loading">Chargement...<div class="news-loading-bar"></div></div></div>
+    </div>
+
+    <div class="news-col" data-cat="cyber">
+      <div class="news-col-header">
+        <span class="news-col-title"><span>BLEEPING</span> COMPUTER</span>
+        <span class="news-live">Live</span>
+      </div>
+      <div class="news-items" id="feed-bleeping"><div class="news-loading">Chargement...<div class="news-loading-bar"></div></div></div>
+    </div>
+
+    <div class="news-col" data-cat="tech">
+      <div class="news-col-header">
+        <span class="news-col-title"><span>LeMonde</span> INFORMATIQUE · FR</span>
+        <span class="news-live">Live</span>
+      </div>
+      <div class="news-items" id="feed-lmi"><div class="news-loading">Chargement...<div class="news-loading-bar"></div></div></div>
+    </div>
+
+    <div class="news-col" data-cat="vuln">
+      <div class="news-col-header">
+        <span class="news-col-title"><span>THE HACKER</span> NEWS</span>
+        <span class="news-live">Live</span>
+      </div>
+      <div class="news-items" id="feed-thn"><div class="news-loading">Chargement...<div class="news-loading-bar"></div></div></div>
+    </div>
+
+    <div class="news-col" data-cat="tech">
+      <div class="news-col-header">
+        <span class="news-col-title"><span>IT SOCIAL</span> · FR</span>
+        <span class="news-live">Live</span>
+      </div>
+      <div class="news-items" id="feed-itsocial"><div class="news-loading">Chargement...<div class="news-loading-bar"></div></div></div>
+    </div>
+
+    <div class="news-col" data-cat="cyber">
+      <div class="news-col-header">
+        <span class="news-col-title"><span>KREBS</span> ON SECURITY</span>
+        <span class="news-live">Live</span>
+      </div>
+      <div class="news-items" id="feed-krebs"><div class="news-loading">Chargement...<div class="news-loading-bar"></div></div></div>
+    </div>
+
+  </div>
+
+  {{ $posts := where .Site.RegularPages "Section" "veille" }}
+  {{ if $posts }}
+  <div style="margin-top:4rem">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">Articles de veille</div>
+        <div class="section-title">Analyses & Decryptages</div>
+      </div>
+    </div>
+    <div class="labs-grid">
+      {{ range $posts }}{{ partial "lab/card.html" . }}{{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+</div>
+
+<script>
+(function(){
+  var P='https://api.rss2json.com/v1/api.json?rss_url=';
+  var feeds=[
+    {id:'feed-zataz',    url:'https://www.zataz.com/feed/',                                              src:'ZATAZ',                cat:'cyber'},
+    {id:'feed-bleeping', url:'https://www.bleepingcomputer.com/feed/',                                   src:'Bleeping Computer',    cat:'cyber'},
+    {id:'feed-lmi',      url:'https://www.lemondeinformatique.fr/flux-rss/thematique/securite/rss.xml',  src:'LeMonde Informatique', cat:'tech'},
+    {id:'feed-thn',      url:'https://feeds.feedburner.com/TheHackersNews',                              src:'The Hacker News',      cat:'vuln'},
+    {id:'feed-itsocial', url:'https://itsocial.fr/feed/',                                                src:'IT Social',            cat:'tech'},
+    {id:'feed-krebs',    url:'https://feeds.feedburner.com/KrebsOnSecurity',                             src:'Krebs on Security',    cat:'cyber'}
+  ];
+
+  function ago(d){
+    var s=(Date.now()-new Date(d))/1000;
+    if(s<3600)return Math.floor(s/60)+'min';
+    if(s<86400)return Math.floor(s/3600)+'h';
+    return Math.floor(s/86400)+'j';
+  }
+
+  function render(id,items,src){
+    var el=document.getElementById(id);
+    if(!el)return;
+    if(!items||!items.length){el.innerHTML='<div class="news-loading">Flux indisponible</div>';return;}
+    el.innerHTML=items.slice(0,8).map(function(i){
+      return '<a href="'+i.link+'" class="news-item" target="_blank" rel="noopener">'
+        +'<div class="news-item-meta"><span class="news-item-source">'+src+'</span></div>'
+        +'<div class="news-item-title">'+i.title+'</div>'
+        +'<div class="news-item-meta"><span>'+ago(i.pubDate)+'</span></div>'
+        +'</a>';
+    }).join('');
+  }
+
+  feeds.forEach(function(f){
+    fetch(P+encodeURIComponent(f.url))
+      .then(function(r){return r.json();})
+      .then(function(d){if(d.status==='ok')render(f.id,d.items,f.src);else render(f.id,[],f.src);})
+      .catch(function(){render(f.id,[],f.src);});
+  });
+
+  window.filterFeed=function(cat,btn){
+    document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');});
+    btn.classList.add('active');
+    document.querySelectorAll('#feeds-grid .news-col').forEach(function(col){
+      col.style.display=(cat==='all'||col.dataset.cat===cat)?'':'none';
+    });
+  };
+})();
+</script>
+{{ end }}
