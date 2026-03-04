@@ -21,9 +21,6 @@ enableGitInfo = true
   mailerliteGroupID = "VOTRE_GROUP_ID"
   discordEnabled = false
 
-[params.veille]
-  workerURL = "https://komilab-veille.komigodfree.workers.dev"
-
 [markup]
   [markup.highlight]
     style = "dracula"
@@ -75,10 +72,6 @@ enableGitInfo = true
       url = "/veille/"
       weight = 2
     [[languages.fr.menus.main]]
-      name = "Ressources"
-      url = "/ressources/"
-      weight = 3
-    [[languages.fr.menus.main]]
       name = "A propos"
       url = "/a-propos/"
       weight = 4
@@ -97,10 +90,6 @@ enableGitInfo = true
       name = "Veille"
       url = "/en/veille/"
       weight = 2
-    [[languages.en.menus.main]]
-      name = "Resources"
-      url = "/en/ressources/"
-      weight = 3
     [[languages.en.menus.main]]
       name = "About"
       url = "/en/a-propos/"
