@@ -28,7 +28,7 @@
       <span>{{ with .Params.author }}{{ . }}{{ else }}KomiLab{{ end }}</span>
     </div>
     <div class="deploy-time">
-      {{ with .Params.deploy_time }}{{ . }}{{ else }}{{ mul .WordCount 2 | div 1000 | lang.FormatNumber 0 }}h deploiement{{ end }}
+      {{ with .Params.deploy_time }}{{ . }}{{ else }}~{{ if gt .WordCount 0 }}{{ div (mul .WordCount 3) 60 }}min{{ else }}30min{{ end }} deploiement estime{{ end }}
     </div>
   </div>
 </a>
