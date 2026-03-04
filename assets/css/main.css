@@ -5,9 +5,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --bg:            #07091
-
-  0;
+  --bg:            #07090e;
   --bg-secondary:  #0b0f1c;
   --bg-card:       #0e1420;
   --bg-card-hover: #131a2e;
