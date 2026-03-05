@@ -40,15 +40,15 @@ Double opt-in obligatoire. Zéro spam. Désinscription en un clic.
 
 {{< newsletter >}}
 
----
+<!-----
 
 ## Communauté Discord
 
-<!--Rejoignez notre serveur Discord pour échanger avec d'autres ingénieurs, poser des questions, partager vos retours d'expérience et suivre la veille technique en temps réel.
+Rejoignez notre serveur Discord pour échanger avec d'autres ingénieurs, poser des questions, partager vos retours d'expérience et suivre la veille technique en temps réel.
 
-{{< discord >}}-->
+{{< discord >}}
 
----
+----->
 
 ## Contact
 
