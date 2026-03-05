@@ -1,150 +1,551 @@
 {{ define "main" }}
+
+<style>
+/* ══════════════════════════════════════════════
+   VEILLE PAGE — Design complet
+   ══════════════════════════════════════════════ */
+
+/* Hero banner */
+.v-hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-deep);
+  border: 1px solid var(--bg-border);
+  border-radius: var(--radius-lg);
+  padding: 3rem;
+  margin-bottom: 2.5rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: center;
+}
+.v-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 80% at 80% 50%, rgba(0,212,255,0.06) 0%, transparent 70%),
+    linear-gradient(rgba(0,212,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.025) 1px, transparent 1px);
+  background-size: 100%, 40px 40px, 40px 40px;
+  pointer-events: none;
+}
+.v-hero::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--green-ok) 50%, transparent);
+}
+.v-hero-title {
+  font-family: var(--font-mono);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  margin: 0.5rem 0 0.75rem;
+  position: relative;
+}
+.v-hero-title span { color: var(--cyan); }
+.v-hero-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  max-width: 520px;
+  position: relative;
+  margin: 0;
+}
+.v-hero-kpis {
+  display: flex;
+  gap: 1.5rem;
+  position: relative;
+  flex-shrink: 0;
+}
+.v-kpi {
+  text-align: center;
+  padding: 1rem 1.25rem;
+  background: rgba(0,212,255,0.04);
+  border: 1px solid rgba(0,212,255,0.12);
+  border-radius: var(--radius-md);
+  min-width: 80px;
+}
+.v-kpi-val {
+  font-family: var(--font-mono);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--cyan);
+  line-height: 1;
+}
+.v-kpi-val.green { color: var(--green-ok); }
+.v-kpi-lbl {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+}
+
+/* Live pill */
+.v-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green-ok);
+  background: rgba(0,255,148,0.08);
+  border: 1px solid rgba(0,255,148,0.2);
+  border-radius: 100px;
+  padding: 0.2rem 0.65rem;
+  margin-bottom: 0.75rem;
+}
+.v-live::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green-ok);
+  box-shadow: 0 0 8px var(--green-ok);
+  animation: blink 1.5s ease infinite;
+}
+
+/* Tabs */
+.v-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--bg-border);
+  margin-bottom: 2.5rem;
+  gap: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.v-tab {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  padding: 0.85rem 1.4rem;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  position: relative;
+  bottom: -1px;
+}
+.v-tab:hover { color: var(--text-secondary); }
+.v-tab.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+.v-tab .dot {
+  display: inline-block;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--green-ok);
+  margin-left: 0.4rem;
+  vertical-align: middle;
+  animation: blink 2s ease infinite;
+}
+
+/* Sections */
+.v-section { display: none; }
+.v-section.active { display: block; }
+
+/* ── AFRICA LAYOUT ── */
+.af-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.af-main {
+  background: var(--bg-card);
+  border: 1px solid rgba(0,255,148,0.2);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+}
+.af-main::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--green-ok), var(--cyan) 60%, transparent);
+}
+.af-side {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.af-side-col {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  flex: 1;
+}
+
+/* ── COL HEADER ── */
+.col-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.25rem;
+  border-bottom: 1px solid var(--bg-border);
+  background: rgba(0,0,0,0.25);
+}
+.col-hd-title {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.col-hd-title span { color: var(--cyan); }
+.col-hd-title .af { color: var(--green-ok); }
+
+/* Source badge */
+.src-badge {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.18rem 0.55rem;
+  border-radius: 100px;
+  border: 1px solid;
+}
+.src-badge.af     { color: var(--green-ok);    border-color: rgba(0,255,148,0.25);  background: rgba(0,255,148,0.07); }
+.src-badge.cyber  { color: var(--red-alert);   border-color: rgba(255,76,76,0.25);  background: rgba(255,76,76,0.07); }
+.src-badge.vuln   { color: var(--orange-warn); border-color: rgba(255,140,66,0.25); background: rgba(255,140,66,0.07); }
+.src-badge.tech   { color: var(--cyan);         border-color: rgba(0,212,255,0.2);   background: var(--cyan-ghost); }
+.src-badge.live   { color: var(--text-muted);   border-color: var(--bg-border);      background: transparent; }
+
+/* Feed items */
+.f-item {
+  display: block;
+  padding: 0.875rem 1.25rem;
+  border-bottom: 1px solid rgba(26,35,64,0.5);
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s;
+}
+.f-item:last-child { border-bottom: none; }
+.f-item:hover { background: var(--cyan-ghost); }
+.f-src {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cyan-dim);
+  margin-bottom: 0.25rem;
+}
+.f-title {
+  font-size: 0.845rem;
+  color: var(--text-primary);
+  line-height: 1.45;
+  font-weight: 500;
+}
+.f-item:hover .f-title { color: var(--cyan); }
+.f-meta {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+/* Loading state */
+.f-loading {
+  padding: 2rem 1.25rem;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+.f-bar {
+  width: 100%; height: 2px;
+  background: var(--bg-border);
+  border-radius: 2px;
+  margin-top: 0.75rem;
+  overflow: hidden;
+}
+.f-bar::after {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 35%;
+  background: var(--cyan);
+  border-radius: 2px;
+  animation: loading-scan 1.4s ease infinite;
+}
+
+/* Standard 2-col */
+.v-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+.v-col {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .af-grid { grid-template-columns: 1fr; }
+  .v-2col  { grid-template-columns: 1fr; }
+  .v-hero  { grid-template-columns: 1fr; }
+  .v-hero-kpis { justify-content: flex-start; }
+}
+@media (max-width: 480px) {
+  .v-hero { padding: 1.75rem 1.25rem; }
+  .v-tab  { padding: 0.75rem 0.9rem; font-size: 0.72rem; }
+}
+</style>
+
 <div class="container">
 
-  <!-- HEADER -->
-  <div style="margin-bottom:2.5rem;padding-top:1rem">
-    <div class="section-eyebrow">Flux temps reel</div>
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-top:0.5rem;padding-bottom:1.25rem;border-bottom:1px solid var(--bg-border)">
-      <h1 style="font-family:var(--font-mono);font-size:2rem;color:var(--text-primary);font-weight:600;letter-spacing:-0.02em">Tech & Cyber Intelligence</h1>
-      <span style="display:flex;align-items:center;gap:0.35rem;font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted)">
-        <span style="width:6px;height:6px;border-radius:50%;background:var(--green-ok);box-shadow:0 0 6px var(--green-ok);display:inline-block"></span>
-        Live &bull; Sources verifiees
-      </span>
+  <!-- ── HERO ── -->
+  <div class="v-hero">
+    <div>
+      <div class="v-live">Flux en direct</div>
+      <h1 class="v-hero-title">Tech & Cyber <span>Intelligence</span></h1>
+      <p class="v-hero-desc">
+        Agregation de sources verifiees — actualites IT africaines en priorite,
+        cybersecurite mondiale et vulnerabilites critiques en temps reel.
+      </p>
+    </div>
+    <div class="v-hero-kpis">
+      <div class="v-kpi">
+        <div class="v-kpi-val green">AF</div>
+        <div class="v-kpi-lbl">Afrique First</div>
+      </div>
+      <div class="v-kpi">
+        <div class="v-kpi-val">10</div>
+        <div class="v-kpi-lbl">Sources</div>
+      </div>
+      <div class="v-kpi">
+        <div class="v-kpi-val" style="font-size:1rem;padding-top:4px">Live</div>
+        <div class="v-kpi-lbl">Temps reel</div>
+      </div>
     </div>
   </div>
 
-  <!-- FILTER BAR -->
-  <div class="filter-bar" style="margin-bottom:2rem">
-    <button class="filter-btn active" onclick="filterFeed('all',this)" type="button">Tout</button>
-    <button class="filter-btn" onclick="filterFeed('cyber',this)" type="button">Cybersecurite</button>
-    <button class="filter-btn" onclick="filterFeed('tech',this)" type="button">Tech</button>
-    <button class="filter-btn" onclick="filterFeed('vuln',this)" type="button">Vulnerabilites</button>
+  <!-- ── TABS ── -->
+  <div class="v-tabs">
+    <button class="v-tab active" onclick="vTab('afrique',this)" type="button">
+      🌍 Afrique IT <span class="dot"></span>
+    </button>
+    <button class="v-tab" onclick="vTab('cyber',this)" type="button">
+      🔐 Cybersecurite <span class="dot"></span>
+    </button>
+    <button class="v-tab" onclick="vTab('tech',this)" type="button">
+      💻 Tech Monde <span class="dot"></span>
+    </button>
+    <button class="v-tab" onclick="vTab('vuln',this)" type="button">
+      ⚠️ Vulnerabilites <span class="dot"></span>
+    </button>
   </div>
 
-  <!-- FEEDS GRID -->
-  <div id="feeds-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+  <!-- ════════════════════ TAB AFRIQUE ════════════════════ -->
+  <div class="v-section active" id="tab-afrique">
+    <div class="af-grid">
 
-    <div class="news-col" data-cat="cyber">
-      <div class="news-col-header">
-        <span class="news-col-title"><span>ZATAZ</span> · FR</span>
-        <span class="news-live">Live</span>
+      <!-- Featured — CIO Mag (colonne large) -->
+      <div class="af-main">
+        <div class="col-hd">
+          <span class="col-hd-title"><span class="af">CIO MAG</span> AFRIQUE · FR</span>
+          <span class="src-badge af">Afrique</span>
+        </div>
+        <div id="feed-ciomag"><div class="f-loading">Chargement...<div class="f-bar"></div></div></div>
       </div>
-      <div class="news-items" id="feed-zataz">
-        <div class="news-loading">Chargement...<div class="news-loading-bar"></div></div>
+
+      <!-- Side: 2 sources -->
+      <div class="af-side">
+        <div class="af-side-col">
+          <div class="col-hd">
+            <span class="col-hd-title"><span class="af">IT NEWS</span> AFRICA · EN</span>
+            <span class="src-badge af">Afrique</span>
+          </div>
+          <div id="feed-itnewsafrica"><div class="f-loading">Chargement...<div class="f-bar"></div></div></div>
+        </div>
+        <div class="af-side-col">
+          <div class="col-hd">
+            <span class="col-hd-title"><span class="af">JEUNE AFRIQUE</span> TECH · FR</span>
+            <span class="src-badge af">Afrique</span>
+          </div>
+          <div id="feed-jeuneafrique"><div class="f-loading">Chargement...<div class="f-bar"></div></div></div>
+        </div>
       </div>
+
     </div>
 
-    <div class="news-col" data-cat="cyber">
-      <div class="news-col-header">
-        <span class="news-col-title"><span>BLEEPING</span> COMPUTER</span>
-        <span class="news-live">Live</span>
+    <!-- 2e ligne: 2 autres sources africaines -->
+    <div class="v-2col">
+      <div class="v-col">
+        <div class="col-hd">
+          <span class="col-hd-title"><span class="af">DIGITMAG</span> · FR</span>
+          <span class="src-badge live">Live</span>
+        </div>
+        <div id="feed-digitmag"><div class="f-loading">Chargement...<div class="f-bar"></div></div></div>
       </div>
-      <div class="news-items" id="feed-bleeping">
-        <div class="news-loading">Chargement...<div class="news-loading-bar"></div></div>
-      </div>
-    </div>
-
-    <div class="news-col" data-cat="tech">
-      <div class="news-col-header">
-        <span class="news-col-title"><span>LeMonde</span> INFORMATIQUE · FR</span>
-        <span class="news-live">Live</span>
-      </div>
-      <div class="news-items" id="feed-lmi">
-        <div class="news-loading">Chargement...<div class="news-loading-bar"></div></div>
+      <div class="v-col">
+        <div class="col-hd">
+          <span class="col-hd-title"><span class="af">AFRICA CYBERSECURITY</span> · EN</span>
+          <span class="src-badge af">Afrique</span>
+        </div>
+        <div id="feed-africacyber"><div class="f-loading">Chargement...<div class="f-bar"></div></div></div>
       </div>
     </div>
+  </div>
 
-    <div class="news-col" data-cat="vuln">
-      <div class="news-col-header">
-        <span class="news-col-title"><span>THE HACKER</span> NEWS</span>
-        <span class="news-live">Live</span>
+  <!-- ════════════════════ TAB CYBER ════════════════════ -->
+  <div class="v-section" id="tab-cyber">
+    <div class="v-2col">
+      <div class="v-col">
+        <div class="col-hd">
+          <span class="col-hd-title"><span>ZATAZ</span> · FR</span>
+          <span class="src-badge cyber">Cyber FR</span>
+        </div>
+        <div id="feed-zataz"><div class="f-loading">Chargement...<div class="f-bar"></div></div></div>
       </div>
-      <div class="news-items" id="feed-thn">
-        <div class="news-loading">Chargement...<div class="news-loading-bar"></div></div>
+      <div class="v-col">
+        <div class="col-hd">
+          <span class="col-hd-title"><span>BLEEPING</span> COMPUTER · EN</span>
+          <span class="src-badge live">Live</span>
+        </div>
+        <div id="feed-bleeping"><div class="f-loading">Chargement...<div class="f-bar"></div></div></div>
+      </div>
+      <div class="v-col">
+        <div class="col-hd">
+          <span class="col-hd-title"><span>KREBS</span> ON SECURITY · EN</span>
+          <span class="src-badge live">Live</span>
+        </div>
+        <div id="feed-krebs"><div class="f-loading">Chargement...<div class="f-bar"></div></div></div>
+      </div>
+      <div class="v-col">
+        <div class="col-hd">
+          <span class="col-hd-title"><span>CERT</span> FR OFFICIEL · FR</span>
+          <span class="src-badge cyber">Officiel</span>
+        </div>
+        <div id="feed-certfr"><div class="f-loading">Chargement...<div class="f-bar"></div></div></div>
       </div>
     </div>
+  </div>
 
-    <div class="news-col" data-cat="tech">
-      <div class="news-col-header">
-        <span class="news-col-title"><span>IT SOCIAL</span> · FR</span>
-        <span class="news-live">Live</span>
+  <!-- ════════════════════ TAB TECH ════════════════════ -->
+  <div class="v-section" id="tab-tech">
+    <div class="v-2col">
+      <div class="v-col">
+        <div class="col-hd">
+          <span class="col-hd-title"><span>LeMonde</span> INFORMATIQUE · FR</span>
+          <span class="src-badge tech">Tech FR</span>
+        </div>
+        <div id="feed-lmi"><div class="f-loading">Chargement...<div class="f-bar"></div></div></div>
       </div>
-      <div class="news-items" id="feed-itsocial">
-        <div class="news-loading">Chargement...<div class="news-loading-bar"></div></div>
+      <div class="v-col">
+        <div class="col-hd">
+          <span class="col-hd-title"><span>IT SOCIAL</span> · FR</span>
+          <span class="src-badge tech">Tech FR</span>
+        </div>
+        <div id="feed-itsocial"><div class="f-loading">Chargement...<div class="f-bar"></div></div></div>
       </div>
     </div>
+  </div>
 
-    <div class="news-col" data-cat="cyber">
-      <div class="news-col-header">
-        <span class="news-col-title"><span>KREBS</span> ON SECURITY</span>
-        <span class="news-live">Live</span>
+  <!-- ════════════════════ TAB VULN ════════════════════ -->
+  <div class="v-section" id="tab-vuln">
+    <div class="v-2col">
+      <div class="v-col">
+        <div class="col-hd">
+          <span class="col-hd-title"><span>THE HACKER</span> NEWS · EN</span>
+          <span class="src-badge vuln">CVE</span>
+        </div>
+        <div id="feed-thn"><div class="f-loading">Chargement...<div class="f-bar"></div></div></div>
       </div>
-      <div class="news-items" id="feed-krebs">
-        <div class="news-loading">Chargement...<div class="news-loading-bar"></div></div>
+      <div class="v-col">
+        <div class="col-hd">
+          <span class="col-hd-title"><span>CERT FR</span> ALERTES · FR</span>
+          <span class="src-badge vuln">Officiel</span>
+        </div>
+        <div id="feed-certfr2"><div class="f-loading">Chargement...<div class="f-bar"></div></div></div>
       </div>
     </div>
-
   </div>
 
 </div>
 
-<style>
-.news-item { color: inherit !important; }
-.news-item-title { color: var(--text-primary) !important; }
-.news-item:hover .news-item-title { color: var(--cyan) !important; }
-.news-item-source { color: var(--cyan-dim) !important; }
-.news-item-meta span:last-child { color: var(--text-muted) !important; }
-@media (max-width: 768px) {
-  #feeds-grid { grid-template-columns: 1fr !important; }
-}
-</style>
-
 <script>
-(function(){
-  var P='https://api.rss2json.com/v1/api.json?rss_url=';
-  var feeds=[
-    {id:'feed-zataz',    url:'https://www.zataz.com/feed/',                                             src:'ZATAZ',                cat:'cyber'},
-    {id:'feed-bleeping', url:'https://www.bleepingcomputer.com/feed/',                                  src:'Bleeping Computer',    cat:'cyber'},
-    {id:'feed-lmi',      url:'https://www.lemondeinformatique.fr/flux-rss/thematique/securite/rss.xml', src:'LeMonde Informatique', cat:'tech'},
-    {id:'feed-thn',      url:'https://feeds.feedburner.com/TheHackersNews',                             src:'The Hacker News',      cat:'vuln'},
-    {id:'feed-itsocial', url:'https://itsocial.fr/feed/',                                               src:'IT Social',            cat:'tech'},
-    {id:'feed-krebs',    url:'https://feeds.feedburner.com/KrebsOnSecurity',                            src:'Krebs on Security',    cat:'cyber'}
+(function () {
+  var P = 'https://api.rss2json.com/v1/api.json?rss_url=';
+
+  var FEEDS = [
+    // Afrique
+    { id: 'feed-ciomag',       url: 'https://cio-mag.com/feed/',                                                src: 'CIO Mag Afrique',     max: 10 },
+    { id: 'feed-itnewsafrica', url: 'https://www.itnewsafrica.com/feed/',                                       src: 'IT News Africa',       max: 6  },
+    { id: 'feed-jeuneafrique', url: 'https://www.jeuneafrique.com/sections/economie-et-tech/feed/',             src: 'Jeune Afrique Tech',   max: 6  },
+    { id: 'feed-digitmag',     url: 'https://www.digitmag.net/feed/',                                           src: 'Digitmag',             max: 6  },
+    { id: 'feed-africacyber',  url: 'https://africacybersecuritymag.com/feed/',                                 src: 'Africa Cybersecurity', max: 6  },
+    // Cyber
+    { id: 'feed-zataz',        url: 'https://www.zataz.com/feed/',                                              src: 'ZATAZ',                max: 8  },
+    { id: 'feed-bleeping',     url: 'https://www.bleepingcomputer.com/feed/',                                   src: 'Bleeping Computer',    max: 8  },
+    { id: 'feed-krebs',        url: 'https://feeds.feedburner.com/KrebsOnSecurity',                             src: 'Krebs on Security',    max: 8  },
+    { id: 'feed-certfr',       url: 'https://www.cert.ssi.gouv.fr/feed/',                                       src: 'CERT-FR',              max: 8  },
+    // Tech
+    { id: 'feed-lmi',          url: 'https://www.lemondeinformatique.fr/flux-rss/thematique/securite/rss.xml',  src: 'LeMonde Informatique', max: 8  },
+    { id: 'feed-itsocial',     url: 'https://itsocial.fr/feed/',                                                src: 'IT Social',            max: 8  },
+    // Vuln
+    { id: 'feed-thn',          url: 'https://feeds.feedburner.com/TheHackersNews',                              src: 'The Hacker News',      max: 8  },
+    { id: 'feed-certfr2',      url: 'https://www.cert.ssi.gouv.fr/feed/',                                       src: 'CERT-FR Alertes',      max: 8  },
   ];
 
-  function ago(d){
-    var s=(Date.now()-new Date(d))/1000;
-    if(s<3600)return Math.floor(s/60)+'min';
-    if(s<86400)return Math.floor(s/3600)+'h';
-    return Math.floor(s/86400)+'j';
+  function ago(d) {
+    var s = (Date.now() - new Date(d)) / 1000;
+    if (s < 3600)  return Math.floor(s / 60) + 'min';
+    if (s < 86400) return Math.floor(s / 3600) + 'h';
+    return Math.floor(s / 86400) + 'j';
   }
 
-  function render(id,items,src){
-    var el=document.getElementById(id);
-    if(!el)return;
-    if(!items||!items.length){el.innerHTML='<div class="news-loading">Flux indisponible</div>';return;}
-    el.innerHTML=items.slice(0,8).map(function(i){
-      return '<a href="'+i.link+'" class="news-item" target="_blank" rel="noopener">'
-        +'<div class="news-item-meta"><span class="news-item-source">'+src+'</span></div>'
-        +'<div class="news-item-title">'+i.title+'</div>'
-        +'<div class="news-item-meta"><span>'+ago(i.pubDate)+'</span></div>'
-        +'</a>';
+  function render(id, items, src, max) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    if (!items || !items.length) {
+      el.innerHTML = '<div class="f-loading" style="color:var(--text-muted)">Flux indisponible</div>';
+      return;
+    }
+    el.innerHTML = items.slice(0, max || 8).map(function (i) {
+      return '<a href="' + i.link + '" class="f-item" target="_blank" rel="noopener">'
+        + '<div class="f-src">' + src + '</div>'
+        + '<div class="f-title">' + i.title + '</div>'
+        + '<div class="f-meta">' + ago(i.pubDate) + '</div>'
+        + '</a>';
     }).join('');
   }
 
-  feeds.forEach(function(f){
-    fetch(P+encodeURIComponent(f.url))
-      .then(function(r){return r.json();})
-      .then(function(d){if(d.status==='ok')render(f.id,d.items,f.src);else render(f.id,[],f.src);})
-      .catch(function(){render(f.id,[],f.src);});
+  FEEDS.forEach(function (f) {
+    fetch(P + encodeURIComponent(f.url))
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (d.status === 'ok') render(f.id, d.items, f.src, f.max);
+        else render(f.id, [], f.src);
+      })
+      .catch(function () { render(f.id, [], f.src); });
   });
 
-  window.filterFeed=function(cat,btn){
-    document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');});
+  window.vTab = function (tab, btn) {
+    document.querySelectorAll('.v-tab').forEach(function (b) { b.classList.remove('active'); });
+    document.querySelectorAll('.v-section').forEach(function (s) { s.classList.remove('active'); });
     btn.classList.add('active');
-    document.querySelectorAll('#feeds-grid .news-col').forEach(function(col){
-      col.style.display=(cat==='all'||col.dataset.cat===cat)?'':'none';
-    });
+    var s = document.getElementById('tab-' + tab);
+    if (s) s.classList.add('active');
   };
 })();
 </script>
+
 {{ end }}
