@@ -1,9 +1,9 @@
 ---
-title: "À propos de KomiLab"
-description: "Engineering Intelligence Lab — Ce que nous sommes, notre mission, comment nous contacter et rejoindre la communauté."
+title: "À propos de komilab"
+description: "Engineering Intelligence Lab : Ce que nous sommes, notre mission, comment nous contacter et rejoindre la communauté."
 ---
 
-## Le projet KomiLab
+## Le projet komilab
 
 KomiLab est un **Engineering Intelligence Lab** communautaire. Ni blog personnel, ni portfolio : une plateforme d'ingénierie technique sérieuse, construite pour les professionnels IT qui veulent aller au-delà des tutoriels de surface.
 
@@ -26,7 +26,7 @@ Réseaux, cybersécurité, virtualisation, cloud, hybrid architecture, Linux & s
 
 ## L'équipe
 
-KomiLab est fondé par **Komi Kpodohouin**, ingénieur IT, un grand passionné de Linux, des solutions Open Source.
+komilab est fondé par **Komi Kpodohouin**, ingénieur IT, un grand passionné de Linux, des solutions Open Source.
 
 La plateforme est conçue pour accueillir des contributions multi-auteurs. Si vous êtes ingénieur IT et souhaitez contribuer, consultez la section contact.
 
