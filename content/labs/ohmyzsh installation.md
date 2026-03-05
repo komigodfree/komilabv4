@@ -52,11 +52,6 @@ Vérifier que l'installation s'est correctement effectuée :
 zsh --version
 ```
 
-```
-✅ Résultat attendu
-zsh 5.x.x (x86_64-ubuntu-linux-gnu)
-```
-
 ### 1.2 Installation de Oh My Zsh
 
 Télécharger et exécuter le script d'installation officiel :
@@ -65,7 +60,7 @@ Télécharger et exécuter le script d'installation officiel :
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-Le script installe Oh My Zsh dans `~/.oh-my-zsh` et génère un fichier `~/.zshrc` de base. À la fin, il propose de définir Zsh comme shell par défaut — répondre **Y**.
+Le script installe Oh My Zsh dans `~/.oh-my-zsh` et génère un fichier `~/.zshrc` de base. A la fin, il propose de définir Zsh comme shell par défaut — répondre **Y**.
 
 > **Attention** — Si la question n'est pas posée automatiquement, définir le shell manuellement à l'étape suivante.
 
@@ -106,17 +101,11 @@ Appliquer les changements sans redémarrer la session :
 source ~/.zshrc
 ```
 
-```
-✅ Résultat attendu
-┌──(user㉿hostname)-[~]
-└─$
-```
-
 ---
 
 ## 2. Installation pour l'utilisateur root
 
-> **Sécurité** — Par convention Unix, le prompt root utilise la couleur **rouge** et le caractère `#` afin d'identifier immédiatement une session à hauts privilèges. Cette distinction visuelle est une bonne pratique de sécurité.
+> **Securite** — Par convention Unix, le prompt root utilise la couleur **rouge** et le caractère `#` afin d'identifier immédiatement une session à hauts privilèges. Cette distinction visuelle est une bonne pratique de sécurité.
 
 ### 2.1 Passer en root
 
@@ -157,12 +146,6 @@ Appliquer la configuration :
 source /root/.zshrc
 ```
 
-```
-✅ Résultat attendu
-┌──(root㉿hostname)-[~]
-└─#   (en rouge)
-```
-
 ---
 
 ## 3. Récapitulatif des fichiers modifiés
@@ -181,5 +164,5 @@ source /root/.zshrc
 |---|---|
 | Le prompt ne change pas après `source ~/.zshrc` | Fermer et rouvrir le terminal, ou se déconnecter/reconnecter la session SSH. |
 | Erreur : `chsh: PAM authentication failed` | Utiliser : `sudo chsh -s $(which zsh) <username>` |
-| Caractères spéciaux mal affichés (㉿, └─, ┌──) | Configurer le terminal avec une police compatible : JetBrains Mono, MesloLGS NF ou Fira Code. |
+| Caractères spéciaux mal affichés | Configurer le terminal avec une police compatible : JetBrains Mono, MesloLGS NF ou Fira Code. |
 | Oh My Zsh ralentit le démarrage du shell | Commenter les plugins inutilisés dans `~/.zshrc`, ligne : `plugins=(...)` |
