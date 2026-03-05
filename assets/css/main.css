@@ -1135,3 +1135,27 @@ code {
   background: var(--green-ok);
   color: #000;
 }
+
+/* ── LAB CARD TAGS ─────────────────────────────────────── */
+.lab-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.6rem 0 0.25rem;
+}
+.lab-tag {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  background: rgba(0,212,255,0.05);
+  border: 1px solid rgba(0,212,255,0.1);
+  border-radius: 100px;
+  padding: 0.15rem 0.5rem;
+  transition: all 0.15s;
+}
+.lab-card:hover .lab-tag {
+  color: var(--cyan);
+  border-color: rgba(0,212,255,0.25);
+}
