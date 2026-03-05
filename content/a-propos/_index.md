@@ -30,7 +30,7 @@ komilab est fondé par **Komi Kpodohouin**, ingénieur IT, un grand passionné d
 
 La plateforme est conçue pour accueillir des contributions multi-auteurs. Si vous êtes ingénieur IT et souhaitez contribuer, consultez la section contact.
 
----
+<!-----
 
 ## Newsletter
 
@@ -38,7 +38,7 @@ Abonnez-vous pour recevoir les nouveaux labs, la veille technique et les retours
 
 Double opt-in obligatoire. Zéro spam. Désinscription en un clic.
 
-{{< newsletter >}}
+{{< newsletter >}}----->
 
 <!-----
 
