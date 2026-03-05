@@ -56,7 +56,7 @@ Pour toute demande : contribution, partenariat, correction ou suggestion techniq
 
 **Email** : contact@komilab.org
 
-**GitHub** : [github.com/komigodfree](https://github.com/komigodfree)
+<!--**GitHub** : [github.com/komigodfree](https://github.com/komigodfree)-->
 
 Temps de réponse moyen : 48h ouvrées.
 
