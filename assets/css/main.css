@@ -913,9 +913,16 @@ code {
 /* ── LAB SINGLE PAGE ──────────────────────────────────────── */
 .lab-layout {
   display: grid;
-  grid-template-columns: 1fr 240px;
+  grid-template-columns: 1fr 260px;
   gap: 3rem;
   align-items: start;
+}
+.lab-layout .lab-toc {
+  align-self: start;
+  position: sticky;
+  top: 5rem;
+  max-height: calc(100vh - 7rem);
+  overflow-y: auto;
 }
 .lab-header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--bg-border); }
 .lab-meta-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
