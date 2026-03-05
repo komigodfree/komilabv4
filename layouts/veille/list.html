@@ -231,10 +231,10 @@
         <div class="v-kpi-lbl">Sources</div>
       </div>
       <div class="v-kpi" style="min-width:100px">
-        <div class="v-kpi-val" id="live-clock" style="font-size:1.1rem;letter-spacing:0.05em;color:var(--green-ok)">00:00:00</div>
+        <div class="v-kpi-val" id="live-clock" style="font-size:1.1rem;letter-spacing:0.05em;color:var(--red-alert)">00:00:00</div>
         <div class="v-kpi-lbl" style="display:flex;align-items:center;justify-content:center;gap:0.3rem">
           <span style="width:5px;height:5px;border-radius:50%;background:var(--green-ok);box-shadow:0 0 6px var(--green-ok);display:inline-block;animation:blink 1.5s ease infinite"></span>
-          Temps reel
+          UTC . LIVE
         </div>
       </div>
     </div>
@@ -481,9 +481,9 @@
     var el = document.getElementById('live-clock');
     if (!el) return;
     var now = new Date();
-    var hh = String(now.getHours()).padStart(2, '0');
-    var mm = String(now.getMinutes()).padStart(2, '0');
-    var ss = String(now.getSeconds()).padStart(2, '0');
+    var hh = String(now.getUTCHours()).padStart(2, '0');
+    var mm = String(now.getUTCMinutes()).padStart(2, '0');
+    var ss = String(now.getUTCSeconds()).padStart(2, '0');
     el.textContent = hh + ':' + mm + ':' + ss;
   }
   updateClock();
