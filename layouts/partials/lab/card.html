@@ -1,4 +1,8 @@
-<a href="{{ .RelPermalink }}" class="lab-card" data-categories="{{ with .Params.categories }}{{ delimit . "," }}{{ end }}">
+<a href="{{ .RelPermalink }}" class="lab-card"
+  data-categories="{{ with .Params.categories }}{{ delimit . "," }}{{ end }}"
+  data-tags="{{ with .Params.tags }}{{ delimit . "," }}{{ end }}"
+  data-title="{{ .Title | lower }}"
+  data-desc="{{ with .Description }}{{ . | lower }}{{ else }}{{ .Summary | truncate 200 | lower }}{{ end }}">
   <div class="lab-card-meta">
     {{ with .Params.categories }}
       {{ range first 1 . }}
