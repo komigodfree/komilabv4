@@ -12,13 +12,10 @@ enableGitInfo = true
 
 [params]
   description = "Plateforme d'ingénierie technique — Réseaux, Cybersécurité, Cloud, Infrastructure. Documentation production-ready."
-  descriptionEN = "Technical engineering platform — Networking, Cybersecurity, Cloud, Infrastructure. Production-ready documentation."
   author = "KomiLab"
   siteTagline = "Engineering Intelligence Lab"
   linkedinURL = "https://www.linkedin.com/in/komi-mawuli-kpodohouin-866bb8155"
   githubURL = ""
-  mailerliteFormID = "VOTRE_FORM_ID"
-  mailerliteGroupID = "VOTRE_GROUP_ID"
   discordEnabled = false
 
 [markup]
@@ -42,57 +39,38 @@ enableGitInfo = true
   series = "series"
 
 [outputs]
-  home = ["HTML", "RSS", "JSON"]
+  home    = ["HTML", "RSS", "JSON"]
   section = ["HTML", "RSS"]
-  page = ["HTML"]
+  page    = ["HTML"]
 
 [outputFormats.JSON]
-  mediaType = "application/json"
-  baseName = "index"
-  isPlainText = true
+  mediaType    = "application/json"
+  baseName     = "index"
+  isPlainText  = true
 
 [sitemap]
   changefreq = "weekly"
-  priority = 0.5
-  filename = "sitemap.xml"
+  priority   = 0.5
+  filename   = "sitemap.xml"
 
 [languages]
   [languages.fr]
     languageName = "FR"
-    weight = 1
-    contentDir = "content"
+    weight       = 1
+    contentDir   = "content"
     [languages.fr.params]
       locale = "fr_FR"
     [[languages.fr.menus.main]]
-      name = "Labs"
-      url = "/labs/"
+      name   = "Labs"
+      url    = "/labs/"
       weight = 1
     [[languages.fr.menus.main]]
-      name = "Veille"
-      url = "/veille/"
+      name   = "Veille"
+      url    = "/veille/"
       weight = 2
     [[languages.fr.menus.main]]
-      name = "A propos"
-      url = "/a-propos/"
-      weight = 4
-
-  [languages.en]
-    languageName = "EN"
-    weight = 2
-    contentDir = "content.en"
-    [languages.en.params]
-      locale = "en_US"
-    [[languages.en.menus.main]]
-      name = "Labs"
-      url = "/en/labs/"
-      weight = 1
-    [[languages.en.menus.main]]
-      name = "Veille"
-      url = "/en/veille/"
-      weight = 2
-    [[languages.en.menus.main]]
-      name = "About"
-      url = "/en/a-propos/"
+      name   = "A propos"
+      url    = "/a-propos/"
       weight = 4
 
 [security]
