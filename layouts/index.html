@@ -2,7 +2,7 @@
 <div class="container">
 
   <!-- HERO -->
-  <section class="hero" aria-label="Introduction">
+  <section class="hero-section" aria-label="Introduction">
     <div class="hero-left">
       <div class="hero-badge">
         <span class="hero-badge-dot"></span>
@@ -16,8 +16,7 @@
       </h1>
 
       <p class="hero-description">
-        Labs IT open source. Administration Système, Réseau et cybersecurité
-        documentés.
+        Labs IT open source. Administration Système, Réseau et cybersécurité documentés.
       </p>
 
       <div class="hero-terminal" aria-label="Terminal">
@@ -41,28 +40,31 @@
           </svg>
           Explorer les Labs
         </a>
+        <a href="/veille/" class="btn btn-outline btn-lg">
+          Veille Cyber →
+        </a>
       </div>
     </div>
 
-    <div class="hero-stats">
-      <div class="hero-stat-block">
-        <div class="stat-value">{{ len (where .Site.RegularPages "Section" "labs") }}</div>
-        <div class="stat-label">Labs publiés</div>
+    <div class="hero-right">
+      <div class="hero-stat-card">
+        <div class="hero-stat-value">{{ len (where .Site.RegularPages "Section" "labs") }}</div>
+        <div class="hero-stat-label">Labs publiés</div>
       </div>
-      <div class="hero-stat-block">
-        <div class="stat-value" style="font-size:1.75rem">&#8734;</div>
-        <div class="stat-label">Open Source</div>
+      <div class="hero-stat-card">
+        <div class="hero-stat-value" style="font-size:1.75rem">&#8734;</div>
+        <div class="hero-stat-label">Open Source</div>
       </div>
-      <div class="hero-stat-block">
-        <div class="stat-value">ISO</div>
-        <div class="stat-label">27001 aligned</div>
+      <div class="hero-stat-card">
+        <div class="hero-stat-value">ISO</div>
+        <div class="hero-stat-label">27001 aligned</div>
       </div>
     </div>
   </section>
 
   <!-- CATEGORIES -->
-  <section style="margin-bottom:5rem" aria-labelledby="cat-title">
-    <div class="section-label">Domaines techniques</div>
+  <section style="margin-bottom:5rem">
+    <div class="section-label">// DOMAINES TECHNIQUES</div>
     <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:1.5rem">
       <h2 style="font-size:1.75rem;margin:0">Infrastructure & Sécurité</h2>
       <a href="/labs/" style="font-family:var(--font-mono);font-size:0.8rem;color:var(--cyan)">Tous les labs &rarr;</a>
@@ -73,19 +75,17 @@
         {{ $code := index $codes ($name | lower) | default ($name | upper | truncate 3 "") }}
         <a href="{{ $taxonomy.Page.RelPermalink }}" class="cat-card">
           <div class="cat-icon">{{ $code }}</div>
-          <div>
-            <div class="cat-name">{{ $name | title }}</div>
-          </div>
+          <div class="cat-name">{{ $name | title }}</div>
         </a>
       {{ end }}
     </div>
   </section>
 
   <!-- LATEST LABS -->
-  {{ $labs := (where .Site.RegularPages "Section" "labs") | first 6 }}
+  {{ $labs := where .Site.RegularPages "Section" "labs" | first 6 }}
   {{ if $labs }}
-  <section style="margin-bottom:5rem" aria-labelledby="labs-title">
-    <div class="section-label">Derniers labs</div>
+  <section style="margin-bottom:5rem">
+    <div class="section-label">// DERNIERS LABS</div>
     <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:1.5rem">
       <h2 style="font-size:1.75rem;margin:0">Documentation production-ready</h2>
       <a href="/labs/" style="font-family:var(--font-mono);font-size:0.8rem;color:var(--cyan)">Voir tout &rarr;</a>
@@ -98,9 +98,9 @@
   </section>
   {{ end }}
 
-  <!-- VEILLE DYNAMIQUE -->
-  <section style="margin-bottom:5rem" aria-labelledby="veille-title">
-    <div class="section-label">Flux temps reel</div>
+  <!-- VEILLE -->
+  <section style="margin-bottom:5rem">
+    <div class="section-label">// FLUX TEMPS RÉEL</div>
     <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:1.5rem">
       <h2 style="font-size:1.75rem;margin:0">Tech & Cyber Intelligence</h2>
       <a href="/veille/" style="font-family:var(--font-mono);font-size:0.8rem;color:var(--cyan)">Voir tout &rarr;</a>
@@ -128,4 +128,90 @@
   </section>
 
 </div>
+
+<style>
+/* ── HERO SECTION ── */
+.hero-section {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3rem;
+  align-items: center;
+  min-height: calc(100vh - var(--nav-h));
+  padding: 3rem 0;
+}
+.hero-left { max-width: 680px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: var(--cyan-ghost); border: 1px solid rgba(0,212,255,0.2);
+  border-radius: 100px; padding: 0.35rem 0.85rem;
+  font-family: var(--font-mono); font-size: 0.7rem;
+  color: var(--cyan); letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+.hero-badge-dot {
+  width: 6px; height: 6px; background: var(--cyan);
+  border-radius: 50%; box-shadow: 0 0 6px var(--cyan);
+  animation: pulse 2s infinite; flex-shrink: 0;
+}
+.hero-title {
+  font-family: var(--font-mono); font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700; line-height: 1.05; margin-bottom: 1.5rem;
+}
+.hero-title-line { display: block; }
+.hero-title-line.accent { color: var(--cyan); }
+.hero-description {
+  font-size: 1rem; color: var(--text-secondary);
+  line-height: 1.7; margin-bottom: 2rem; max-width: 520px;
+}
+.hero-terminal {
+  font-family: var(--font-mono); font-size: 0.82rem;
+  color: var(--text-secondary); background: var(--bg-card);
+  border: 1px solid var(--bg-border); border-radius: var(--radius-md);
+  padding: 0.75rem 1rem; margin-bottom: 2rem;
+  display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+}
+.terminal-user { color: var(--cyan); }
+.terminal-sep  { color: var(--text-muted); }
+.terminal-path { color: var(--text-secondary); }
+.terminal-cmd  { color: var(--text-primary); }
+.terminal-cursor {
+  width: 8px; height: 15px; background: var(--cyan);
+  border-radius: 1px; animation: blink 1.2s step-end infinite;
+  display: inline-block;
+}
+.hero-right {
+  display: flex; flex-direction: column; gap: 1rem;
+  flex-shrink: 0;
+}
+.hero-stat-card {
+  background: var(--bg-card); border: 1px solid var(--bg-border);
+  border-radius: var(--radius-md); padding: 1.25rem 1.75rem;
+  min-width: 160px; position: relative; overflow: hidden;
+}
+.hero-stat-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; background: var(--cyan);
+}
+.hero-stat-value {
+  font-family: var(--font-mono); font-size: 2rem;
+  font-weight: 700; color: var(--cyan); line-height: 1;
+}
+.hero-stat-label {
+  font-family: var(--font-mono); font-size: 0.7rem;
+  color: var(--text-muted); text-transform: uppercase;
+  letter-spacing: 0.08em; margin-top: 0.25rem;
+}
+
+/* ── RESPONSIVE HERO ── */
+@media (max-width: 1024px) {
+  .hero-section { grid-template-columns: 1fr; min-height: auto; padding: 2rem 0 3rem; }
+  .hero-right { flex-direction: row; flex-wrap: wrap; }
+  .hero-stat-card { min-width: 120px; flex: 1; }
+}
+@media (max-width: 768px) {
+  .hero-title { font-size: 2rem; }
+  .hero-right { display: none; }
+}
+</style>
+
 {{ end }}
