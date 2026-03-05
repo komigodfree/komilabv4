@@ -4,9 +4,12 @@
   <!-- HEADER -->
   <div style="margin-bottom:2.5rem;padding-top:1rem">
     <div class="section-eyebrow">Flux temps reel</div>
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-top:0.5rem">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-top:0.5rem;padding-bottom:1.25rem;border-bottom:1px solid var(--bg-border)">
       <h1 style="font-family:var(--font-mono);font-size:2rem;color:var(--text-primary);font-weight:600;letter-spacing:-0.02em">Tech & Cyber Intelligence</h1>
-      <span class="news-live" style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted)">Live &bull; Sources verifiees</span>
+      <span style="display:flex;align-items:center;gap:0.35rem;font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted)">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--green-ok);box-shadow:0 0 6px var(--green-ok);display:inline-block"></span>
+        Live &bull; Sources verifiees
+      </span>
     </div>
   </div>
 
@@ -18,8 +21,8 @@
     <button class="filter-btn" onclick="filterFeed('vuln',this)" type="button">Vulnerabilites</button>
   </div>
 
-  <!-- FEEDS GRID — même style que homepage -->
-  <div class="news-grid" id="feeds-grid">
+  <!-- FEEDS GRID -->
+  <div id="feeds-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
 
     <div class="news-col" data-cat="cyber">
       <div class="news-col-header">
@@ -83,23 +86,18 @@
 
   </div>
 
-  <!-- Articles de veille publiés -->
-  {{ $posts := where .Site.RegularPages "Section" "veille" }}
-  {{ if $posts }}
-  <div style="margin-top:4rem">
-    <div class="section-header">
-      <div>
-        <div class="section-eyebrow">Articles de veille</div>
-        <div class="section-title">Analyses & Decryptages</div>
-      </div>
-    </div>
-    <div class="labs-grid">
-      {{ range $posts }}{{ partial "lab/card.html" . }}{{ end }}
-    </div>
-  </div>
-  {{ end }}
-
 </div>
+
+<style>
+.news-item { color: inherit !important; }
+.news-item-title { color: var(--text-primary) !important; }
+.news-item:hover .news-item-title { color: var(--cyan) !important; }
+.news-item-source { color: var(--cyan-dim) !important; }
+.news-item-meta span:last-child { color: var(--text-muted) !important; }
+@media (max-width: 768px) {
+  #feeds-grid { grid-template-columns: 1fr !important; }
+}
+</style>
 
 <script>
 (function(){
