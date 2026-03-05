@@ -15,34 +15,19 @@
 
 <link rel="canonical" href="{{ .Permalink }}">
 
-<!-- Fonts -->
+<!-- ── FONTS : chargement non-bloquant (évite FOUT/FOIT sur Firefox, Safari) ── -->
+<!-- JetBrains Mono + IBM Plex Sans + IBM Plex Mono — polices utilisées dans main.css -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<!-- ============================================================
-  À coller dans layouts/partials/head/meta.html
-  REMPLACE le @import Google Fonts dans main.css
-  Technique : preload async = zéro blocage rendu, compatible tous navigateurs
-  ============================================================ -->
-
-<!-- Étape 1 : préconnexion aux serveurs Google Fonts (réduit la latence DNS+TLS) -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<!-- Étape 2 : preload non-bloquant (charge en arrière-plan pendant le rendu HTML) -->
 <link rel="preload" as="style"
   href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
   onload="this.onload=null;this.rel='stylesheet'">
-
-<!-- Étape 3 : fallback si JavaScript désactivé (rare mais robuste) -->
 <noscript>
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 </noscript>
 
-
-<!-- CSS -->
+<!-- ── CSS ── -->
 {{- $css := resources.Get "css/main.css" | minify -}}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 
