@@ -14,7 +14,7 @@ draft: false
 
 ## Hébergement
 
-**Hébergeur :** Cloudflare Pages  
+**Hébergeur :** Cloudflare  
 **Adresse :** 101 Townsend St, San Francisco, CA 94107, USA  
 **Site :** cloudflare.com  
 
