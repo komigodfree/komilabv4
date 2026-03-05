@@ -4,7 +4,7 @@
    Compatible: Chrome 80+, Firefox 75+, Safari 14+, Edge 80+
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+/* Fonts chargées via <link preload> dans le <head> pour éviter le blocage du rendu (FOUT/FOIT cross-browser) */
 
 /* ── VARIABLES ────────────────────────────────────────────── */
 :root {
@@ -92,8 +92,8 @@ h1, h2, h3, h4, h5 {
   letter-spacing: -0.02em;
   line-height: 1.2;
 }
-h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
-h2 { font-size: clamp(1.5rem, 3vw, 2rem); }
+h1 { font-size: 2rem; font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-size: 1.5rem; font-size: clamp(1.5rem, 3vw, 2rem); }
 h3 { font-size: 1.25rem; }
 h4 { font-size: 1rem; }
 
@@ -107,7 +107,7 @@ h4 { font-size: 1rem; }
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
-  background: rgba(8, 12, 24, 0.92);
+  background: rgba(8, 12, 24, 0.97); /* fallback opaque si pas de backdrop-filter */
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--bg-border);
@@ -289,6 +289,7 @@ h4 { font-size: 1rem; }
 }
 .hero-title {
   font-family: var(--font-mono);
+  font-size: 2.5rem; /* fallback Safari < 13.1 et navigateurs sans clamp() */
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 700;
   line-height: 1.05;
@@ -675,4 +676,10 @@ code { font-family: var(--font-code); font-size: 0.85em; background: var(--cyan-
   .hero-title { font-size: 1.75rem; }
   .lab-title { font-size: 1.3rem; }
   .e404-code { font-size: 5rem; }
+}
+
+/* ── BACKDROP-FILTER FALLBACK (Firefox < 103, Safari < 14) ── */
+@supports not (backdrop-filter: blur(1px)) {
+  .nav { background: rgba(8, 12, 24, 0.98); }
+  .mobile-nav { background: rgba(8, 12, 24, 0.98); }
 }
