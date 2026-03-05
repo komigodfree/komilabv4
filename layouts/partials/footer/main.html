@@ -67,13 +67,22 @@
     </div>
 
     <div class="footer-bottom">
-      <p class="footer-copyright">
-        &copy; {{ now.Year }} komilab &bull; Komi Kpodohouin
-      </p>
-      <div style="display:flex;gap:0.5rem">
-        <span class="tag">Open Source</span>
-        <span class="tag">Production-ready</span>
-      </div>
-    </div>
+  <p class="footer-copy">
+    &copy; {{ now.Year }} <span>komilab</span> &bull; Construit par
+    <a href="/a-propos/" style="color:var(--cyan);text-decoration:none">Komi Kpodohouin</a>
+    &bull; Togo 🇹🇬
+  </p>
+  <div style="display:flex;align-items:center;gap:0.75rem">
+    <span style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted)">
+      Propulse par
+      <a href="https://gohugo.io" target="_blank" rel="noopener" style="color:var(--cyan)">Hugo</a>
+      &bull;
+      <a href="https://pages.cloudflare.com" target="_blank" rel="noopener" style="color:var(--cyan)">Cloudflare Pages</a>
+    </span>
+    <span class="badge badge-cyan">Open Source</span>
+    <span class="badge badge-green">ISO 27001</span>
+    <span class="badge badge-orange">Afrique IT</span>
+  </div>
+</div>
   </div>
 </footer>
