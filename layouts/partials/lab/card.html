@@ -1,4 +1,4 @@
-<a href="{{ .RelPermalink }}" class="lab-card">
+<a href="{{ .RelPermalink }}" class="lab-card" data-categories="{{ with .Params.categories }}{{ delimit . "," }}{{ end }}">
   <div class="lab-card-meta">
     {{ with .Params.categories }}
       {{ range first 1 . }}
