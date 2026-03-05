@@ -1,46 +1,47 @@
 {{ define "main" }}
+<div class="container">
 
-<!-- HERO -->
-<section class="hero grid-bg">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-  <div class="container">
-    <div class="hero-content">
-
+  <!-- HERO -->
+  <section class="hero" aria-label="Introduction">
+    <div class="hero-left">
       <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
         ENGINEERING LAB &bull; OPEN SOURCE &bull; PRODUCTION-GRADE
       </div>
 
       <h1 class="hero-title">
-        <span class="line-dim">Understand.</span>
-        <span class="line-accent">Deploy.</span>
-        <span class="line-dim">Maintain.</span>
+        <span class="hero-title-line">Understand.</span>
+        <span class="hero-title-line accent">Deploy.</span>
+        <span class="hero-title-line">Maintain.</span>
       </h1>
 
-      <p class="hero-sub">
+      <p class="hero-description">
         Labs IT open source. Administration Systeme, Reseau et cybersecurite
         oriente gouvernance ISO 27001 documentes.
       </p>
 
-      <div class="terminal-prompt">
-        <span class="prompt-user">komi@komilab</span>
-        <span class="prompt-sep">&nbsp;:&nbsp;</span>
-        <span class="prompt-path">~/labs</span>
-        <span class="prompt-sep">&nbsp;$&nbsp;</span>
-        <span class="prompt-cmd">./explore --category=all --level=all</span>
-        <span class="cursor" aria-hidden="true"></span>
+      <div class="hero-terminal" aria-label="Terminal">
+        <span class="terminal-user">komi@komilab</span>
+        <span class="terminal-sep">:</span>
+        <span class="terminal-path">~/labs</span>
+        <span class="terminal-sep">$</span>
+        <span class="terminal-cmd">./explore --category=all --level=all</span>
+        <span class="terminal-cursor" aria-hidden="true"></span>
       </div>
 
       <div class="hero-actions">
-        <a href="/labs/" class="btn btn-primary">
+        <a href="/labs/" class="btn btn-primary btn-lg">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/>
-            <line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/>
-            <line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+            <line x1="8" y1="6" x2="21" y2="6"/>
+            <line x1="8" y1="12" x2="21" y2="12"/>
+            <line x1="8" y1="18" x2="21" y2="18"/>
+            <line x1="3" y1="6" x2="3.01" y2="6"/>
+            <line x1="3" y1="12" x2="3.01" y2="12"/>
+            <line x1="3" y1="18" x2="3.01" y2="18"/>
           </svg>
           Explorer les Labs
         </a>
-        <a href="{{ .Site.Params.githubURL | default "#" }}" class="btn btn-outline" target="_blank" rel="noopener">
+        <a href="{{ .Site.Params.githubURL | default "#" }}" class="btn btn-outline btn-lg" target="_blank" rel="noopener">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
           </svg>
@@ -49,53 +50,49 @@
       </div>
     </div>
 
-    <!-- STATS -->
     <div class="hero-stats">
-      <div class="stat-card">
+      <div class="hero-stat-block">
         <div class="stat-value">{{ len (where .Site.RegularPages "Section" "labs") }}</div>
         <div class="stat-label">Labs publies</div>
       </div>
-      <div class="stat-card">
+      <div class="hero-stat-block">
         <div class="stat-value" style="font-size:1.75rem">&#8734;</div>
         <div class="stat-label">Open Source</div>
       </div>
-      <div class="stat-card">
+      <div class="hero-stat-block">
         <div class="stat-value">ISO</div>
-        <div class="stat-label">27001 Aligned</div>
+        <div class="stat-label">27001 aligned</div>
       </div>
     </div>
-  </div>
-</section>
-
-<div class="container">
+  </section>
 
   <!-- CATEGORIES -->
-  <section class="section animate-in">
-    <div class="section-header">
-      <div>
-        <div class="section-eyebrow">Domaines techniques</div>
-        <div class="section-title-text">Infrastructure & Securite</div>
-      </div>
-      <a href="/labs/" class="section-link">Tous les labs &rarr;</a>
+  <section style="margin-bottom:5rem" aria-labelledby="cat-title">
+    <div class="section-label">Domaines techniques</div>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:1.5rem">
+      <h2 style="font-size:1.75rem;margin:0">Infrastructure & Securite</h2>
+      <a href="/labs/" style="font-family:var(--font-mono);font-size:0.8rem;color:var(--cyan)">Tous les labs &rarr;</a>
     </div>
-    <div class="domains-grid">
+    <div class="categories-grid">
       {{ $cats := slice
-        (dict "name" "Reseaux"              "url" "/labs/categories/reseaux/"           "code" "NET")
-        (dict "name" "Cybersecurite"        "url" "/labs/categories/cybersecurite/"     "code" "SEC")
-        (dict "name" "Virtualisation"       "url" "/labs/categories/virtualisation/"    "code" "VRT")
-        (dict "name" "Cloud"                "url" "/labs/categories/cloud/"             "code" "CLD")
-        (dict "name" "Hybrid Architecture"  "url" "/labs/categories/hybrid-architecture/" "code" "HYB")
-        (dict "name" "Linux & Systemes"     "url" "/labs/categories/linux/"             "code" "LNX")
-        (dict "name" "Automatisation"       "url" "/labs/categories/automatisation/"    "code" "AUT")
-        (dict "name" "Monitoring"           "url" "/labs/categories/monitoring/"        "code" "MON")
-        (dict "name" "Haute Disponibilite"  "url" "/labs/categories/haute-disponibilite/" "code" "HA")
-        (dict "name" "Audit & Gouvernance"  "url" "/labs/categories/audit-gouvernance/" "code" "GRC")
-        (dict "name" "Labs Experimentaux"   "url" "/labs/categories/experimental/"      "code" "EXP")
+        (dict "name" "Reseaux" "url" "/labs/categories/reseaux/" "code" "NET")
+        (dict "name" "Cybersecurite" "url" "/labs/categories/cybersecurite/" "code" "SEC")
+        (dict "name" "Virtualisation" "url" "/labs/categories/virtualisation/" "code" "VRT")
+        (dict "name" "Cloud" "url" "/labs/categories/cloud/" "code" "CLD")
+        (dict "name" "Hybrid Architecture" "url" "/labs/categories/hybrid-architecture/" "code" "HYB")
+        (dict "name" "Linux & Systemes" "url" "/labs/categories/linux/" "code" "LNX")
+        (dict "name" "Automatisation" "url" "/labs/categories/automatisation/" "code" "AUT")
+        (dict "name" "Monitoring" "url" "/labs/categories/monitoring/" "code" "MON")
+        (dict "name" "Haute Disponibilite" "url" "/labs/categories/haute-disponibilite/" "code" "HA")
+        (dict "name" "Audit & Gouvernance" "url" "/labs/categories/audit-gouvernance/" "code" "GRC")
+        (dict "name" "Labs Experimentaux" "url" "/labs/categories/experimental/" "code" "EXP")
       }}
       {{ range $cats }}
-      <a href="{{ .url }}" class="domain-card">
-        <div class="domain-code">{{ .code }}</div>
-        <div class="domain-title">{{ .name }}</div>
+      <a href="{{ .url }}" class="cat-card">
+        <div class="cat-icon">{{ .code }}</div>
+        <div>
+          <div class="cat-name">{{ .name }}</div>
+        </div>
       </a>
       {{ end }}
     </div>
@@ -104,74 +101,76 @@
   <!-- LATEST LABS -->
   {{ $labs := (where .Site.RegularPages "Section" "labs") | first 6 }}
   {{ if $labs }}
-  <section class="section animate-in">
-    <div class="section-header">
-      <div>
-        <div class="section-eyebrow">Derniers labs</div>
-        <div class="section-title-text">Documentation production-ready</div>
-      </div>
-      <a href="/labs/" class="section-link">Voir tout &rarr;</a>
+  <section style="margin-bottom:5rem" aria-labelledby="labs-title">
+    <div class="section-label">Derniers labs</div>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:1.5rem">
+      <h2 style="font-size:1.75rem;margin:0">Documentation production-ready</h2>
+      <a href="/labs/" style="font-family:var(--font-mono);font-size:0.8rem;color:var(--cyan)">Voir tout &rarr;</a>
     </div>
     <div class="labs-grid">
-      {{ range $labs }}{{ partial "lab/card.html" . }}{{ end }}
+      {{ range $labs }}
+        {{ partial "lab/card.html" . }}
+      {{ end }}
     </div>
   </section>
   {{ end }}
 
-  <!-- VEILLE -->
-  <section class="section animate-in">
-    <div class="section-header">
-      <div>
-        <div class="section-eyebrow">Flux temps reel</div>
-        <div class="section-title-text">Tech & Cyber Intelligence</div>
-      </div>
-      <a href="/veille/" class="section-link">Voir tout &rarr;</a>
+  <!-- VEILLE DYNAMIQUE -->
+  <section style="margin-bottom:5rem" aria-labelledby="veille-title">
+    <div class="section-label">Flux temps reel</div>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:1.5rem">
+      <h2 style="font-size:1.75rem;margin:0">Tech & Cyber Intelligence</h2>
+      <span class="live-dot" style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted)">Live &bull; Sources verifiees</span>
     </div>
-    <div class="news-grid">
-      <div class="news-col">
-        <div class="news-col-header">
-          <span class="news-col-title"><span>TECH</span> WORLD</span>
-          <span class="news-live">Live</span>
+    <div class="veille-grid" id="veille-home">
+      <div class="veille-panel">
+        <div class="veille-panel-header">
+          <span class="veille-panel-title">Tech World</span>
+          <span class="live-dot">Live</span>
         </div>
-        <div class="news-items" id="feed-tech">
-          <div class="news-loading">
-            Chargement du flux...
-            <div class="news-loading-bar"></div>
-          </div>
+        <div class="veille-items" id="feed-tech">
+          <div class="veille-loading">Chargement du flux...</div>
         </div>
       </div>
-      <div class="news-col">
-        <div class="news-col-header">
-          <span class="news-col-title"><span>CYBER</span>SECURITY</span>
-          <span class="news-live">Live</span>
+      <div class="veille-panel">
+        <div class="veille-panel-header">
+          <span class="veille-panel-title">Cybersecurity</span>
+          <span class="live-dot">Live</span>
         </div>
-        <div class="news-items" id="feed-cyber">
-          <div class="news-loading">
-            Chargement du flux...
-            <div class="news-loading-bar"></div>
-          </div>
+        <div class="veille-items" id="feed-cyber">
+          <div class="veille-loading">Chargement du flux...</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- NEWSLETTER -->
-  <section class="section animate-in" id="newsletter">
-    <div class="newsletter-block">
+  <!-- NEWSLETTER / CTA -->
+  <section style="margin-bottom:5rem" aria-labelledby="newsletter-title">
+    <div class="newsletter-section" id="newsletter">
       <div>
-        <div class="newsletter-eyebrow">Rejoindre KomiLab</div>
-        <h2 class="newsletter-title">Construisons ensemble.</h2>
+        <div class="section-label">Rejoindre KomiLab</div>
+        <h2 class="newsletter-title" id="newsletter-title">Construisons ensemble.</h2>
         <p class="newsletter-desc">
-          Newsletter mensuelle &bull; Labs exclusifs &bull; Blueprints telechargeables &bull; Communaute d'ingenieurs
+          Newsletter mensuelle &bull; Labs exclusifs &bull; Blueprints telechargeables &bull;
+          Communaute d'ingenieurs
         </p>
       </div>
       <div class="newsletter-actions">
         <form class="newsletter-form" id="newsletter-form" novalidate>
-          <input type="email" id="newsletter-email" class="newsletter-input"
-            placeholder="votre@email.com" required autocomplete="email" aria-label="Email">
-          <button type="submit" class="btn btn-primary">S'abonner a la newsletter</button>
+          <input
+            type="email"
+            id="newsletter-email"
+            class="newsletter-input"
+            placeholder="votre@email.com"
+            required
+            autocomplete="email"
+            aria-label="Adresse email"
+          >
+          <button type="submit" class="btn btn-primary">S'abonner</button>
         </form>
-        <a href="{{ .Site.Params.githubURL | default "#" }}" class="btn btn-ghost" target="_blank" rel="noopener">GitHub &rarr;</a>
+        <div class="newsletter-actions" style="flex-direction:row;gap:0.75rem;margin-top:0.25rem">
+          <a href="{{ .Site.Params.githubURL | default "#" }}" class="btn btn-outline" target="_blank" rel="noopener">GitHub &rarr;</a>
+        </div>
         <p class="newsletter-privacy">Zero spam &bull; Double opt-in &bull; RGPD</p>
       </div>
     </div>
