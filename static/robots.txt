@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
+# Bloquer les dossiers inutiles
+Disallow: /functions/
+
 Sitemap: https://komilab.org/sitemap.xml
