@@ -75,18 +75,13 @@
     </div>
     <div class="categories-grid">
       {{ $cats := slice
-        (dict "name" "Réseaux" "url" "/labs/categories/reseaux/" "code" "NET")
-        (dict "name" "Cybersecurité" "url" "/labs/categories/cybersecurite/" "code" "SEC")
-        (dict "name" "Virtualisation" "url" "/labs/categories/virtualisation/" "code" "VRT")
-        (dict "name" "Docker" "url" "/labs/categories/docker/" "code" "DCKR")
-        (dict "name" "Cloud" "url" "/labs/categories/cloud/" "code" "CLD")
-        (dict "name" "Hybrid Architecture" "url" "/labs/categories/hybrid-architecture/" "code" "HYB")
-        (dict "name" "Linux & Systemes" "url" "/labs/categories/linux/" "code" "LNX")
-        (dict "name" "Automatisation" "url" "/labs/categories/automatisation/" "code" "AUT")
-        (dict "name" "Monitoring" "url" "/labs/categories/monitoring/" "code" "MON")
-        (dict "name" "Haute Disponibilite" "url" "/labs/categories/haute-disponibilite/" "code" "HA")
-        (dict "name" "Audit & Gouvernance" "url" "/labs/categories/audit-gouvernance/" "code" "GRC")
-        (dict "name" "Labs Experimentaux" "url" "/labs/categories/experimental/" "code" "EXP")
+       (dict "name" "Réseaux"        "url" "/labs/categories/reseaux/"        "code" "NET")
+(dict "name" "Sécurité"       "url" "/labs/categories/securite/"       "code" "SEC")
+(dict "name" "Infrastructure" "url" "/labs/categories/infrastructure/"  "code" "INF")
+(dict "name" "Cloud"          "url" "/labs/categories/cloud/"           "code" "CLD")
+(dict "name" "Systèmes"       "url" "/labs/categories/systemes/"        "code" "SYS")
+(dict "name" "Automatisation" "url" "/labs/categories/automatisation/"  "code" "AUT")
+(dict "name" "GRC"            "url" "/labs/categories/grc/"             "code" "GRC")
       }}
       {{ range $cats }}
       <a href="{{ .url }}" class="cat-card">
