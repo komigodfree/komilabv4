@@ -41,12 +41,6 @@
           </svg>
           Explorer les Labs
         </a>
-       <!-- <a href="{{ .Site.Params.githubURL | default "#" }}" class="btn btn-outline btn-lg" target="_blank" rel="noopener">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
-          </svg>
-          GitHub
-        </a>-->
       </div>
     </div>
 
@@ -74,22 +68,15 @@
       <a href="/labs/" style="font-family:var(--font-mono);font-size:0.8rem;color:var(--cyan)">Tous les labs &rarr;</a>
     </div>
     <div class="categories-grid">
-      {{ $cats := slice
-       (dict "name" "Réseaux"        "url" "/labs/categories/reseaux/"        "code" "NET")
-(dict "name" "Sécurité"       "url" "/labs/categories/securite/"       "code" "SEC")
-(dict "name" "Infrastructure" "url" "/labs/categories/infrastructure/"  "code" "INF")
-(dict "name" "Cloud"          "url" "/labs/categories/cloud/"           "code" "CLD")
-(dict "name" "Systèmes"       "url" "/labs/categories/systemes/"        "code" "SYS")
-(dict "name" "Automatisation" "url" "/labs/categories/automatisation/"  "code" "AUT")
-(dict "name" "GRC"            "url" "/labs/categories/grc/"             "code" "GRC")
-      }}
-      {{ range $cats }}
-      <a href="{{ .url }}" class="cat-card">
-        <div class="cat-icon">{{ .code }}</div>
-        <div>
-          <div class="cat-name">{{ .name }}</div>
-        </div>
-      </a>
+      {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
+        {{ $codes := dict "réseaux" "NET" "sécurité" "SEC" "infrastructure" "INF" "cloud" "CLD" "systèmes" "SYS" "automatisation" "AUT" "grc" "GRC" }}
+        {{ $code := index $codes ($name | lower) | default ($name | upper | truncate 3 "") }}
+        <a href="{{ $taxonomy.Page.RelPermalink }}" class="cat-card">
+          <div class="cat-icon">{{ $code }}</div>
+          <div>
+            <div class="cat-name">{{ $name | title }}</div>
+          </div>
+        </a>
       {{ end }}
     </div>
   </section>
@@ -116,7 +103,7 @@
     <div class="section-label">Flux temps reel</div>
     <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:1.5rem">
       <h2 style="font-size:1.75rem;margin:0">Tech & Cyber Intelligence</h2>
-      <span class="live-dot" style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted)">Live &bull; Sources verifiees</span>
+      <a href="/veille/" style="font-family:var(--font-mono);font-size:0.8rem;color:var(--cyan)">Voir tout &rarr;</a>
     </div>
     <div class="veille-grid" id="veille-home">
       <div class="veille-panel">
@@ -130,7 +117,7 @@
       </div>
       <div class="veille-panel">
         <div class="veille-panel-header">
-          <span class="veille-panel-title">Cybersecurité</span>
+          <span class="veille-panel-title">Cybersécurité</span>
           <span class="live-dot">Live</span>
         </div>
         <div class="veille-items" id="feed-cyber">
@@ -139,38 +126,6 @@
       </div>
     </div>
   </section>
- 
-  <!-- NEWSLETTER / CTA 
-  <section style="margin-bottom:5rem" aria-labelledby="newsletter-title">
-    <div class="newsletter-section" id="newsletter">
-      <div>
-        <div class="section-label">Rejoindre KomiLab</div>
-        <h2 class="newsletter-title" id="newsletter-title">Construisons ensemble.</h2>
-        <p class="newsletter-desc">
-          Newsletter mensuelle &bull; Labs exclusifs &bull; Blueprints téléchargeables &bull;
-          Communaute d'ingénieurs
-        </p>
-      </div>
-      <div class="newsletter-actions">
-        <form class="newsletter-form" id="newsletter-form" novalidate>
-          <input
-            type="email"
-            id="newsletter-email"
-            class="newsletter-input"
-            placeholder="votre@email.com"
-            required
-            autocomplete="email"
-            aria-label="Adresse email"
-          >
-          <button type="submit" class="btn btn-primary">S'abonner</button>
-        </form>
-        <div class="newsletter-actions" style="flex-direction:row;gap:0.75rem;margin-top:0.25rem">
-          <a href="{{ .Site.Params.githubURL | default "#" }}" class="btn btn-outline" target="_blank" rel="noopener">GitHub &rarr;</a>
-        </div>
-        <p class="newsletter-privacy">Zero spam &bull; Double opt-in &bull; RGPD</p>
-      </div>
-    </div>
-  </section>
--->
+
 </div>
 {{ end }}
