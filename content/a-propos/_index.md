@@ -16,7 +16,7 @@ Chaque lab publié sur cette plateforme est :
 
 ### Mission
 
-Devenir la référence francophone en documentation technique infrastructure et cybersécurité. Fournir des ressources que les ingénieurs IT d'Afrique francophone et d'Europe peuvent utiliser directement en production.
+Documenter, tester et partager des architectures IT  opensource réelles du lab au déploiement production. KomiLab s'adresse aux ingénieurs IT qui construisent des systèmes qui doivent tenir
 
 ### Domaines couverts
 
@@ -26,7 +26,7 @@ Réseaux, cybersécurité, virtualisation, cloud, hybrid architecture, Linux & s
 
 ## L'équipe
 
-KomiLab est fondé par **Komi Kpodohouin**, ingénieur réseaux et cybersécurité, RSSI, certifié CCNP, ISO 27001 Lead Implementer, CompTIA Security+, CySA+ et AWS Cloud Practitioner.
+KomiLab est fondé par **Komi Kpodohouin**, ingénieur IT, un grand passionné de Linux, des solutions Open Source.
 
 La plateforme est conçue pour accueillir des contributions multi-auteurs. Si vous êtes ingénieur IT et souhaitez contribuer, consultez la section contact.
 
@@ -44,9 +44,9 @@ Double opt-in obligatoire. Zéro spam. Désinscription en un clic.
 
 ## Communauté Discord
 
-Rejoignez notre serveur Discord pour échanger avec d'autres ingénieurs, poser des questions, partager vos retours d'expérience et suivre la veille technique en temps réel.
+<!--Rejoignez notre serveur Discord pour échanger avec d'autres ingénieurs, poser des questions, partager vos retours d'expérience et suivre la veille technique en temps réel.
 
-{{< discord >}}
+{{< discord >}}-->
 
 ---
 
@@ -56,7 +56,7 @@ Pour toute demande : contribution, partenariat, correction ou suggestion techniq
 
 **Email** : contact@komilab.org
 
-**GitHub** : [github.com/komilab](https://github.com/komilab)
+**GitHub** : [github.com/komigodfree](https://github.com/komigodfree)
 
 Temps de réponse moyen : 48h ouvrées.
 
