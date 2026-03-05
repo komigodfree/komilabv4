@@ -8,17 +8,45 @@
     </p>
   </div>
 
+  <!-- SEARCH BAR -->
+  <div style="margin-bottom:1.5rem;position:relative">
+    <svg style="position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--text-muted);pointer-events:none"
+      width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <input
+      id="lab-search"
+      type="text"
+      placeholder="Rechercher un lab, une solution, un tag... (ex: palo alto, docker, vpn)"
+      autocomplete="off"
+      style="
+        width:100%; padding:0.85rem 1rem 0.85rem 2.75rem;
+        background:var(--bg-card); border:1px solid var(--bg-border);
+        border-radius:var(--radius-md); color:var(--text-primary);
+        font-family:var(--font-mono); font-size:0.82rem;
+        outline:none; transition:border-color 0.2s; box-sizing:border-box;
+      "
+      onfocus="this.style.borderColor='var(--cyan)'"
+      onblur="this.style.borderColor='var(--bg-border)'"
+    >
+    <span id="search-count" style="
+      position:absolute;right:1rem;top:50%;transform:translateY(-50%);
+      font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);
+      display:none;
+    "></span>
+  </div>
+
   <!-- FILTER BAR -->
- <div class="filter-bar" role="group" aria-label="Filtrer par catégorie">
-  <button class="filter-btn active" data-filter="all" type="button">Tous</button>
-  <button class="filter-btn" data-filter="Réseaux" type="button">Réseaux</button>
-  <button class="filter-btn" data-filter="Sécurité" type="button">Sécurité</button>
-  <button class="filter-btn" data-filter="Infrastructure" type="button">Infrastructure</button>
-  <button class="filter-btn" data-filter="Cloud" type="button">Cloud</button>
-  <button class="filter-btn" data-filter="Systèmes" type="button">Systèmes</button>
-  <button class="filter-btn" data-filter="Automatisation" type="button">Automatisation</button>
-  <button class="filter-btn" data-filter="GRC" type="button">GRC</button>
-</div>
+  <div class="filter-bar" role="group" aria-label="Filtrer par catégorie">
+    <button class="filter-btn active" data-filter="all" type="button">Tous</button>
+    <button class="filter-btn" data-filter="Réseaux" type="button">Réseaux</button>
+    <button class="filter-btn" data-filter="Sécurité" type="button">Sécurité</button>
+    <button class="filter-btn" data-filter="Infrastructure" type="button">Infrastructure</button>
+    <button class="filter-btn" data-filter="Cloud" type="button">Cloud</button>
+    <button class="filter-btn" data-filter="Systèmes" type="button">Systèmes</button>
+    <button class="filter-btn" data-filter="Automatisation" type="button">Automatisation</button>
+    <button class="filter-btn" data-filter="GRC" type="button">GRC</button>
+  </div>
 
   <!-- LABS GRID -->
   <div class="labs-grid" id="labs-grid">
@@ -27,29 +55,90 @@
     {{ end }}
   </div>
 
-  {{ template "_internal/pagination.html" . }}
+  <!-- NO RESULT -->
+  <div id="no-result" style="display:none;text-align:center;padding:3rem 1rem">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" style="color:var(--text-muted);margin-bottom:1rem">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <p style="font-family:var(--font-mono);font-size:0.82rem;color:var(--text-muted)">
+      Aucun lab trouvé pour <span id="no-result-term" style="color:var(--cyan)"></span>
+    </p>
+  </div>
 
+  {{ template "_internal/pagination.html" . }}
 </div>
 
 <script>
 (function(){
+
+  /* ── Filtre par catégorie ── */
+  var activeFilter = 'all';
+
   document.querySelectorAll('.filter-btn').forEach(function(btn){
     btn.addEventListener('click', function(){
-      document.querySelectorAll('.filter-btn').forEach(function(b){
-        b.classList.remove('active');
-      });
+      document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
       btn.classList.add('active');
-      var filter = btn.dataset.filter;
-      document.querySelectorAll('#labs-grid .lab-card').forEach(function(card){
-        if(filter === 'all'){
-          card.style.display = '';
-        } else {
-          var cats = card.dataset.categories || '';
-          card.style.display = cats.indexOf(filter) !== -1 ? '' : 'none';
-        }
-      });
+      activeFilter = btn.dataset.filter;
+      applyFilters();
     });
   });
+
+  /* ── Recherche ── */
+  var searchInput = document.getElementById('lab-search');
+  searchInput.addEventListener('input', function(){
+    applyFilters();
+  });
+
+  /* ── Logique combinée ── */
+  function applyFilters() {
+    var query = searchInput.value.toLowerCase().trim();
+    var cards = document.querySelectorAll('#labs-grid .lab-card');
+    var visible = 0;
+
+    cards.forEach(function(card){
+      var cats    = (card.dataset.categories || '').toLowerCase();
+      var tags    = (card.dataset.tags || '').toLowerCase();
+      var title   = (card.dataset.title || '').toLowerCase();
+      var desc    = (card.dataset.desc || '').toLowerCase();
+
+      // Filtre catégorie
+      var catOk = activeFilter === 'all' || cats.indexOf(activeFilter.toLowerCase()) !== -1;
+
+      // Filtre recherche
+      var searchOk = query === '' ||
+        title.indexOf(query) !== -1 ||
+        tags.indexOf(query) !== -1 ||
+        cats.indexOf(query) !== -1 ||
+        desc.indexOf(query) !== -1;
+
+      if(catOk && searchOk){
+        card.style.display = '';
+        visible++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    // Compteur
+    var counter = document.getElementById('search-count');
+    var noResult = document.getElementById('no-result');
+    if(query !== ''){
+      counter.style.display = 'block';
+      counter.textContent = visible + ' résultat' + (visible > 1 ? 's' : '');
+    } else {
+      counter.style.display = 'none';
+    }
+
+    // Message aucun résultat
+    if(visible === 0 && query !== ''){
+      noResult.style.display = 'block';
+      document.getElementById('no-result-term').textContent = '"' + query + '"';
+    } else {
+      noResult.style.display = 'none';
+    }
+  }
+
 })();
 </script>
 {{ end }}
