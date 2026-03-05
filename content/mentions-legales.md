@@ -1,28 +1,47 @@
 ---
 title: "Mentions légales"
-description: "Informations légales relatives à komilab.org"
+description: "Mentions légales et politique de confidentialité de KomiLab"
+draft: false
 ---
 
-## Éditeur
+## Éditeur du site
 
-KomiLab est édité sous l'entité **Target Technologies**.
-Responsable de publication : Komi Kpodohouin.
-Contact : contact@komilab.org
+**Nom :** Komi Kpodohouin  
+**Email :** contact@komilab.org  
+**Pays :** Togo  
+
+---
 
 ## Hébergement
 
-Ce site est hébergé par **Cloudflare, Inc.**
-101 Townsend St, San Francisco, CA 94107, USA.
-[cloudflare.com](https://www.cloudflare.com)
+**Hébergeur :** Cloudflare Pages  
+**Adresse :** 101 Townsend St, San Francisco, CA 94107, USA  
+**Site :** cloudflare.com  
+
+---
 
 ## Propriété intellectuelle
 
-Le contenu publié sur KomiLab (labs, articles, documentation) est protégé par le droit d'auteur.
-La reproduction partielle est autorisée avec attribution claire et lien vers la source originale.
-La reproduction intégrale à des fins commerciales est interdite sans accord préalable.
+Le contenu de ce site — articles, labs, documentation, code — est publié sous licence **Creative Commons BY-NC-SA 4.0** sauf mention contraire. Toute reproduction à des fins commerciales est interdite sans autorisation explicite.
+
+---
+
+## Données personnelles
+
+KomiLab ne collecte aucune donnée personnelle de navigation. Le site ne dépose pas de cookies de tracking.
+
+
+**Droit d'accès et de suppression** — Pour toute demande : contact@komilab.org
+
+---
 
 ## Responsabilité
 
-Les informations publiées sur KomiLab sont fournies à titre documentaire.
-Elles reflètent l'environnement de test de l'auteur au moment de la publication.
-KomiLab ne saurait être tenu responsable de tout dommage résultant de leur utilisation en production sans adaptation au contexte spécifique.
+Les informations publiées sur KomiLab sont fournies à titre informatif et documentaire. L'auteur ne saurait être tenu responsable de tout dommage résultant de l'utilisation des contenus publiés.
+
+---
+
+## Signalement de vulnérabilité
+
+Si vous découvrez une vulnérabilité sur ce site, merci de la signaler à **contact@komilab.org** avant toute divulgation publique.  
+Voir aussi : [/.well-known/security.txt](/.well-known/security.txt)
