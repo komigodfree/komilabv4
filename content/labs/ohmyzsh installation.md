@@ -52,6 +52,10 @@ Vérifier que l'installation s'est correctement effectuée :
 zsh --version
 ```
 
+{{< result >}}
+zsh 5.x.x (x86_64-ubuntu-linux-gnu)
+{{< /result >}}
+
 ### 1.2 Installation de Oh My Zsh
 
 Télécharger et exécuter le script d'installation officiel :
@@ -101,6 +105,11 @@ Appliquer les changements sans redémarrer la session :
 source ~/.zshrc
 ```
 
+{{< result >}}
+┌──(user㉿hostname)-[~]
+└─$
+{{< /result >}}
+
 ---
 
 ## 2. Installation pour l'utilisateur root
@@ -145,6 +154,11 @@ Appliquer la configuration :
 ```bash
 source /root/.zshrc
 ```
+
+{{< result >}}
+┌──(root㉿hostname)-[~]
+└─#
+{{< /result >}}
 
 ---
 
