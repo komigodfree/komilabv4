@@ -1,0 +1,139 @@
+{{ define "main" }}
+
+<style>
+.e404-wrap {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 1.5rem;
+  position: relative;
+}
+.e404-code {
+  font-family: var(--font-mono);
+  font-size: clamp(6rem, 20vw, 10rem);
+  font-weight: 700;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(0,212,255,0.2);
+  letter-spacing: -0.05em;
+  position: relative;
+  user-select: none;
+}
+.e404-code::after {
+  content: '404';
+  position: absolute;
+  inset: 0;
+  color: rgba(0,212,255,0.06);
+  filter: blur(20px);
+}
+.e404-terminal {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--red-alert);
+  background: rgba(255,76,76,0.06);
+  border: 1px solid rgba(255,76,76,0.15);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1.5rem;
+  margin: 1.5rem 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.e404-terminal::before {
+  content: '✕';
+  color: var(--red-alert);
+  font-size: 0.75rem;
+}
+.e404-title {
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0.5rem 0 0.75rem;
+}
+.e404-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  max-width: 420px;
+  line-height: 1.65;
+  margin-bottom: 2.5rem;
+}
+.e404-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.e404-links {
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.e404-links-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+.e404-quicklinks {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.e404-quicklink {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--cyan);
+  text-decoration: none;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid rgba(0,212,255,0.15);
+  border-radius: 100px;
+  transition: all 0.15s;
+}
+.e404-quicklink:hover {
+  background: var(--cyan-ghost);
+  border-color: rgba(0,212,255,0.3);
+}
+</style>
+
+<div class="container">
+  <div class="e404-wrap">
+
+    <div class="e404-code">404</div>
+
+    <div class="e404-terminal">
+      bash: page not found: No such file or directory
+    </div>
+
+    <h1 class="e404-title">Cette page n'existe pas</h1>
+    <p class="e404-desc">
+      La page que tu cherches a peut-être été déplacée, renommée ou supprimée.
+      Vérifie l'URL ou retourne à l'accueil.
+    </p>
+
+    <div class="e404-actions">
+      <a href="/" class="btn btn-primary">Retour à l'accueil</a>
+      <a href="/labs/" class="btn btn-outline">Explorer les labs</a>
+    </div>
+
+    <div class="e404-links">
+      <div class="e404-links-label">Accès rapide</div>
+      <div class="e404-quicklinks">
+        <a href="/labs/" class="e404-quicklink">Labs</a>
+        <a href="/veille/" class="e404-quicklink">Veille</a>
+        <a href="/a-propos/" class="e404-quicklink">A propos</a>
+        <a href="/mentions-legales/" class="e404-quicklink">Mentions légales</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{{ end }}
