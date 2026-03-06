@@ -50,7 +50,7 @@
 
   <!-- LABS GRID -->
   <div class="labs-grid" id="labs-grid">
-    {{ range .Pages }}
+    {{ range .Pages.ByDate.Reverse }}
       {{ partial "lab/card.html" . }}
     {{ end }}
   </div>
