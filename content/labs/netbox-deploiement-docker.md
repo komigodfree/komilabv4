@@ -5,7 +5,7 @@ lastmod: 2026-03-06
 description: "Déployer NetBox Community via Docker Compose sur Ubuntu/Debian pour gérer, documenter et automatiser son infrastructure réseau et datacenter."
 categories: ["Infrastructure"]
 tags: ["netbox", "docker", "docker-compose", "ipam", "dcim", "linux"]
-difficulty: "debutant"
+difficulty: "intermédiaire"
 author: "Komi Kpodohouin"
 deploy_time: "~20min déploiement estimé"
 draft: false
