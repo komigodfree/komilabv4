@@ -721,3 +721,50 @@ code { font-family: var(--font-code); font-size: 0.85em; background: var(--cyan-
   color: #FF8C42;
   border: 1px solid rgba(255,140,66,0.2);
 }
+
+/* ── NAV manquant ───────────────────────────────────────────── */
+.site-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(8, 12, 24, 0.97);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--bg-border);
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+}
+.nav-logo-badge {
+  width: 32px; height: 32px;
+  background: var(--cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--bg-deep);
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+.nav-logo-text {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.nav-logo-text span { color: var(--cyan); }
+.btn-nav {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--bg-deep);
+  background: var(--cyan);
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-sm);
+  transition: opacity 0.2s;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn-nav:hover { opacity: 0.85; color: var(--bg-deep); }
