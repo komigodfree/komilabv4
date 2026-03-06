@@ -190,12 +190,12 @@ docker compose exec netbox /opt/netbox/netbox/manage.py createsuperuser
 
 Le système demande successivement :
 
-```
-Username: 
-Email address: 
+{{< result >}}
+Username:
+Email address:
 Password:
 Password (again):
-```
+{{< /result >}}
 
 {{< callout type="warning" >}}
 **Politique de mot de passe stricte**  NetBox impose un mot de passe d'au moins **12 caractères** contenant au moins **un chiffre**. Un mot de passe trop simple retournera l'erreur :
@@ -218,9 +218,9 @@ Superuser created successfully.
 
 Ouvrir un navigateur et accéder à NetBox :
 
-```
+{{< result >}}
 http://IP_SERVEUR:8000
-```
+{{< /result >}}
 
 Se connecter avec le `username` et le `password` créés à l'étape précédente. Le tableau de bord NetBox s'affiche avec les modules disponibles : Organisation, IPAM, DCIM, VPN, Virtualisation, Circuits et plus.
 
