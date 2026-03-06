@@ -130,8 +130,7 @@
       <span>{{ .ReadingTime }} min de lecture</span>
       <span style="color:var(--border)">|</span>
       <span class="deploy-time">
-        {{ with .Params.deploy_time }}{{ . }}{{ else }}~{{ mul .ReadingTime 3 }}min déploiement estimé{{ end }}
-      </span>
+{{ with .Params.deploy_time }}{{ . }}{{ else }}~5min déploiement estimé{{ end }}      </span>
     </div>
   </header>
 
