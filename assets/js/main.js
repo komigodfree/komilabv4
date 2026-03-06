@@ -62,28 +62,41 @@
     });
 
     /* ── COPY TO CLIPBOARD ──────────────────────────────────── */
+    /* Exclut les blocs result-block (résultat attendu) et result-content */
     document.querySelectorAll('pre').forEach(function (pre) {
+
+      /* Ne pas ajouter le bouton copier sur les blocs "Résultat attendu" */
+      if (
+        pre.classList.contains('result-content') ||
+        (pre.parentNode && pre.parentNode.classList.contains('result-block'))
+      ) return;
+
+      /* Vérifier support clipboard — évite l'erreur silencieuse sur certains navigateurs */
+      if (!navigator.clipboard) return;
+
       var wrapper = document.createElement('div');
       wrapper.className = 'code-wrapper';
+      wrapper.style.position = 'relative';
       pre.parentNode.insertBefore(wrapper, pre);
       wrapper.appendChild(pre);
 
       var btn = document.createElement('button');
       btn.className = 'copy-btn';
-      btn.setAttribute('aria-label', 'Copier');
-      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copier';
+      btn.setAttribute('aria-label', 'Copier le code');
+      btn.setAttribute('type', 'button');
+      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copier';
       wrapper.appendChild(btn);
 
       btn.addEventListener('click', function () {
         var code = pre.querySelector('code') || pre;
         navigator.clipboard.writeText(code.innerText).then(function () {
           btn.classList.add('copied');
-          btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copie';
+          btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copié !';
           setTimeout(function () {
             btn.classList.remove('copied');
-            btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copier';
+            btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copier';
           }, 2000);
-        });
+        }).catch(function(){});
       });
     });
 
