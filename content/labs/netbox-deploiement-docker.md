@@ -15,9 +15,9 @@ draft: false
 
 Déployer **NetBox Community** via Docker Compose sur Ubuntu/Debian. NetBox est une application web open-source de référence pour la gestion, la documentation et l'automatisation des infrastructures réseau et datacenters couvrant l'IPAM (gestion des adresses IP), le DCIM (gestion des équipements physiques), les VLANs, les circuits, la virtualisation et bien plus.
 
-**Systèmes cibles** — Ubuntu 22.04+, Debian 11+  
-**Durée estimée** — 20 minutes  
-**Niveau requis** — Administrateur système (sudo)
+**Systèmes cibles** : Ubuntu 22.04+, Debian 11+  
+**Durée estimée** : 20 minutes  
+**Niveau requis** : Administrateur système (sudo)
 
 ---
 
@@ -40,7 +40,7 @@ Déployer **NetBox Community** via Docker Compose sur Ubuntu/Debian. NetBox est 
 
 Le projet **netbox-docker** est le dépôt officiel maintenu par la communauté NetBox pour le déploiement via conteneurs.
 
-Cloner la branche `release` — toujours stable et recommandée en production :
+Cloner la branche `release` : toujours stable et recommandée en production :
 
 ```bash
 git clone -b release https://github.com/netbox-community/netbox-docker.git
@@ -78,7 +78,7 @@ Caddyfile  configuration  docker-compose.yml  env  LICENSE  README.md  startup_s
 
 ## 2. Configurer le port d'écoute
 
-NetBox nécessite un fichier de surcharge Docker Compose pour définir le port d'exposition. Ce fichier **doit obligatoirement** être nommé `docker-compose.override.yml` — Docker Compose le détecte et le fusionne automatiquement avec le fichier principal.
+NetBox nécessite un fichier de surcharge Docker Compose pour définir le port d'exposition. Ce fichier **doit obligatoirement** être nommé `docker-compose.override.yml` : Docker Compose le détecte et le fusionne automatiquement avec le fichier principal.
 
 Créer le fichier :
 
@@ -100,13 +100,13 @@ Sauvegarder et quitter Nano :
 - `Y` pour confirmer la sauvegarde
 - `Entrée` pour valider le nom du fichier
 
-> **Explication** — Le port `8080` est le port interne du conteneur NetBox. On l'expose sur le port `8000` de la machine hôte. NetBox sera donc accessible via `http://IP_SERVEUR:8000`.
+> **Explication** : Le port `8080` est le port interne du conteneur NetBox. On l'expose sur le port `8000` de la machine hôte. NetBox sera donc accessible via `http://IP_SERVEUR:8000`.
 
 ---
 
 ## 3. Télécharger les images Docker
 
-Récupérer toutes les images nécessaires depuis Docker Hub — NetBox, PostgreSQL, Redis :
+Récupérer toutes les images nécessaires depuis Docker Hub : NetBox, PostgreSQL, Redis :
 
 ```bash
 docker compose pull
@@ -154,7 +154,7 @@ dependency failed to start: container netbox-docker-netbox-1 is unhealthy
 {{< /result >}}
 
 {{< callout type="warning" >}}
-**L'erreur `netbox-docker-netbox-1 is unhealthy` est normale et attendue** — ne pas s'inquiéter.
+**L'erreur `netbox-docker-netbox-1 is unhealthy` est normale et attendue**, ne pas s'inquiéter.
 
 Au premier démarrage, NetBox doit initialiser la base de données PostgreSQL, appliquer toutes les migrations Django et préparer les fichiers statiques. Cette opération prend entre **2 et 5 minutes**. Docker considère le conteneur comme "unhealthy" pendant cette phase d'initialisation car le healthcheck échoue avant que l'application soit pleinement opérationnelle.
 
