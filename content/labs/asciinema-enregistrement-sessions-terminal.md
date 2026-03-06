@@ -4,7 +4,7 @@ date: 2026-03-06
 lastmod: 2026-03-06
 description: "Installer et utiliser Asciinema sur Ubuntu/Debian pour enregistrer des sessions terminal, les partager en ligne et les intégrer dans un site Hugo statique."
 categories: ["Systèmes"]
-tags: ["asciinema", "terminal", "documentation", "linux", "hugo"]
+tags: ["asciinema", "terminal", "documentation", "linux"]
 difficulty: "debutant"
 author: "Komi Kpodohouin"
 draft: false
@@ -190,46 +190,6 @@ asciinema rec mon-lab.cast && asciinema upload mon-lab.cast
 
 ---
 
-## 6. Intégrer dans un site Hugo
-
-### 6.1 Via iframe (méthode simple)
-
-Dans n'importe quelle page Markdown Hugo, ajouter :
-
-```html
-<script src="https://asciinema.org/a/IDENTIFIANT.js"
-  id="asciicast-IDENTIFIANT" async></script>
-```
-
-Remplacer `IDENTIFIANT` par l'ID de l'enregistrement visible dans l'URL asciinema.org.
-
-### 6.2 Créer un shortcode Hugo dédié
-
-Créer le fichier `layouts/shortcodes/asciinema.html` :
-
-```html
-{{ $id := .Get "id" }}
-{{ $rows := .Get "rows" | default "20" }}
-<div class="asciinema-wrap" style="margin:1.5rem 0">
-  <script src="https://asciinema.org/a/{{ $id }}.js"
-    id="asciicast-{{ $id }}"
-    data-rows="{{ $rows }}"
-    data-theme="monokai"
-    data-autoplay="0"
-    async>
-  </script>
-</div>
-```
-
-Utilisation dans un lab Markdown :
-
-```markdown
-{{</* asciinema id="IDENTIFIANT" rows="25" */>}}
-```
-
-> **Conseil** — Utiliser `data-autoplay="0"` pour ne pas lancer automatiquement la lecture — meilleure expérience utilisateur sur mobile.
-
----
 
 ## 7. Récapitulatif des commandes essentielles
 
