@@ -1,5 +1,5 @@
 ---
-title: "NetBox: Déploiement via Docker sur Ubuntu/Debian"
+title: "NetBox : Déploiement via Docker sur Ubuntu/Debian"
 date: 2026-03-06
 lastmod: 2026-03-06
 description: "Déployer NetBox Community via Docker Compose sur Ubuntu/Debian pour gérer, documenter et automatiser son infrastructure réseau et datacenter."
@@ -72,7 +72,7 @@ ls
 Caddyfile  configuration  docker-compose.yml  env  LICENSE  README.md  startup_scripts
 {{< /result >}}
 
-> **Note** — Le fichier `docker-compose.yml` est le fichier principal de configuration des conteneurs. Ne pas le modifier directement. On utilisera un fichier d'override à l'étape suivante.
+> **Note** : Le fichier `docker-compose.yml` est le fichier principal de configuration des conteneurs. Ne pas le modifier directement. On utilisera un fichier d'override à l'étape suivante.
 
 ---
 
