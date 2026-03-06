@@ -226,7 +226,7 @@ Se connecter avec le `username` et le `password` créés à l'étape précédent
 
 ---
 
-![NetBox Dashboard](/images/netbox-dashboard.png)
+{{</* img src="/images/netbox-dashboard.png" alt="Tableau de bord NetBox Community" */>}}
 
 ## 7. Récapitulatif des commandes essentielles
 
