@@ -34,3 +34,16 @@
 
   </div>
 </nav>
+
+<!-- Menu mobile -->
+<div class="mobile-nav" id="mobile-nav" aria-label="Menu mobile">
+  {{ range .Site.Menus.main }}
+  <a href="{{ .URL | relURL }}"
+    {{ if or (eq $.RelPermalink .URL) (hasPrefix $.RelPermalink .URL) }}class="active"{{ end }}>
+    {{ .Name }}
+  </a>
+  {{ end }}
+  <a href="/labs/" style="margin-top:0.5rem;color:var(--cyan);font-weight:600">
+    Explorer les labs &rarr;
+  </a>
+</div>
