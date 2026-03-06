@@ -683,3 +683,41 @@ code { font-family: var(--font-code); font-size: 0.85em; background: var(--cyan-
   .nav { background: rgba(8, 12, 24, 0.98); }
   .mobile-nav { background: rgba(8, 12, 24, 0.98); }
 }
+
+/* ── BADGES cartes lab ──────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.65rem;
+  border-radius: 100px;
+}
+.badge-cat {
+  background: var(--cyan-ghost);
+  color: var(--cyan);
+  border: 1px solid rgba(0,212,255,0.2);
+}
+.badge-debutant {
+  background: rgba(0,255,148,0.1);
+  color: #00FF94;
+  border: 1px solid rgba(0,255,148,0.2);
+}
+.badge-intermediaire {
+  background: rgba(255,209,102,0.1);
+  color: #FFD166;
+  border: 1px solid rgba(255,209,102,0.2);
+}
+.badge-avance {
+  background: rgba(255,76,76,0.1);
+  color: #FF4C4C;
+  border: 1px solid rgba(255,76,76,0.2);
+}
+.badge-expert {
+  background: rgba(255,140,66,0.1);
+  color: #FF8C42;
+  border: 1px solid rgba(255,140,66,0.2);
+}
