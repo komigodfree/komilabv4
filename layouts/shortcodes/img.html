@@ -1,0 +1,76 @@
+{{ $src := .Get "src" }}
+{{ $alt := .Get "alt" | default "" }}
+
+<figure class="lab-img-wrap">
+  <img
+    src="{{ $src }}"
+    alt="{{ $alt }}"
+    class="lab-img"
+    onclick="openLightbox(this.src, this.alt)"
+    loading="lazy"
+  />
+  {{ with $alt }}<figcaption>{{ . }}</figcaption>{{ end }}
+</figure>
+
+<div id="lightbox" onclick="closeLightbox()" role="dialog" aria-modal="true">
+  <img id="lightbox-img" src="" alt="" />
+</div>
+
+<style>
+.lab-img-wrap { margin: 1.5rem 0; }
+.lab-img {
+  width: 100%;
+  max-width: 100%;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--bg-border);
+  cursor: zoom-in;
+  transition: opacity 0.2s;
+}
+.lab-img:hover { opacity: 0.88; }
+figcaption {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 0.5rem;
+}
+#lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  cursor: zoom-out;
+  align-items: center;
+  justify-content: center;
+}
+#lightbox.open { display: flex; }
+#lightbox-img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--bg-border);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+  object-fit: contain;
+}
+</style>
+
+<script>
+function openLightbox(src, alt) {
+  var lb = document.getElementById('lightbox');
+  var img = document.getElementById('lightbox-img');
+  img.src = src;
+  img.alt = alt || '';
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+</script>
