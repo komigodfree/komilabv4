@@ -1,5 +1,5 @@
 ---
-title: "NetBox — Déploiement via Docker sur Ubuntu/Debian"
+title: "NetBox: Déploiement via Docker sur Ubuntu/Debian"
 date: 2026-03-06
 lastmod: 2026-03-06
 description: "Déployer NetBox Community via Docker Compose sur Ubuntu/Debian pour gérer, documenter et automatiser son infrastructure réseau et datacenter."
