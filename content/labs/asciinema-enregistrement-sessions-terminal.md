@@ -1,7 +1,7 @@
 ---
 title: "Asciinema — Enregistrer et partager des sessions terminal, Documentation vidéo"
-date: 2026-03-06
-lastmod: 2026-03-06
+date: 2026-02-28
+lastmod: 2026-02-28
 description: "Installer et utiliser Asciinema sur Ubuntu/Debian pour enregistrer des sessions terminal et les partager en ligne"
 categories: ["Systèmes"]
 tags: ["asciinema", "terminal", "documentation", "linux"]
