@@ -191,7 +191,7 @@ asciinema rec mon-lab.cast && asciinema upload mon-lab.cast
 ---
 
 
-## 7. Récapitulatif des commandes essentielles
+## 6. Récapitulatif des commandes essentielles
 
 | Action | Commande |
 |---|---|
@@ -204,7 +204,7 @@ asciinema rec mon-lab.cast && asciinema upload mon-lab.cast
 
 ---
 
-## 8. Dépannage
+## 7. Dépannage
 
 | Problème constaté | Solution |
 |---|---|
