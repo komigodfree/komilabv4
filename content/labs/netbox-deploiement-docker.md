@@ -13,7 +13,7 @@ draft: false
 
 ## Objectif
 
-Déployer **NetBox Community** via Docker Compose sur Ubuntu/Debian. NetBox est une application web open-source de référence pour la gestion, la documentation et l'automatisation des infrastructures réseau et datacenters — couvrant l'IPAM (gestion des adresses IP), le DCIM (gestion des équipements physiques), les VLANs, les circuits, la virtualisation et bien plus.
+Déployer **NetBox Community** via Docker Compose sur Ubuntu/Debian. NetBox est une application web open-source de référence pour la gestion, la documentation et l'automatisation des infrastructures réseau et datacenters couvrant l'IPAM (gestion des adresses IP), le DCIM (gestion des équipements physiques), les VLANs, les circuits, la virtualisation et bien plus.
 
 **Systèmes cibles** — Ubuntu 22.04+, Debian 11+  
 **Durée estimée** — 20 minutes  
@@ -72,7 +72,7 @@ ls
 Caddyfile  configuration  docker-compose.yml  env  LICENSE  README.md  startup_scripts
 {{< /result >}}
 
-> **Note** — Le fichier `docker-compose.yml` est le fichier principal de configuration des conteneurs. Ne pas le modifier directement — on utilisera un fichier d'override à l'étape suivante.
+> **Note** — Le fichier `docker-compose.yml` est le fichier principal de configuration des conteneurs. Ne pas le modifier directement. On utilisera un fichier d'override à l'étape suivante.
 
 ---
 
@@ -86,7 +86,7 @@ Créer le fichier :
 nano docker-compose.override.yml
 ```
 
-Remplir avec le contenu suivant — attention à l'**indentation** (2 espaces, pas de tabulations) :
+Remplir avec le contenu suivant. Attention à l'**indentation** (2 espaces, pas de tabulations) :
 
 ```yaml
 services:
@@ -191,14 +191,14 @@ docker compose exec netbox /opt/netbox/netbox/manage.py createsuperuser
 Le système demande successivement :
 
 ```
-Username: admin
-Email address: admin@komilab.org
+Username: 
+Email address: 
 Password:
 Password (again):
 ```
 
 {{< callout type="warning" >}}
-**Politique de mot de passe stricte** — NetBox impose un mot de passe d'au moins **12 caractères** contenant au moins **un chiffre**. Un mot de passe trop simple retournera l'erreur :
+**Politique de mot de passe stricte**  NetBox impose un mot de passe d'au moins **12 caractères** contenant au moins **un chiffre**. Un mot de passe trop simple retournera l'erreur :
 
 `This password is too short. It must contain at least 12 characters.`  
 `Password must have at least one numeral.`
@@ -225,6 +225,8 @@ http://IP_SERVEUR:8000
 Se connecter avec le `username` et le `password` créés à l'étape précédente. Le tableau de bord NetBox s'affiche avec les modules disponibles : Organisation, IPAM, DCIM, VPN, Virtualisation, Circuits et plus.
 
 ---
+
+![NetBox Dashboard](/images/netbox-dashboard.png)
 
 ## 7. Récapitulatif des commandes essentielles
 
