@@ -25,13 +25,19 @@
   </p>
 
   <div class="lab-card-footer">
-    <div class="lab-card-author">
-      <div class="author-avatar">
-        {{ with .Params.author }}{{ substr . 0 1 | upper }}{{ else }}K{{ end }}
-      </div>
-      <span>{{ with .Params.author }}{{ . }}{{ else }}KomiLab{{ end }}</span>
+  <div class="lab-card-author">
+    <div class="author-avatar">
+      {{ with .Params.author }}{{ substr . 0 1 | upper }}{{ else }}K{{ end }}
     </div>
-    <div class="deploy-time">
-{{ with .Params.deploy_time }}{{ . }}{{ else }}~5min déploiement estimé{{ end }}    </div>
+    <div>
+      <span>{{ with .Params.author }}{{ . }}{{ else }}KomiLab{{ end }}</span>
+      <div style="font-family:var(--font-mono);font-size:0.62rem;color:var(--text-muted);margin-top:0.1rem">
+        {{ .Date.Format "02 Jan 2006" }}
+      </div>
+    </div>
   </div>
+  <div class="deploy-time">
+    {{ with .Params.deploy_time }}{{ . }}{{ else }}~5min déploiement estimé{{ end }}
+  </div>
+</div>
 </a>
