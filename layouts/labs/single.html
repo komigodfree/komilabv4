@@ -73,6 +73,25 @@
   background: linear-gradient(90deg, var(--cyan), var(--green-ok));
   transition: width 0.1s linear;
 }
+
+/* ── Layout TOC gauche / contenu droite ── */
+.lab-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .lab-layout {
+    grid-template-columns: 1fr;
+  }
+  .lab-toc {
+    position: static;
+    max-height: none;
+    order: -1;
+  }
+}
 </style>
 
 <!-- Barre progression -->
@@ -135,6 +154,14 @@
   </header>
 
   <div class="lab-layout">
+
+    {{ if .TableOfContents }}
+    <aside class="lab-toc" aria-label="Table des matières" id="lab-toc">
+      <div class="lab-toc-title">Table des matières</div>
+      {{ .TableOfContents }}
+    </aside>
+    {{ end }}
+
     <div class="lab-content" id="lab-content">
       {{ .Content }}
 
@@ -154,12 +181,6 @@
 
     </div>
 
-    {{ if .TableOfContents }}
-    <aside class="lab-toc" aria-label="Table des matières" id="lab-toc">
-      <div class="lab-toc-title">Table des matières</div>
-      {{ .TableOfContents }}
-    </aside>
-    {{ end }}
   </div>
 
 </article>
