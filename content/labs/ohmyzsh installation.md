@@ -1,6 +1,6 @@
 ---
 title: "Installation de Zsh & Oh My Zsh : Interface console style Kali Linux"
-date: 2026-02-22
+date: 2025-12-22
 lastmod: 2026-02-22
 description: "Configurer Zsh et Oh My Zsh sur Ubuntu/Debian/Kali Linux pour obtenir un prompt avancé avec coloration syntaxique, style Kali Linux, pour l'utilisateur standard et root."
 categories: ["Systèmes"]
