@@ -1,4 +1,4 @@
-baseURL = "https://komilab.org"
+baseURL = "https://www.komilab.org"
 defaultContentLanguage = "fr"
 defaultContentLanguageInSubdir = false
 enableRobotsTXT = true
