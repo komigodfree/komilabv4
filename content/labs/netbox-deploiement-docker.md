@@ -1,6 +1,7 @@
 ---
 title: "NetBox : Déploiement via Docker sur Ubuntu/Debian"
 date: 2026-01-02
+image: "/images/labs/og-netbox.png"
 lastmod: 2026-03-06
 description: "Déployer NetBox Community via Docker Compose sur Ubuntu/Debian pour gérer, documenter et automatiser son infrastructure réseau et datacenter."
 categories: ["Infrastructure"]
