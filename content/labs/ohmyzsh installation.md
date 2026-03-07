@@ -53,7 +53,13 @@ Vérifier que l'installation s'est correctement effectuée :
 zsh --version
 ```
 
-{{< img src="/images/labs/ohmyzsh/zsh-version.png" alt="Vérification de la version Zsh installée sur komilab" >}}
+```bash
+zsh --version
+```
+
+Résultat sur **komilab** — `zsh 5.9` sur architecture `aarch64` (ARM64) :
+
+{{< img src="/images/ohmyzsh/zsh-version.png" alt="Vérification de la version Zsh installée sur komilab" width="70%" >}}
 
 ### 1.2 Installation de Oh My Zsh
 
@@ -65,7 +71,9 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 
 Le script installe Oh My Zsh dans `~/.oh-my-zsh` et génère un fichier `~/.zshrc` de base. A la fin, il propose de définir Zsh comme shell par défaut, répondre **Y**.
 
-{{< img src="/images/labs/ohmyzsh/ohmyzsh-installed.png" alt="Oh My Zsh installé avec succès" >}}
+Résultat après installation de Oh My Zsh confirme l'installation avec succès et définit Zsh comme shell par défaut :
+
+{{< img src="/images/ohmyzsh/ohmyzsh-installed.png" alt="Oh My Zsh installé avec succès" width="70%" >}}
 
 > **Attention** — Si la question n'est pas posée automatiquement, définir le shell manuellement à l'étape suivante.
 
@@ -106,7 +114,9 @@ Appliquer les changements sans redémarrer la session :
 source ~/.zshrc
 ```
 
-{{< img src="/images/labs/ohmyzsh/prompt-user.png" alt="Prompt style Kali Linux — utilisateur standard sur komilab" >}}
+Résultat sur **komilab** — prompt utilisateur standard avec coloration cyan et structure arborescente style Kali Linux :
+
+{{< img src="/images/ohmyzsh/prompt-user.png" alt="Prompt style Kali Linux — utilisateur standard sur komilab" width="60%" >}}
 
 ---
 
@@ -153,7 +163,9 @@ Appliquer la configuration :
 source /root/.zshrc
 ```
 
-{{< img src="/images/labs/ohmyzsh/prompt-root.png" alt="Prompt root avec indicateur rouge sur komilab" >}}
+Résultat sur **komilab** — prompt root avec indicateur rouge, distinction visuelle immédiate des sessions à hauts privilèges :
+
+{{< img src="/images/ohmyzsh/prompt-root.png" alt="Prompt root avec indicateur rouge sur komilab" width="60%" >}}
 
 ---
 
