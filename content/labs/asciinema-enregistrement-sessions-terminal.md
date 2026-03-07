@@ -1,12 +1,13 @@
 ---
 title: "Asciinema — Enregistrer et partager des sessions terminal, Documentation vidéo"
 date: 2026-02-28
-lastmod: 2026-02-28
+lastmod: 2026-03-07
 description: "Installer et utiliser Asciinema sur Ubuntu/Debian pour enregistrer des sessions terminal et les partager en ligne"
 categories: ["Systèmes"]
 tags: ["asciinema", "terminal", "documentation", "linux"]
 difficulty: "debutant"
 author: "Komi Kpodohouin"
+deploy_time: "~15min déploiement estimé"
 draft: false
 ---
 
@@ -52,9 +53,9 @@ Vérifier que l'installation est correcte :
 asciinema --version
 ```
 
-{{< result >}}
-asciinema 2.x.x
-{{< /result >}}
+Résultat sur **komilab** version `2.4.0` installée sur architecture `aarch64` :
+
+{{< img src="/images/labs/asciinema/asciinema-version.png" width="65%" >}}
 
 ### 1.2 Installation via pip3 (version la plus récente)
 
@@ -64,7 +65,7 @@ Si tu veux la dernière version disponible :
 pip3 install asciinema
 ```
 
-> **Conseil** — Préférer la version APT pour une installation système stable. Utiliser pip3 uniquement si tu as besoin d'une fonctionnalité absente de la version APT.
+> **Conseil** : Préférer la version APT pour une installation système stable. Utiliser pip3 uniquement si tu as besoin d'une fonctionnalité absente de la version APT.
 
 ---
 
@@ -82,17 +83,17 @@ Aller sur [asciinema.org](https://asciinema.org) et créer un compte avec son em
 asciinema auth
 ```
 
-{{< result >}}
-Open the following URL in a web browser to register your CLI:
+Asciinema génère une URL unique à ouvrir dans votre navigateur pour lier votre machine au compte :
 
-https://asciinema.org/connect/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+{{< img src="/images/labs/asciinema/asciinema-auth.png" width="75%" >}}
 
-This will associate your CLI with your asciinema.org user account.
-{{< /result >}}
+Ouvrir l'URL affichée dans un navigateur et confirmer l'association. La machine est maintenant liée au compte. Tous les enregistrements uploadés apparaîtront dans le profil.
 
-Ouvrir l'URL affichée dans un navigateur et confirmer l'association. La machine est maintenant liée au compte — tous les enregistrements uploadés apparaîtront dans le profil.
+Une fois associé, le profil **komilab** est visible sur asciinema.org :
 
-> **Note** — L'association est facultative. Sans compte, les enregistrements uploadés sont anonymes et disponibles 7 jours.
+{{< img src="/images/labs/asciinema/asciinema-profil.png" width="75%" >}}
+
+> **Note** : L'association est facultative. Sans compte, les enregistrements uploadés sont anonymes et disponibles 7 jours.
 
 ---
 
@@ -127,7 +128,7 @@ Pour sauvegarder directement dans un fichier nommé :
 asciinema rec mon-lab.cast
 ```
 
-Le fichier `.cast` est un format JSON — léger et portable.
+Le fichier `.cast` est un format JSON, léger et portable.
 
 ### 3.3 Options utiles
 
@@ -138,7 +139,7 @@ Le fichier `.cast` est un format JSON — léger et portable.
 | `--rows` | Hauteur du terminal | `asciinema rec --rows 30` |
 | `--idle-time-limit` | Limiter les pauses | `asciinema rec --idle-time-limit 2` |
 
-> **Bonne pratique** — Toujours utiliser `--idle-time-limit 2` pour éviter les longues pauses dans l'enregistrement. Cela rend la lecture plus fluide.
+> **Bonne pratique** : Toujours utiliser `--idle-time-limit 2` pour éviter les longues pauses dans l'enregistrement. Cela rend la lecture plus fluide.
 
 ```bash
 asciinema rec -t "Mon lab" --idle-time-limit 2 --cols 120 --rows 30 mon-lab.cast
@@ -153,6 +154,10 @@ Pour relire un fichier `.cast` localement avant de le partager :
 ```bash
 asciinema play mon-lab.cast
 ```
+
+Résultat sur **komilab** : rejoue fidèlement la session enregistrée avec le prompt et les commandes 
+
+{{< img src="/images/labs/asciinema/asciinema-play.png" width="75%" >}}
 
 Pour rejouer à vitesse réduite (utile pour les démonstrations) :
 
@@ -176,11 +181,15 @@ asciinema play -s 2 mon-lab.cast
 asciinema upload mon-lab.cast
 ```
 
-{{< result >}}
-https://asciinema.org/a/XXXXXXXXXXXXXXXXXXXXXXXXXX
-{{< /result >}}
+Asciinema génère une URL publique unique pour partager l'enregistrement :
 
-L'URL générée est le lien de partage public. Il peut être partagé directement ou intégré dans une page web.
+{{< img src="/images/labs/asciinema/asciinema-upload.png" width="75%" >}}
+
+L'enregistrement est immédiatement accessible en ligne. Voici le résultat de la démonstration réalisée sur **komilab** `whoami`, `hostname`, `uname -m`, `uptime` sur architecture `aarch64` :
+
+{{< img src="/images/labs/asciinema/asciinema-org-recording.png" width="85%" >}}
+
+> **Lien de démonstration** — [asciinema.org/a/h3CWGevW7jt2TTg3](https://asciinema.org/a/h3CWGevW7jt2TTg3)
 
 ### 5.2 Enregistrer et uploader en une seule commande
 
@@ -189,7 +198,6 @@ asciinema rec mon-lab.cast && asciinema upload mon-lab.cast
 ```
 
 ---
-
 
 ## 6. Récapitulatif des commandes essentielles
 
@@ -213,4 +221,3 @@ asciinema rec mon-lab.cast && asciinema upload mon-lab.cast
 | Upload échoue avec erreur 401 | Réassocier le compte : `asciinema auth` |
 | La lecture est trop rapide | Rejouer avec `-s 0.5` : `asciinema play -s 0.5 fichier.cast` |
 | Longues pauses dans l'enregistrement | Réenregistrer avec `--idle-time-limit 2` |
-| Le player ne s'affiche pas dans Hugo | Vérifier que Hugo ne sanitize pas le HTML — ajouter `unsafe: true` dans `hugo.toml` sous `[markup.goldmark.renderer]` |
