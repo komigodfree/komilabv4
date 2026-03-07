@@ -1,5 +1,5 @@
 ---
-title: "Installation de Zsh & Oh My Zsh — Interface console style Kali Linux"
+title: "Installation de Zsh & Oh My Zsh : Interface console style Kali Linux"
 date: 2026-02-22
 lastmod: 2026-02-22
 description: "Configurer Zsh et Oh My Zsh sur Ubuntu/Debian/Kali Linux pour obtenir un prompt avancé avec coloration syntaxique, style Kali Linux, pour l'utilisateur standard et root."
@@ -63,7 +63,7 @@ Télécharger et exécuter le script d'installation officiel :
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-Le script installe Oh My Zsh dans `~/.oh-my-zsh` et génère un fichier `~/.zshrc` de base. A la fin, il propose de définir Zsh comme shell par défaut — répondre **Y**.
+Le script installe Oh My Zsh dans `~/.oh-my-zsh` et génère un fichier `~/.zshrc` de base. A la fin, il propose de définir Zsh comme shell par défaut, répondre **Y**.
 
 {{< img src="/images/labs/ohmyzsh/ohmyzsh-installed.png" alt="Oh My Zsh installé avec succès" >}}
 
@@ -98,7 +98,7 @@ PROMPT='%F{blue}┌──(%F{cyan}%n㉿%m%F{blue})-[%F{white}%~%F{blue}]%f
 └─%F{cyan}$%f '
 ```
 
-> **Navigation Nano** — `Ctrl+O` pour sauvegarder · `Entrée` pour confirmer · `Ctrl+X` pour quitter
+> **Navigation Nano**  `Ctrl+O` pour sauvegarder · `Entrée` pour confirmer · `Ctrl+X` pour quitter
 
 Appliquer les changements sans redémarrer la session :
 
