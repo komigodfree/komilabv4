@@ -1,4 +1,4 @@
-{{- $title := cond .IsHome .Site.Title (printf "%s — %s" .Title .Site.Title) -}}
+{{- $title := cond .IsHome .Site.Title (printf "%s %s" .Title .Site.Title) -}}
 {{- $desc  := cond (ne .Description "") .Description .Site.Params.description -}}
 {{- $image := cond (isset .Params "image") (absURL .Params.image) (absURL "/images/og-default.png") -}}
 
