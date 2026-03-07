@@ -1,7 +1,5 @@
 ---
 title: "À propos de komilab"
-description: "Engineering Intelligence Lab : Mission, contact."
-layout: "list"
 ---
 
 ## Le projet KomiLab
