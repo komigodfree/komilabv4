@@ -11,9 +11,9 @@ enableGitInfo = true
   minifyOutput = true
 
 [params]
-  description = "Plateforme d'ingénierie technique Réseaux, Cybersécurité, Cloud, Infrastructure. Documentation production-ready."
+  description = "Plateforme d'ingénierie technique Réseaux, Cybersécurité, Cloud, Infrastructure ultra Documentée."
   author = "KomiLab"
-  siteTagline = "Engineering Intelligence Lab"
+  siteTagline = "Labs et Documentation"
   linkedinURL = "https://www.linkedin.com/in/komi-mawuli-kpodohouin-866bb8155"
   githubURL = ""
   discordEnabled = false
