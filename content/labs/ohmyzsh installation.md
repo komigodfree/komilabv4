@@ -7,6 +7,7 @@ categories: ["Systèmes"]
 tags: ["zsh", "oh-my-zsh", "terminal", "shell", "linux"]
 difficulty: "debutant"
 author: "Komi Kpodohouin"
+deploy_time: "~5min déploiement estimé"
 draft: false
 ---
 
@@ -52,9 +53,7 @@ Vérifier que l'installation s'est correctement effectuée :
 zsh --version
 ```
 
-{{< result >}}
-zsh 5.x.x (x86_64-ubuntu-linux-gnu)
-{{< /result >}}
+{{< img src="/images/labs/ohmyzsh/zsh-version.png" alt="Vérification de la version Zsh installée sur komilab" >}}
 
 ### 1.2 Installation de Oh My Zsh
 
@@ -65,6 +64,8 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 ```
 
 Le script installe Oh My Zsh dans `~/.oh-my-zsh` et génère un fichier `~/.zshrc` de base. A la fin, il propose de définir Zsh comme shell par défaut — répondre **Y**.
+
+{{< img src="/images/labs/ohmyzsh/ohmyzsh-installed.png" alt="Oh My Zsh installé avec succès" >}}
 
 > **Attention** — Si la question n'est pas posée automatiquement, définir le shell manuellement à l'étape suivante.
 
@@ -105,10 +106,7 @@ Appliquer les changements sans redémarrer la session :
 source ~/.zshrc
 ```
 
-{{< result >}}
-┌──(user㉿hostname)-[~]
-└─$
-{{< /result >}}
+{{< img src="/images/labs/ohmyzsh/prompt-user.png" alt="Prompt style Kali Linux — utilisateur standard sur komilab" >}}
 
 ---
 
@@ -155,10 +153,7 @@ Appliquer la configuration :
 source /root/.zshrc
 ```
 
-{{< result >}}
-┌──(root㉿hostname)-[~]
-└─#
-{{< /result >}}
+{{< img src="/images/labs/ohmyzsh/prompt-root.png" alt="Prompt root avec indicateur rouge sur komilab" >}}
 
 ---
 
