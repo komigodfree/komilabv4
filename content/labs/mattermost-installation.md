@@ -15,13 +15,13 @@ draft: false
 Mattermost est une plateforme de messagerie collaborative open source, l'alternative self-hosted à Slack. Ce lab couvre l'installation complète sur Debian/Ubuntu avec PostgreSQL comme base de données.
 
 **Systèmes cibles** : Debian 12 ou Ubuntu 22.04+
-**Niveau requis** : Administrateur système (sudo)
+**Niveau requis** : Accès sudo
 
 ---
 
 ## Prérequis
 
-Serveur Debian 12 ou Ubuntu 22.04+, accès root ou sudo, 2 Go RAM minimum, connexion internet.
+Serveur Debian 12 ou Ubuntu 22.04+, accès sudo, 2 Go RAM minimum, connexion internet.
 
 ---
 
@@ -29,16 +29,6 @@ Serveur Debian 12 ou Ubuntu 22.04+, accès root ou sudo, 2 Go RAM minimum, conne
 
 ```bash
 sudo apt update && sudo apt upgrade -y
-```
-
----
-
-## Utilisateur dédié
-
-```bash
-sudo adduser <username>
-sudo usermod -aG sudo <username>
-su <username>
 ```
 
 ---
