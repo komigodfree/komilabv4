@@ -1,7 +1,7 @@
 {{ define "main" }}
 
 <style>
-/* ── Badge dernière mise à jour ── */
+/* Badge dernière mise à jour */
 .badge-updated {
   display: inline-flex; align-items: center; gap: 0.4rem;
   font-family: var(--font-mono); font-size: 0.65rem; font-weight: 700;
@@ -15,7 +15,7 @@
   background: var(--green-ok); box-shadow: 0 0 6px var(--green-ok);
 }
 
-/* ── TOC flottante ── */
+/* TOC flottante */
 .lab-toc {
   position: sticky; top: 5rem;
   max-height: calc(100vh - 7rem);
@@ -48,7 +48,7 @@
 .lab-toc nav ul ul a { padding-left: 1.25rem; font-size: 0.73rem; }
 .lab-toc nav ul ul ul a { padding-left: 2rem; font-size: 0.7rem; }
 
-/* ── Bouton retour en haut ── */
+/* Bouton retour en haut */
 #back-to-top {
   position: fixed; bottom: 2rem; right: 2rem; z-index: 99;
   width: 42px; height: 42px;
@@ -66,7 +66,7 @@
   border-color: var(--cyan); color: var(--cyan); background: var(--cyan-ghost);
 }
 
-/* ── Barre de progression lecture ── */
+/* Barre de progression lecture */
 #read-progress {
   position: fixed; top: 0; left: 0; z-index: 200;
   height: 3px; width: 0%;
@@ -74,11 +74,11 @@
   transition: width 0.1s linear;
 }
 
-/* ── Layout TOC gauche / contenu droite ── */
+/* Layout TOC gauche / contenu droite */
 .lab-layout {
   display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 3rem;
+  grid-template-columns: 220px 1fr;
+  gap: 2rem;
   align-items: start;
 }
 
@@ -196,7 +196,7 @@
 <script>
 (function(){
 
-  /* ── Progression lecture ── */
+  /* Progression lecture */
   var bar = document.getElementById('read-progress');
   var content = document.getElementById('lab-content');
   function updateProgress() {
@@ -208,7 +208,7 @@
     bar.style.width = pct + '%';
   }
 
-  /* ── Retour en haut ── */
+  /* Retour en haut */
   var btn = document.getElementById('back-to-top');
   function updateBtn() {
     if (window.scrollY > 400) btn.classList.add('visible');
@@ -218,7 +218,7 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  /* ── TOC active link ── */
+  /* TOC active link */
   var tocLinks = document.querySelectorAll('#lab-toc nav a');
   var headings = document.querySelectorAll('#lab-content h2, #lab-content h3, #lab-content h4');
 
