@@ -1,0 +1,1 @@
+${{ cat /home/claude/b64_01.txt }}
