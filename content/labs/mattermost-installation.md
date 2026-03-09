@@ -97,11 +97,18 @@ sudo -u postgres psql
 Évite les mots de passe contenant `@` — ce caractère est interprété comme séparateur dans les chaînes de connexion PostgreSQL et casse le DataSource silencieusement.
 {{< /callout >}}
 
+Créer la base de données et l'utilisateur :
+
 ```sql
 CREATE DATABASE <database>;
 CREATE USER <utilisateur> WITH PASSWORD 'VotreMotDePasse';
 GRANT ALL PRIVILEGES ON DATABASE <database> TO <utilisateur>;
 ALTER DATABASE <database> OWNER TO <utilisateur>;
+```
+
+Se connecter à la base, puis appliquer les privilèges sur le schéma :
+
+```sql
 \c <database>
 GRANT ALL ON SCHEMA public TO <utilisateur>;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO <utilisateur>;
