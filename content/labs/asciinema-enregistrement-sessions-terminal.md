@@ -12,18 +12,16 @@ deploy_time: "~15min"
 draft: false
 ---
 
-Asciinema enregistre les sessions terminal au format `.cast` et les publie en ligne. Utile pour documenter des procédures IT de façon reproductible — sans capturer de vidéo.
+Asciinema enregistre les sessions terminal au format `.cast` et les publie en ligne. Utile pour documenter des procédures IT de façon reproductible, sans capturer de vidéo.
 
-**Systèmes cibles** — Ubuntu 22.04+, Debian 11+  
-**Niveau requis** — Utilisateur Linux de base (sudo)
+**Systèmes cibles** : Ubuntu 22.04+, Debian 11+
+**Niveau requis** : Utilisateur Linux de base (sudo)
 
 ---
 
 ## Prérequis
 
-- Accès sudo ou root
-- Connexion Internet
-- Python 3.x + pip3 (`sudo apt install python3-pip -y` si absent)
+Accès sudo, connexion internet et Python 3.x + pip3. Si pip3 est absent : `sudo apt install python3-pip -y`
 
 ---
 
@@ -114,7 +112,7 @@ Asciinema génère une URL publique. Résultat de la démo komilab (`whoami`, `h
 
 {{< img src="/images/labs/asciinema/asciinema-org-recording.png" width="85%" >}}
 
-**Lien de démonstration** — [asciinema.org/a/h3CWGevW7jt2TTg3](https://asciinema.org/a/h3CWGevW7jt2TTg3)
+**Lien de démonstration** : [asciinema.org/a/h3CWGevW7jt2TTg3](https://asciinema.org/a/h3CWGevW7jt2TTg3)
 
 Enregistrer et uploader en une commande :
 
@@ -126,10 +124,10 @@ asciinema rec mon-lab.cast && asciinema upload mon-lab.cast
 
 ## Dépannage
 
-**`asciinema: command not found`** — Vérifier le PATH : `which asciinema` ou réinstaller via apt.
+**`asciinema: command not found`** : Vérifier le PATH avec `which asciinema` ou réinstaller via apt.
 
-**Caractères mal affichés** — Vérifier l'encodage : `echo $LANG` doit retourner `fr_FR.UTF-8` ou `en_US.UTF-8`.
+**Caractères mal affichés** : Vérifier l'encodage avec `echo $LANG`, doit retourner `fr_FR.UTF-8` ou `en_US.UTF-8`.
 
-**Upload échoue (erreur 401)** — Réassocier le compte : `asciinema auth`.
+**Upload échoue (erreur 401)** : Réassocier le compte avec `asciinema auth`.
 
-**Longues pauses à la lecture** — Réenregistrer avec `--idle-time-limit 2`.
+**Longues pauses à la lecture** : Réenregistrer avec `--idle-time-limit 2`.
