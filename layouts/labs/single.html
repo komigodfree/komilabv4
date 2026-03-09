@@ -56,8 +56,21 @@
   transition: width 0.1s linear;
 }
 
+/* Grid layout */
+.lab-layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* CRITIQUE : empêche la colonne contenu de déborder */
+.lab-layout > * {
+  min-width: 0;
+}
+
 @media (max-width: 1024px) {
-  .lab-layout { grid-template-columns: 1fr !important; }
+  .lab-layout { grid-template-columns: 1fr; }
   .lab-toc { position: static; max-height: none; order: -1; }
 }
 </style>
@@ -96,7 +109,7 @@
   </header>
 
   <!-- GRID : TOC à gauche | auteur + méta + contenu à droite -->
-  <div class="lab-layout" style="display:grid; grid-template-columns:200px 1fr; gap:2rem; align-items:start;">
+  <div class="lab-layout">
 
     {{ if .TableOfContents }}
     <aside class="lab-toc" aria-label="Table des matières" id="lab-toc">
@@ -105,7 +118,7 @@
     </aside>
     {{ end }}
 
-    <div class="lab-content" id="lab-content">
+    <div class="lab-content" id="lab-content" style="min-width:0; overflow:hidden;">
 
       <!-- Auteur -->
       {{ with .Params.author }}
