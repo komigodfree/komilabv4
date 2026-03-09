@@ -36,10 +36,8 @@ sudo apt update && sudo apt upgrade -y
 ## Utilisateur dédié
 
 ```bash
-sudo adduser <username> && sudo usermod -aG sudo <username>
-```
-
-```bash
+sudo adduser <username>
+sudo usermod -aG sudo <username>
 su <username>
 ```
 
@@ -55,14 +53,9 @@ sudo apt install curl gnupg2 software-properties-common bash-completion nano -y
 
 ## Dépôt officiel Mattermost
 
-Importer la clé GPG :
-
 ```bash
-curl -sL https://deb.packages.mattermost.com/pubkey.gpg | \
-gpg --dearmor | sudo tee /usr/share/keyrings/mattermost-archive-keyring.gpg > /dev/null
+curl -sL https://deb.packages.mattermost.com/pubkey.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/mattermost-archive-keyring.gpg > /dev/null
 ```
-
-Ajouter le dépôt :
 
 ```bash
 curl -o- https://deb.packages.mattermost.com/repo-setup.sh | sudo bash -s mattermost
@@ -88,6 +81,20 @@ sudo apt install mattermost -y
 sudo apt install postgresql postgresql-contrib -y
 ```
 
+Vérifier que le service tourne et que l'utilisateur système `postgres` existe :
+
+```bash
+sudo systemctl status postgresql
+```
+
+```bash
+id postgres
+```
+
+{{< result >}}
+uid=xxx(postgres) gid=xxx(postgres) groups=xxx(postgres)
+{{< /result >}}
+
 ---
 
 ## PostgreSQL — création de la base
@@ -97,7 +104,7 @@ sudo -u postgres psql
 ```
 
 {{< callout type="warning" >}}
-Évite les mots de passe contenant `@` — ce caractère est interprété comme séparateur dans les chaînes de connexion PostgreSQL et cassera le DataSource silencieusement.
+Évite les mots de passe contenant `@` — ce caractère est interprété comme séparateur dans les chaînes de connexion PostgreSQL et casse le DataSource silencieusement.
 {{< /callout >}}
 
 ```sql
@@ -116,6 +123,8 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO mmuser;
 
 ## systemd — dépendance PostgreSQL
 
+Ne pas modifier `/lib/systemd/system/mattermost.service` directement. Utiliser un fichier d'override qui survit aux mises à jour :
+
 ```bash
 sudo mkdir -p /etc/systemd/system/mattermost.service.d/
 sudo tee /etc/systemd/system/mattermost.service.d/postgresql-dep.conf <<EOF
@@ -126,8 +135,14 @@ EOF
 ```
 
 {{< callout type="info" >}}
-`BindsTo` force Mattermost à s'arrêter si PostgreSQL s'arrête. `After` garantit l'ordre de démarrage. Sans ça, Mattermost peut tenter de démarrer avant que la base soit prête — et échouer silencieusement.
+`BindsTo` force Mattermost à s'arrêter si PostgreSQL s'arrête. `After` garantit l'ordre de démarrage. Sans ça, Mattermost peut tenter de démarrer avant que la base soit prête et échouer silencieusement.
 {{< /callout >}}
+
+Vérifier que l'override est bien pris en compte par systemd :
+
+```bash
+systemctl cat mattermost | grep -A2 "postgresql"
+```
 
 ```bash
 sudo systemctl daemon-reload
@@ -137,11 +152,14 @@ sudo systemctl daemon-reload
 
 ## Configuration Mattermost
 
+Copier le fichier de configuration par défaut :
+
 ```bash
-sudo install -C -m 600 -o mattermost -g mattermost \
-/opt/mattermost/config/config.defaults.json \
-/opt/mattermost/config/config.json
+sudo -u mattermost cp /opt/mattermost/config/config.defaults.json /opt/mattermost/config/config.json
+sudo chmod 600 /opt/mattermost/config/config.json
 ```
+
+Éditer le fichier :
 
 ```bash
 sudo nano /opt/mattermost/config/config.json
@@ -153,7 +171,7 @@ Rechercher `DriverName` avec `Ctrl+W`, vérifier que la valeur est `postgres` :
 "DriverName": "postgres",
 ```
 
-Rechercher `DataSource` et remplacer avec les identifiants créés plus haut :
+Rechercher `DataSource` et remplacer — attention à bien écrire **mattermost** et non ~~mattermos~~ :
 
 ```json
 "DataSource": "postgres://mmuser:VotreMotDePasse@localhost:5432/mattermost?sslmode=disable&connect_timeout=10",
@@ -176,8 +194,6 @@ sudo systemctl enable postgresql mattermost
 sudo systemctl start postgresql mattermost
 ```
 
-Vérifier que les deux services tournent :
-
 ```bash
 sudo systemctl status mattermost
 ```
@@ -188,11 +204,15 @@ sudo systemctl status mattermost
      Active: active (running)
 {{< /result >}}
 
+Si le service échoue, consulter l'erreur exacte :
+
+```bash
+journalctl -xeu mattermost.service --no-pager | grep -E "error|Error|failed" | head -20
+```
+
 ---
 
 ## Accéder à Mattermost
-
-Ouvrir un navigateur et accéder à :
 
 ```
 http://IP_SERVEUR:8065
@@ -204,10 +224,12 @@ L'assistant de configuration s'affiche pour créer le compte administrateur et c
 
 ## Dépannage
 
-**Service Mattermost ne démarre pas** : Consulter les logs avec `sudo journalctl -u mattermost -f`.
+**`sudo: unknown user postgres`** : PostgreSQL n'est pas installé ou l'installation a échoué. Réinstaller avec `sudo apt purge postgresql* -y && sudo apt install postgresql postgresql-contrib -y`.
 
-**Erreur de connexion à la base** : Vérifier le `DataSource` dans `config.json`, notamment le mot de passe et le nom de la base.
+**Service Mattermost ne démarre pas** : Consulter les logs avec `sudo journalctl -u mattermost -f`. Vérifier le `DataSource` dans `config.json` — nom de base, mot de passe, orthographe.
+
+**`pq: database "xxx" does not exist`** : Faute de frappe dans le nom de la base dans `DataSource`. Vérifier avec `sudo -u postgres psql -c "\l"` et corriger dans `config.json`.
 
 **Port 8065 inaccessible** : Ouvrir le port avec `sudo ufw allow 8065`.
 
-**PostgreSQL ne démarre pas avant Mattermost** : Vérifier que le fichier `postgresql-dep.conf` existe bien dans `/etc/systemd/system/mattermost.service.d/`.
+**PostgreSQL ne démarre pas avant Mattermost** : Vérifier que le fichier `postgresql-dep.conf` existe dans `/etc/systemd/system/mattermost.service.d/`.
