@@ -9,7 +9,7 @@ tags: ["mattermost", "postgresql", "debian", "ubuntu", "collaboration", "self-ho
 difficulty: "intermédiaire"
 author: "Komi Kpodohouin"
 deploy_time: "~45min"
-draft: false
+draft: true
 ---
 
 Mattermost est une plateforme de messagerie collaborative open source, l'alternative self-hosted à Slack. Ce lab couvre l'installation complète sur Debian/Ubuntu avec PostgreSQL comme base de données.
@@ -126,7 +126,7 @@ EOF
 ```
 
 {{< callout type="info" >}}
-`BindsTo` force Mattermost à s'arrêter si PostgreSQL s'arrête. `After` garantit l'ordre de démarrage. Sans ça, Mattermost peut tenter de démarrer avant que la base soit prête — et échouer silencieusement.
+`BindsTo` force Mattermost à s'arrêter si PostgreSQL s'arrête. `After` garantit l'ordre de démarrage. Sans ça, Mattermost peut tenter de démarrer avant que la base soit prête et échouer silencieusement.
 {{< /callout >}}
 
 ```bash
@@ -176,8 +176,6 @@ sudo systemctl enable postgresql mattermost
 sudo systemctl start postgresql mattermost
 ```
 
-Vérifier que les deux services tournent :
-
 ```bash
 sudo systemctl status mattermost
 ```
@@ -191,8 +189,6 @@ sudo systemctl status mattermost
 ---
 
 ## Accéder à Mattermost
-
-Ouvrir un navigateur et accéder à :
 
 ```
 http://IP_SERVEUR:8065
@@ -210,4 +206,4 @@ L'assistant de configuration s'affiche pour créer le compte administrateur et c
 
 **Port 8065 inaccessible** : Ouvrir le port avec `sudo ufw allow 8065`.
 
-**PostgreSQL ne démarre pas avant Mattermost** : Vérifier que le fichier `postgresql-dep.conf` existe bien dans `/etc/systemd/system/mattermost.service.d/`.
+**PostgreSQL ne démarre pas avant Mattermost** : Vérifier que le fichier `postgresql-dep.conf` existe dans `/etc/systemd/system/mattermost.service.d/`.
