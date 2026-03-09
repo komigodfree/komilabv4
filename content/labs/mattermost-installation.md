@@ -14,7 +14,7 @@ draft: false
 
 Mattermost est une plateforme de messagerie collaborative open source, l'alternative self-hosted à Slack. Ce lab couvre l'installation complète sur Debian/Ubuntu avec PostgreSQL comme base de données.
 
-**Systèmes cibles** : Debian 12 ou Ubuntu 22.04+
+**Systèmes cibles** : Debian 12 ou Ubuntu 22.04+  
 **Niveau requis** : Accès sudo
 
 ---
@@ -71,19 +71,20 @@ sudo apt install mattermost -y
 sudo apt install postgresql postgresql-contrib -y
 ```
 
-Vérifier que le service tourne et que l'utilisateur système `postgres` existe :
+Vérifier que le service est actif et activé au démarrage :
 
 ```bash
 sudo systemctl status postgresql
 ```
 
-```bash
-id postgres
-```
-
 {{< result >}}
-uid=xxx(postgres) gid=xxx(postgres) groups=xxx(postgres)
+● postgresql.service - PostgreSQL RDBMS
+     Loaded: loaded (/usr/lib/systemd/system/postgresql.service; enabled; preset: enabled)
+     Active: active (exited) since Mon 2026-03-09 22:44:06 UTC; 2min 37s ago
+   Main PID: 4052 (code=exited, status=0/SUCCESS)
 {{< /result >}}
+
+{{< img src="/images/labs/mattermost/mm-01-postgresql-status.png" alt="PostgreSQL actif et enabled au démarrage" >}}
 
 ---
 
@@ -94,27 +95,35 @@ sudo -u postgres psql
 ```
 
 {{< callout type="warning" >}}
-Évite les mots de passe contenant `@` — ce caractère est interprété comme séparateur dans les chaînes de connexion PostgreSQL et casse le DataSource silencieusement.
+Évite les mots de passe contenant `@` — ce caractère est interprété comme séparateur dans les chaînes de connexion PostgreSQL et casse le DataSource silencieusement. Utilise un mot de passe robuste de ce type : `Xk9#mP2vLq8nRt5w`
 {{< /callout >}}
 
 Créer la base de données et l'utilisateur :
 
 ```sql
-CREATE DATABASE <database>;
-CREATE USER <utilisateur> WITH PASSWORD 'VotreMotDePasse';
-GRANT ALL PRIVILEGES ON DATABASE <database> TO <utilisateur>;
-ALTER DATABASE <database> OWNER TO <utilisateur>;
+CREATE DATABASE mattermost_db;
+CREATE USER mattermost_user WITH PASSWORD 'VotreMotDePasse';
+GRANT ALL PRIVILEGES ON DATABASE mattermost_db TO mattermost_user;
+ALTER DATABASE mattermost_db OWNER TO mattermost_user;
 ```
+
+{{< callout type="info" >}}
+Remplace `mattermost_db`, `mattermost_user` et `VotreMotDePasse` par les valeurs de ton choix. Ces trois éléments doivent rester cohérents dans toutes les étapes suivantes.
+{{< /callout >}}
 
 Se connecter à la base, puis appliquer les privilèges sur le schéma :
 
 ```sql
-\c <database>
-GRANT ALL ON SCHEMA public TO <utilisateur>;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO <utilisateur>;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO <utilisateur>;
+\c mattermost_db
+GRANT ALL ON SCHEMA public TO mattermost_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO mattermost_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO mattermost_user;
 \q
 ```
+
+{{< callout type="info" >}}
+Remplace `mattermost_db` et `mattermost_user` par les noms définis à l'étape précédente.
+{{< /callout >}}
 
 ---
 
@@ -134,12 +143,6 @@ EOF
 {{< callout type="info" >}}
 `BindsTo` force Mattermost à s'arrêter si PostgreSQL s'arrête. `After` garantit l'ordre de démarrage. Sans ça, Mattermost peut tenter de démarrer avant que la base soit prête et échouer silencieusement.
 {{< /callout >}}
-
-Vérifier que l'override est bien pris en compte :
-
-```bash
-systemctl cat mattermost | grep -A2 "postgresql"
-```
 
 ```bash
 sudo systemctl daemon-reload
@@ -167,14 +170,22 @@ Rechercher `DriverName` avec `Ctrl+W`, vérifier que la valeur est `postgres` :
 Rechercher `DataSource` et remplacer avec les identifiants créés plus haut :
 
 ```json
-"DataSource": "postgres://<utilisateur>:'VotreMotDePasse'@localhost:5432/<database>?sslmode=disable&connect_timeout=10",
+"DataSource": "postgres://mattermost_user:VotreMotDePasse@localhost:5432/mattermost_db?sslmode=disable&connect_timeout=10",
 ```
+
+{{< callout type="info" >}}
+Remplace `mattermost_user`, `VotreMotDePasse` et `mattermost_db` par les valeurs définies à l'étape PostgreSQL.
+{{< /callout >}}
 
 Rechercher `SiteURL` et définir l'adresse du serveur :
 
 ```json
 "SiteURL": "http://IP_SERVEUR:8065",
 ```
+
+{{< callout type="info" >}}
+Remplace `IP_SERVEUR` par l'adresse IP ou le nom de domaine de ton serveur.
+{{< /callout >}}
 
 Sauvegarder : `Ctrl+X`, `Y`, `Entrée`.
 
@@ -193,9 +204,15 @@ sudo systemctl status mattermost
 
 {{< result >}}
 ● mattermost.service - Mattermost
-     Loaded: loaded (/lib/systemd/system/mattermost.service; enabled)
-     Active: active (running)
+     Loaded: loaded (/usr/lib/systemd/system/mattermost.service; enabled; preset: enabled)
+    Drop-In: /etc/systemd/system/mattermost.service.d
+             └─postgresql-dep.conf
+     Active: active (running) since Mon 2026-03-09 22:57:13 UTC; 14s ago
+   Main PID: 5395 (mattermost)
+     Memory: 479.2M (peak: 593.2M)
 {{< /result >}}
+
+{{< img src="/images/labs/mattermost/mm-02-mattermost-status.png" alt="Service Mattermost actif (running)" >}}
 
 Si le service échoue, consulter l'erreur exacte :
 
@@ -212,6 +229,18 @@ http://IP_SERVEUR:8065
 ```
 
 L'assistant de configuration s'affiche pour créer le compte administrateur et configurer l'équipe.
+
+---
+
+## Preuves de déploiement
+
+{{< gallery >}}
+  {{< gallery-img src="/images/labs/mattermost/mm-03-landing-browser.png" alt="Page d'accueil Mattermost — choix du mode d'accès" >}}
+  {{< gallery-img src="/images/labs/mattermost/mm-04-create-account.png" alt="Création du compte administrateur" >}}
+  {{< gallery-img src="/images/labs/mattermost/mm-05-organisation.png" alt="Configuration de l'organisation" >}}
+  {{< gallery-img src="/images/labs/mattermost/mm-06-tools.png" alt="Sélection des outils à intégrer" >}}
+  {{< gallery-img src="/images/labs/mattermost/mm-07-town-square.png" alt="Workspace Mattermost opérationnel — Town Square" >}}
+{{< /gallery >}}
 
 ---
 
