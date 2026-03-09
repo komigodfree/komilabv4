@@ -108,14 +108,14 @@ sudo -u postgres psql
 {{< /callout >}}
 
 ```sql
-CREATE DATABASE mattermost;
-CREATE USER mmuser WITH PASSWORD 'VotreMotDePasse';
-GRANT ALL PRIVILEGES ON DATABASE mattermost TO mmuser;
-ALTER DATABASE mattermost OWNER TO mmuser;
-\c mattermost
-GRANT ALL ON SCHEMA public TO mmuser;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO mmuser;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO mmuser;
+CREATE DATABASE <database>;
+CREATE USER <utilisateur> WITH PASSWORD 'VotreMotDePasse';
+GRANT ALL PRIVILEGES ON DATABASE <database> TO <utilisateur>;
+ALTER DATABASE <database> OWNER TO <utilisateur>;
+\c <database>
+GRANT ALL ON SCHEMA public TO <utilisateur>;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO <utilisateur>;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO <utilisateur>;
 \q
 ```
 
@@ -170,7 +170,7 @@ Rechercher `DriverName` avec `Ctrl+W`, vérifier que la valeur est `postgres` :
 Rechercher `DataSource` et remplacer avec les identifiants créés plus haut :
 
 ```json
-"DataSource": "postgres://mmuser:VotreMotDePasse@localhost:5432/mattermost?sslmode=disable&connect_timeout=10",
+"DataSource": "postgres://<utilisateur>:'VotreMotDePasse'@localhost:5432/<database>?sslmode=disable&connect_timeout=10",
 ```
 
 Rechercher `SiteURL` et définir l'adresse du serveur :
