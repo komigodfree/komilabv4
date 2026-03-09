@@ -1,4 +1,3 @@
-{{ if eq .Name "gallery" }}
 <div class="lab-gallery" id="gallery-{{ .Ordinal }}">
   {{ .Inner }}
 </div>
@@ -13,16 +12,6 @@
   </div>
   <button class="glb-next" onclick="glbNav({{ .Ordinal }}, 1)" aria-label="Suivant">&#8594;</button>
 </div>
-{{ end }}
-
-{{ if eq .Name "gallery-img" }}
-{{ $src := .Get "src" }}
-{{ $alt := .Get "alt" | default "" }}
-<figure class="gallery-item" data-src="{{ $src }}" data-alt="{{ $alt }}">
-  <img src="{{ $src }}" alt="{{ $alt }}" loading="lazy" />
-  {{ with $alt }}<figcaption>{{ . }}</figcaption>{{ end }}
-</figure>
-{{ end }}
 
 <style>
 .lab-gallery {
