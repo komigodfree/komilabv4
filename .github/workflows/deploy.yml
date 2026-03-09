@@ -2,7 +2,9 @@ name: Deploy KomiLab to Cloudflare Pages
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - staging
 
 jobs:
   deploy:
@@ -35,3 +37,4 @@ jobs:
           directory: public
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           wranglerVersion: '3'
+          branch: ${{ github.ref_name }}
