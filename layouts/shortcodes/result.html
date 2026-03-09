@@ -7,5 +7,5 @@
     </span>
     <span class="result-label">Résultat attendu</span>
   </div>
-  <pre class="result-content result-block" style="user-select:none;-webkit-user-select:none">{{ .Inner | trim "\n" }}</pre>
+  <pre class="result-content" style="user-select:none;-webkit-user-select:none">{{ .Inner | markdownify }}</pre>
 </div>
