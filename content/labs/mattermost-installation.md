@@ -77,13 +77,6 @@ Vérifier que le service est actif et activé au démarrage :
 sudo systemctl status postgresql
 ```
 
-{{< result >}}
-● postgresql.service - PostgreSQL RDBMS
-     Loaded: loaded (/usr/lib/systemd/system/postgresql.service; enabled; preset: enabled)
-     Active: active (exited) since Mon 2026-03-09 22:44:06 UTC; 2min 37s ago
-   Main PID: 4052 (code=exited, status=0/SUCCESS)
-{{< /result >}}
-
 {{< img src="/images/labs/mattermost/mm-01-postgresql-status.png" alt="PostgreSQL actif et enabled au démarrage" >}}
 
 ---
@@ -201,16 +194,6 @@ sudo systemctl start postgresql mattermost
 ```bash
 sudo systemctl status mattermost
 ```
-
-{{< result >}}
-● mattermost.service - Mattermost
-     Loaded: loaded (/usr/lib/systemd/system/mattermost.service; enabled; preset: enabled)
-    Drop-In: /etc/systemd/system/mattermost.service.d
-             └─postgresql-dep.conf
-     Active: active (running) since Mon 2026-03-09 22:57:13 UTC; 14s ago
-   Main PID: 5395 (mattermost)
-     Memory: 479.2M (peak: 593.2M)
-{{< /result >}}
 
 {{< img src="/images/labs/mattermost/mm-02-mattermost-status.png" alt="Service Mattermost actif (running)" >}}
 
