@@ -82,6 +82,11 @@
   align-items: start;
 }
 
+/* Sans TOC : pleine largeur */
+.lab-layout.no-toc {
+  grid-template-columns: 1fr;
+}
+
 @media (max-width: 1024px) {
   .lab-layout {
     grid-template-columns: 1fr;
@@ -91,6 +96,35 @@
     max-height: none;
     order: -1;
   }
+}
+
+/* ── Bouton copier code ── */
+.code-block-wrapper {
+  position: relative;
+}
+.copy-btn {
+  position: absolute; top: 0.6rem; right: 0.6rem;
+  display: flex; align-items: center; gap: 0.3rem;
+  font-family: var(--font-mono); font-size: 0.65rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  border: 1px solid var(--bg-border);
+  border-radius: var(--radius-sm);
+  padding: 0.25rem 0.6rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  z-index: 10;
+}
+.copy-btn:hover {
+  color: var(--cyan);
+  border-color: var(--cyan);
+  background: var(--cyan-ghost);
+}
+.copy-btn.copied {
+  color: var(--green-ok);
+  border-color: var(--green-ok);
+  background: rgba(0,255,148,0.07);
 }
 </style>
 
@@ -153,12 +187,13 @@
     </div>
   </header>
 
-  <div class="lab-layout">
+  {{ $hasToc := .TableOfContents }}
+  <div class="lab-layout{{ if not $hasToc }} no-toc{{ end }}">
 
-    {{ if .TableOfContents }}
+    {{ if $hasToc }}
     <aside class="lab-toc" aria-label="Table des matières" id="lab-toc">
       <div class="lab-toc-title">Table des matières</div>
-      {{ .TableOfContents }}
+      {{ $hasToc }}
     </aside>
     {{ end }}
 
@@ -243,6 +278,31 @@
   updateProgress();
   updateBtn();
   updateToc();
+
+  /* ── Bouton copier sur les blocs de code ── */
+  document.querySelectorAll('#lab-content pre').forEach(function(pre) {
+    var wrapper = document.createElement('div');
+    wrapper.className = 'code-block-wrapper';
+    pre.parentNode.insertBefore(wrapper, pre);
+    wrapper.appendChild(pre);
+
+    var btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copier';
+    wrapper.appendChild(btn);
+
+    btn.addEventListener('click', function() {
+      var code = pre.querySelector('code') ? pre.querySelector('code').innerText : pre.innerText;
+      navigator.clipboard.writeText(code).then(function() {
+        btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Copié !';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copier';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    });
+  });
 
 })();
 </script>
