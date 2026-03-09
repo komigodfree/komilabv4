@@ -138,7 +138,7 @@ EOF
 `BindsTo` force Mattermost à s'arrêter si PostgreSQL s'arrête. `After` garantit l'ordre de démarrage. Sans ça, Mattermost peut tenter de démarrer avant que la base soit prête et échouer silencieusement.
 {{< /callout >}}
 
-Vérifier que l'override est bien pris en compte par systemd :
+Vérifier que l'override est bien pris en compte :
 
 ```bash
 systemctl cat mattermost | grep -A2 "postgresql"
@@ -152,14 +152,10 @@ sudo systemctl daemon-reload
 
 ## Configuration Mattermost
 
-Copier le fichier de configuration par défaut :
-
 ```bash
 sudo -u mattermost cp /opt/mattermost/config/config.defaults.json /opt/mattermost/config/config.json
 sudo chmod 600 /opt/mattermost/config/config.json
 ```
-
-Éditer le fichier :
 
 ```bash
 sudo nano /opt/mattermost/config/config.json
@@ -171,7 +167,7 @@ Rechercher `DriverName` avec `Ctrl+W`, vérifier que la valeur est `postgres` :
 "DriverName": "postgres",
 ```
 
-Rechercher `DataSource` et remplacer — attention à bien écrire **mattermost** et non ~~mattermos~~ :
+Rechercher `DataSource` et remplacer avec les identifiants créés plus haut :
 
 ```json
 "DataSource": "postgres://mmuser:VotreMotDePasse@localhost:5432/mattermost?sslmode=disable&connect_timeout=10",
@@ -226,9 +222,7 @@ L'assistant de configuration s'affiche pour créer le compte administrateur et c
 
 **`sudo: unknown user postgres`** : PostgreSQL n'est pas installé ou l'installation a échoué. Réinstaller avec `sudo apt purge postgresql* -y && sudo apt install postgresql postgresql-contrib -y`.
 
-**Service Mattermost ne démarre pas** : Consulter les logs avec `sudo journalctl -u mattermost -f`. Vérifier le `DataSource` dans `config.json` — nom de base, mot de passe, orthographe.
-
-**`pq: database "xxx" does not exist`** : Faute de frappe dans le nom de la base dans `DataSource`. Vérifier avec `sudo -u postgres psql -c "\l"` et corriger dans `config.json`.
+**Service Mattermost ne démarre pas** : Consulter les logs avec `sudo journalctl -u mattermost -f`. Vérifier le `DataSource` dans `config.json`, notamment le mot de passe et le nom de la base.
 
 **Port 8065 inaccessible** : Ouvrir le port avec `sudo ufw allow 8065`.
 
