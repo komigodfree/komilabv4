@@ -3,7 +3,7 @@ title: "Mattermost : Installation sur Debian/Ubuntu"
 date: 2026-03-09
 image: "/images/labs/og-mattermost.png"
 lastmod: 2026-03-09
-description: "Guide d'installation complet de Mattermost avec PostgreSQL sur Debian/Ubuntu. Déploiement pas à pas avec configuration de la base de données et du service systemd."
+description: "Guide d'installation complet de Mattermost, une plateforme de messagerie collaborative open source, l'alternative self-hosted à Slack"
 categories: ["Systèmes"]
 tags: ["mattermost", "postgresql", "debian", "ubuntu", "collaboration", "self-hosted"]
 difficulty: "intermédiaire"
@@ -88,7 +88,7 @@ sudo -u postgres psql
 ```
 
 {{< callout type="warning" >}}
-Évite les mots de passe contenant `@` — ce caractère est interprété comme séparateur dans les chaînes de connexion PostgreSQL et casse le DataSource silencieusement. Utilise un mot de passe robuste de ce type : `Xk9#mP2vLq8nRt5w`
+Évite les mots de passe contenant `@`  ce caractère est interprété comme séparateur dans les chaînes de connexion PostgreSQL et casse le DataSource silencieusement. Utilise un mot de passe robuste de ce type : `Xk9#mP2vLq8nRt5w`
 {{< /callout >}}
 
 Créer la base de données et l'utilisateur :
@@ -218,11 +218,11 @@ L'assistant de configuration s'affiche pour créer le compte administrateur et c
 ## Preuves de déploiement
 
 {{< gallery >}}
-  {{< gallery-img src="/images/labs/mattermost/mm-03-landing-browser.png" alt="Page d'accueil Mattermost — choix du mode d'accès" >}}
+  {{< gallery-img src="/images/labs/mattermost/mm-03-landing-browser.png" alt="Page d'accueil Mattermost" >}}
   {{< gallery-img src="/images/labs/mattermost/mm-04-create-account.png" alt="Création du compte administrateur" >}}
   {{< gallery-img src="/images/labs/mattermost/mm-05-organisation.png" alt="Configuration de l'organisation" >}}
   {{< gallery-img src="/images/labs/mattermost/mm-06-tools.png" alt="Sélection des outils à intégrer" >}}
-  {{< gallery-img src="/images/labs/mattermost/mm-07-town-square.png" alt="Workspace Mattermost opérationnel — Town Square" >}}
+  {{< gallery-img src="/images/labs/mattermost/mm-07-town-square.png" alt="Workspace Mattermost opérationnel" >}}
 {{< /gallery >}}
 
 ---
