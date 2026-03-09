@@ -2,13 +2,13 @@
 title: "NetBox : Déploiement via Docker sur Ubuntu/Debian"
 date: 2026-01-02
 image: "/images/labs/og-netbox.png"
-lastmod: 2026-03-06
+lastmod: 2026-03-09
 description: "Déployer NetBox Community via Docker Compose sur Ubuntu/Debian pour gérer, documenter et automatiser son infrastructure réseau et datacenter."
 categories: ["Infrastructure"]
 tags: ["netbox", "docker", "docker-compose", "ipam", "dcim", "linux"]
 difficulty: "intermédiaire"
 author: "Komi Kpodohouin"
-deploy_time: "~20min déploiement estimé"
+deploy_time: "~20min"
 draft: false
 ---
 
@@ -16,8 +16,7 @@ draft: false
 
 Déployer **NetBox Community** via Docker Compose sur Ubuntu/Debian. NetBox est une application web open-source de référence pour la gestion, la documentation et l'automatisation des infrastructures réseau et datacenters couvrant l'IPAM (gestion des adresses IP), le DCIM (gestion des équipements physiques), les VLANs, les circuits, la virtualisation et bien plus.
 
-**Systèmes cibles** : Ubuntu 22.04+, Debian 11+  
-**Durée estimée** : 20 minutes  
+**Systèmes cibles** : Ubuntu 22.04+, Debian 11+
 **Niveau requis** : Administrateur système (sudo)
 
 ---
@@ -33,21 +32,21 @@ Déployer **NetBox Community** via Docker Compose sur Ubuntu/Debian. NetBox est 
 | Git installé | `git --version` |
 | Port 8000 disponible | `ss -tlnp \| grep 8000` |
 
-> **Installation Docker** — Si Docker n'est pas encore installé, se rendre sur [docs.docker.com/engine/install](https://docs.docker.com/engine/install/), choisir sa distribution Linux et suivre les instructions officielles. Docker Compose est inclus dans les versions récentes de Docker Engine.
+{{< callout type="info" >}}
+Si Docker n'est pas encore installé, se rendre sur [docs.docker.com/engine/install](https://docs.docker.com/engine/install/), choisir sa distribution et suivre les instructions officielles. Docker Compose est inclus dans les versions récentes de Docker Engine.
+{{< /callout >}}
 
 ---
 
-## 1. Cloner le dépôt NetBox Docker
+## Cloner le dépôt NetBox Docker
 
 Le projet **netbox-docker** est le dépôt officiel maintenu par la communauté NetBox pour le déploiement via conteneurs.
 
-Cloner la branche `release` : toujours stable et recommandée en production :
+Cloner la branche `release` — toujours stable et recommandée en production :
 
 ```bash
 git clone -b release https://github.com/netbox-community/netbox-docker.git
 ```
-
-Vérifier que le clonage s'est effectué correctement :
 
 ```bash
 ls
@@ -57,13 +56,9 @@ ls
 netbox-docker
 {{< /result >}}
 
-Se positionner dans le dossier cloné :
-
 ```bash
 cd netbox-docker/
 ```
-
-Vérifier le contenu du dossier :
 
 ```bash
 ls
@@ -73,21 +68,19 @@ ls
 Caddyfile  configuration  docker-compose.yml  env  LICENSE  README.md  startup_scripts
 {{< /result >}}
 
-> **Note** : Le fichier `docker-compose.yml` est le fichier principal de configuration des conteneurs. Ne pas le modifier directement. On utilisera un fichier d'override à l'étape suivante.
+Ne pas modifier `docker-compose.yml` directement. On utilisera un fichier d'override à l'étape suivante.
 
 ---
 
-## 2. Configurer le port d'écoute
+## Configurer le port d'écoute
 
-NetBox nécessite un fichier de surcharge Docker Compose pour définir le port d'exposition. Ce fichier **doit obligatoirement** être nommé `docker-compose.override.yml` : Docker Compose le détecte et le fusionne automatiquement avec le fichier principal.
-
-Créer le fichier :
+NetBox nécessite un fichier de surcharge nommé obligatoirement `docker-compose.override.yml` : Docker Compose le détecte et le fusionne automatiquement avec le fichier principal.
 
 ```bash
 nano docker-compose.override.yml
 ```
 
-Remplir avec le contenu suivant. Attention à l'**indentation** (2 espaces, pas de tabulations) :
+Attention à l'**indentation** (2 espaces, pas de tabulations) :
 
 ```yaml
 services:
@@ -96,24 +89,19 @@ services:
       - 8000:8080
 ```
 
-Sauvegarder et quitter Nano :
-- `Ctrl + X` pour quitter
-- `Y` pour confirmer la sauvegarde
-- `Entrée` pour valider le nom du fichier
+Sauvegarder : `Ctrl+X`, `Y`, `Entrée`.
 
-> **Explication** : Le port `8080` est le port interne du conteneur NetBox. On l'expose sur le port `8000` de la machine hôte. NetBox sera donc accessible via `http://IP_SERVEUR:8000`.
+Le port `8080` est le port interne du conteneur. On l'expose sur `8000` de la machine hôte. NetBox sera accessible via `http://IP_SERVEUR:8000`.
 
 ---
 
-## 3. Télécharger les images Docker
-
-Récupérer toutes les images nécessaires depuis Docker Hub : NetBox, PostgreSQL, Redis :
+## Télécharger les images Docker
 
 ```bash
 docker compose pull
 ```
 
-Cette opération peut prendre plusieurs minutes selon la connexion Internet. Une fois terminée, vérifier les images téléchargées :
+Cette opération peut prendre plusieurs minutes selon la connexion. Vérifier les images téléchargées :
 
 ```bash
 docker images
@@ -128,15 +116,11 @@ redis                           7         xxxxxxxxxxxx   x days ago     xxx MB
 
 ---
 
-## 4. Démarrer les conteneurs
-
-Lancer tous les conteneurs en mode détaché (arrière-plan) :
+## Démarrer les conteneurs
 
 ```bash
 docker compose up -d
 ```
-
-Docker Compose crée le réseau, les volumes et démarre les conteneurs dans l'ordre de leurs dépendances. En fin d'exécution, tu obtiendras un résultat similaire à celui-ci :
 
 {{< result >}}
 ✔ Network netbox-docker_default                Created    0.0s
@@ -155,14 +139,12 @@ dependency failed to start: container netbox-docker-netbox-1 is unhealthy
 {{< /result >}}
 
 {{< callout type="warning" >}}
-**L'erreur `netbox-docker-netbox-1 is unhealthy` est normale et attendue**, ne pas s'inquiéter.
+**L'erreur `netbox-docker-netbox-1 is unhealthy` est normale et attendue.** Au premier démarrage, NetBox initialise la base PostgreSQL, applique les migrations Django et prépare les fichiers statiques. Cette opération prend entre 2 et 5 minutes. Docker considère le conteneur comme "unhealthy" pendant cette phase car le healthcheck échoue avant que l'application soit opérationnelle.
 
-Au premier démarrage, NetBox doit initialiser la base de données PostgreSQL, appliquer toutes les migrations Django et préparer les fichiers statiques. Cette opération prend entre **2 et 5 minutes**. Docker considère le conteneur comme "unhealthy" pendant cette phase d'initialisation car le healthcheck échoue avant que l'application soit pleinement opérationnelle.
-
-Attendre quelques minutes et passer à l'étape suivante.
+Attendre quelques minutes avant de continuer.
 {{< /callout >}}
 
-Vérifier l'état des conteneurs après quelques minutes :
+Vérifier l'état après quelques minutes :
 
 ```bash
 docker compose ps
@@ -177,19 +159,15 @@ netbox-docker-redis-cache-1     healthy
 netbox-docker-netbox-worker-1   healthy
 {{< /result >}}
 
-> **Note** — Tous les conteneurs doivent afficher le statut `healthy` avant de continuer. Si `netbox-1` reste en erreur après 5 minutes, consulter la section Dépannage.
+Tous les conteneurs doivent afficher `healthy` avant de continuer. Si `netbox-1` reste en erreur après 5 minutes, consulter la section Dépannage.
 
 ---
 
-## 5. Créer le compte administrateur
-
-NetBox est opérationnel mais aucun compte utilisateur n'existe encore. Créer le superutilisateur via la commande Django de gestion :
+## Créer le compte administrateur
 
 ```bash
 docker compose exec netbox /opt/netbox/netbox/manage.py createsuperuser
 ```
-
-Le système demande successivement :
 
 {{< result >}}
 Username:
@@ -199,15 +177,10 @@ Password (again):
 {{< /result >}}
 
 {{< callout type="warning" >}}
-**Politique de mot de passe stricte**  NetBox impose un mot de passe d'au moins **12 caractères** contenant au moins **un chiffre**. Un mot de passe trop simple retournera l'erreur :
+NetBox impose un mot de passe d'au moins **12 caractères** contenant au moins **un chiffre**. Un mot de passe trop simple retourne :
 
-`This password is too short. It must contain at least 12 characters.`  
-`Password must have at least one numeral.`
-
-Choisir un mot de passe robuste dès le départ.
+`This password is too short. It must contain at least 12 characters.`
 {{< /callout >}}
-
-Une fois le compte créé :
 
 {{< result >}}
 Superuser created successfully.
@@ -215,40 +188,28 @@ Superuser created successfully.
 
 ---
 
-## 6. Accéder à l'interface web
+## Accéder à l'interface web
 
-Ouvrir un navigateur et accéder à NetBox :
-
-{{< result >}}
+```
 http://IP_SERVEUR:8000
-{{< /result >}}
+```
 
-Se connecter avec le `username` et le `password` créés à l'étape précédente. Le tableau de bord NetBox s'affiche avec les modules disponibles : Organisation, IPAM, DCIM, VPN, Virtualisation, Circuits et plus.
-
----
+Se connecter avec les identifiants créés à l'étape précédente. Le tableau de bord NetBox s'affiche avec les modules disponibles : Organisation, IPAM, DCIM, VPN, Virtualisation, Circuits.
 
 {{< img src="/images/netbox-dashboard.png" alt="Tableau de bord NetBox Community" >}}
 
-## 7. Récapitulatif des commandes essentielles
-
-| Action | Commande |
-|---|---|
-| Démarrer NetBox | `docker compose up -d` |
-| Arrêter NetBox | `docker compose down` |
-| Voir l'état des conteneurs | `docker compose ps` |
-| Voir les logs en temps réel | `docker compose logs -f netbox` |
-| Créer un superutilisateur | `docker compose exec netbox /opt/netbox/netbox/manage.py createsuperuser` |
-| Mettre à jour NetBox | `docker compose pull && docker compose up -d` |
-
 ---
 
-## 8. Dépannage
+## Dépannage
 
-| Problème constaté | Solution |
-|---|---|
-| `netbox-1` reste en erreur après 5 min | Consulter les logs : `docker compose logs netbox` |
-| Interface inaccessible sur le port 8000 | Vérifier le firewall : `sudo ufw status` et ouvrir si nécessaire : `sudo ufw allow 8000` |
-| Erreur `port is already allocated` | Un service utilise déjà le port 8000 — changer le port dans `docker-compose.override.yml` ex: `8001:8080` |
-| Mot de passe refusé à la création | Utiliser au moins 12 caractères avec un chiffre |
-| Conteneur PostgreSQL en erreur | Vérifier l'espace disque disponible : `df -h` |
-| Erreur de permission sur les volumes | Relancer avec : `docker compose down -v && docker compose up -d` (⚠ supprime les données) |
+**`netbox-1` reste en erreur après 5 min** : Consulter les logs avec `docker compose logs netbox`.
+
+**Interface inaccessible sur le port 8000** : Vérifier le firewall avec `sudo ufw status` et ouvrir si nécessaire avec `sudo ufw allow 8000`.
+
+**Erreur `port is already allocated`** : Un service utilise déjà le port 8000, changer dans `docker-compose.override.yml` ex: `8001:8080`.
+
+**Mot de passe refusé** : Utiliser au moins 12 caractères avec un chiffre.
+
+**Conteneur PostgreSQL en erreur** : Vérifier l'espace disque avec `df -h`.
+
+**Erreur de permission sur les volumes** : Relancer avec `docker compose down -v && docker compose up -d` (supprime les données).
