@@ -1228,3 +1228,50 @@ code {
   .founder-links { justify-content: center; }
   .certs-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
 }
+
+/* ── ASCIINEMA PLAYER ─────────────────────────────────────── */
+.asciinema-container {
+  margin: 1.5rem 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--bg-border);
+  background: #0d1117;
+}
+
+.asciinema-title {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--bg-border);
+  margin: 0;
+}
+
+.asciinema-embed {
+  width: 100%;
+  position: relative;
+}
+
+.asciinema-embed iframe {
+  width: 100%;
+  height: 500px;
+  border: none;
+  display: block;
+}
+
+.asciinema-fallback {
+  padding: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-align: center;
+}
+.asciinema-fallback a { color: var(--cyan); text-decoration: underline; }
+
+@media (max-width: 768px) {
+  .asciinema-embed iframe { height: 320px; }
+}
