@@ -1,0 +1,23 @@
+<div class="asciinema-container">
+  {{ with .Get "title" }}<p class="asciinema-title">{{ . }}</p>{{ end }}
+  <div id="asciinema-{{ .Get "id" | default (now.UnixNano | string) }}"></div>
+  <script>
+    (function() {
+      var containerId = 'asciinema-{{ .Get "id" | default (now.UnixNano | string) }}';
+      var castUrl = '{{ .Get "src" }}';
+      var options = {
+        cols: {{ .Get "cols" | default 220 }},
+        rows: {{ .Get "rows" | default 24 }},
+        autoPlay: {{ .Get "autoplay" | default false }},
+        loop: {{ .Get "loop" | default false }},
+        speed: {{ .Get "speed" | default 1 }},
+        theme: '{{ .Get "theme" | default "monokai" }}',
+        fit: 'width',
+        terminalFontSize: 'small',
+      };
+      document.addEventListener('DOMContentLoaded', function() {
+        AsciinemaPlayer.create(castUrl, document.getElementById(containerId), options);
+      });
+    })();
+  </script>
+</div>
