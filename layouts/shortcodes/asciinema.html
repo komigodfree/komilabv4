@@ -1,40 +1,21 @@
-{{ $castId := .Get "id" | default (now.UnixNano | string) }}
-{{ $containerId := printf "asciinema-%s" $castId }}
-
-<!-- Asciinema CSS — chargé une seule fois par page -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/asciinema-player@3.8.0/dist/bundle/asciinema-player.min.css">
-
 <div class="asciinema-container">
   {{ with .Get "title" }}<p class="asciinema-title">{{ . }}</p>{{ end }}
-  <div id="{{ $containerId }}"></div>
+  {{ if .Get "id" }}
+  {{- $speed := .Get "speed" | default "1" -}}
+  {{- $autoplay := .Get "autoplay" | default "0" -}}
+  {{- $loop := .Get "loop" | default "0" -}}
+  {{- $theme := .Get "theme" | default "monokai" -}}
+  <div class="asciinema-embed">
+    <iframe
+      src="https://asciinema.org/a/{{ .Get "id" }}/iframe?autoplay={{ $autoplay }}&loop={{ $loop }}&speed={{ $speed }}&theme={{ $theme }}&cols={{ .Get "cols" | default "200" }}&rows={{ .Get "rows" | default "24" }}"
+      id="asciicast-{{ .Get "id" }}"
+      scrolling="no"
+      allowfullscreen
+    ></iframe>
+  </div>
+  {{ else if .Get "src" }}
+  <p class="asciinema-fallback">
+    ▶ <a href="{{ .Get "src" }}" download>Télécharger la session terminal (.cast)</a>
+  </p>
+  {{ end }}
 </div>
-
-<script>
-(function() {
-  var containerId = '{{ $containerId }}';
-  var castUrl    = '{{ .Get "src" }}';
-  var options = {
-    cols:             {{ .Get "cols"     | default 200 }},
-    rows:             {{ .Get "rows"     | default 24  }},
-    autoPlay:         {{ .Get "autoplay" | default false }},
-    loop:             {{ .Get "loop"     | default false }},
-    speed:            {{ .Get "speed"    | default 1 }},
-    theme:            '{{ .Get "theme"   | default "monokai" }}',
-    fit:              'width',
-    terminalFontSize: 'small',
-  };
-
-  function initPlayer() {
-    AsciinemaPlayer.create(castUrl, document.getElementById(containerId), options);
-  }
-
-  if (typeof AsciinemaPlayer !== 'undefined') {
-    initPlayer();
-  } else {
-    var s = document.createElement('script');
-    s.src = 'https://cdn.jsdelivr.net/npm/asciinema-player@3.8.0/dist/bundle/asciinema-player.min.js';
-    s.onload = initPlayer;
-    document.head.appendChild(s);
-  }
-})();
-</script>
