@@ -1,21 +1,7 @@
 {{ define "main" }}
 
 <style>
-/* ── Badge dernière mise à jour ── */
-.badge-updated {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  font-family: var(--font-mono); font-size: 0.65rem; font-weight: 700;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--green-ok); background: rgba(0,255,148,0.07);
-  border: 1px solid rgba(0,255,148,0.2); border-radius: 100px;
-  padding: 0.2rem 0.65rem;
-}
-.badge-updated::before {
-  content: ''; width: 6px; height: 6px; border-radius: 50%;
-  background: var(--green-ok); box-shadow: 0 0 6px var(--green-ok);
-}
-
-/* ── TOC flottante ── */
+/* TOC flottante */
 .lab-toc {
   position: sticky; top: 5rem;
   max-height: calc(100vh - 7rem);
@@ -48,7 +34,7 @@
 .lab-toc nav ul ul a { padding-left: 1.25rem; font-size: 0.73rem; }
 .lab-toc nav ul ul ul a { padding-left: 2rem; font-size: 0.7rem; }
 
-/* ── Bouton retour en haut ── */
+/* Bouton retour en haut */
 #back-to-top {
   position: fixed; bottom: 2rem; right: 2rem; z-index: 99;
   width: 42px; height: 42px;
@@ -59,14 +45,10 @@
   opacity: 0; transform: translateY(10px);
   transition: all 0.25s; pointer-events: none;
 }
-#back-to-top.visible {
-  opacity: 1; transform: translateY(0); pointer-events: auto;
-}
-#back-to-top:hover {
-  border-color: var(--cyan); color: var(--cyan); background: var(--cyan-ghost);
-}
+#back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+#back-to-top:hover { border-color: var(--cyan); color: var(--cyan); background: var(--cyan-ghost); }
 
-/* ── Barre de progression lecture ── */
+/* Barre de progression lecture */
 #read-progress {
   position: fixed; top: 0; left: 0; z-index: 200;
   height: 3px; width: 0%;
@@ -74,23 +56,22 @@
   transition: width 0.1s linear;
 }
 
-/* ── Layout TOC gauche / contenu droite ── */
+/* Grid layout */
 .lab-layout {
   display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 3rem;
+  grid-template-columns: 200px 1fr;
+  gap: 2rem;
   align-items: start;
 }
 
+/* CRITIQUE : empêche la colonne contenu de déborder */
+.lab-layout > * {
+  min-width: 0;
+}
+
 @media (max-width: 1024px) {
-  .lab-layout {
-    grid-template-columns: 1fr;
-  }
-  .lab-toc {
-    position: static;
-    max-height: none;
-    order: -1;
-  }
+  .lab-layout { grid-template-columns: 1fr; }
+  .lab-toc { position: static; max-height: none; order: -1; }
 }
 </style>
 
@@ -100,7 +81,8 @@
 <div class="container">
 <article>
 
-  <header class="lab-header">
+  <!-- HEADER : badges + titre + description — pleine largeur -->
+  <header style="margin-bottom:2rem; padding-bottom:1.5rem; border-bottom:1px solid var(--bg-border);">
     <div class="lab-meta-row">
       {{ with .Params.categories }}
         {{ range first 1 . }}
@@ -124,35 +106,9 @@
     {{ with .Description }}
     <p class="lab-description">{{ . }}</p>
     {{ end }}
-
-    {{ with .Params.author }}
-    <div class="lab-author-block">
-      <div class="lab-author-avatar-lg">{{ substr . 0 1 | upper }}</div>
-      <div>
-        <div class="lab-author-name">{{ . }}</div>
-        <a href="/authors/{{ . | urlize }}/" class="lab-author-link text-mono" style="font-size:0.72rem">
-          Voir tous les labs &rarr;
-        </a>
-      </div>
-    </div>
-    {{ end }}
-
-    <div class="lab-meta-info">
-      {{ with .Params.version }}
-        <span>Version : v{{ . }}</span>
-        <span style="color:var(--border)">|</span>
-      {{ end }}
-      <span>
-        Publié le <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02 Jan 2006" }}</time>
-      </span>
-      <span style="color:var(--border)">|</span>
-      <span>{{ .ReadingTime }} min de lecture</span>
-      <span style="color:var(--border)">|</span>
-      <span class="deploy-time">
-{{ with .Params.deploy_time }}{{ . }}{{ else }}~5min déploiement estimé{{ end }}      </span>
-    </div>
   </header>
 
+  <!-- GRID : TOC à gauche | auteur + méta + contenu à droite -->
   <div class="lab-layout">
 
     {{ if .TableOfContents }}
@@ -162,7 +118,37 @@
     </aside>
     {{ end }}
 
-    <div class="lab-content" id="lab-content">
+    <div class="lab-content" id="lab-content" style="min-width:0; overflow:hidden;">
+
+      <!-- Auteur -->
+      {{ with .Params.author }}
+      <div class="lab-author-block" style="margin-bottom:1rem;">
+        <div class="lab-author-avatar-lg">{{ substr . 0 1 | upper }}</div>
+        <div>
+          <div class="lab-author-name">{{ . }}</div>
+          <a href="/authors/{{ . | urlize }}/" class="lab-author-link text-mono" style="font-size:0.72rem;">
+            Voir tous les labs &rarr;
+          </a>
+        </div>
+      </div>
+      {{ end }}
+
+      <!-- Méta-info -->
+      <div class="lab-meta-info" style="margin-bottom:2rem;">
+        {{ with .Params.version }}
+          <span>Version : v{{ . }}</span>
+          <span style="color:var(--border)">|</span>
+        {{ end }}
+        <span>
+          Publié le <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02 Jan 2006" }}</time>
+        </span>
+        <span style="color:var(--border)">|</span>
+        <span>{{ .ReadingTime }} min de lecture</span>
+        <span style="color:var(--border)">|</span>
+        <span class="deploy-time">{{ with .Params.deploy_time }}{{ . }}{{ else }}~5min{{ end }}</span>
+      </div>
+
+      <!-- Contenu -->
       {{ .Content }}
 
       {{ with .Params.tags }}
@@ -195,10 +181,9 @@
 
 <script>
 (function(){
-
-  /* ── Progression lecture ── */
   var bar = document.getElementById('read-progress');
   var content = document.getElementById('lab-content');
+
   function updateProgress() {
     if (!content) return;
     var rect = content.getBoundingClientRect();
@@ -208,7 +193,6 @@
     bar.style.width = pct + '%';
   }
 
-  /* ── Retour en haut ── */
   var btn = document.getElementById('back-to-top');
   function updateBtn() {
     if (window.scrollY > 400) btn.classList.add('visible');
@@ -218,7 +202,6 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  /* ── TOC active link ── */
   var tocLinks = document.querySelectorAll('#lab-toc nav a');
   var headings = document.querySelectorAll('#lab-content h2, #lab-content h3, #lab-content h4');
 
@@ -243,7 +226,6 @@
   updateProgress();
   updateBtn();
   updateToc();
-
 })();
 </script>
 
