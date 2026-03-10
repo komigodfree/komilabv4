@@ -1,0 +1,190 @@
+<div class="lab-gallery" id="gallery-{{ .Ordinal }}">
+  {{ .Inner }}
+</div>
+
+<div class="gallery-lightbox" id="glb-{{ .Ordinal }}" role="dialog" aria-modal="true" aria-label="Galerie d'images">
+  <button class="glb-close" onclick="glbClose({{ .Ordinal }})" aria-label="Fermer">✕</button>
+  <button class="glb-prev" onclick="glbNav({{ .Ordinal }}, -1)" aria-label="Précédent">&#8592;</button>
+  <div class="glb-content">
+    <img class="glb-img" src="" alt="" />
+    <p class="glb-caption"></p>
+    <span class="glb-counter"></span>
+  </div>
+  <button class="glb-next" onclick="glbNav({{ .Ordinal }}, 1)" aria-label="Suivant">&#8594;</button>
+</div>
+
+<style>
+.lab-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.gallery-item {
+  margin: 0;
+  cursor: zoom-in;
+  border-radius: var(--radius-md, 8px);
+  overflow: hidden;
+  border: 1px solid var(--bg-border, #2a2a2a);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.gallery-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.gallery-item img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
+.gallery-item figcaption {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  color: var(--text-muted, #888);
+  padding: 0.4rem 0.6rem;
+  background: var(--bg-card, #111);
+  line-height: 1.3;
+}
+.gallery-lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+.gallery-lightbox.open { display: flex; }
+.glb-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 85vw;
+}
+.glb-img {
+  max-width: 85vw;
+  max-height: 80vh;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+  object-fit: contain;
+}
+.glb-caption {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.8rem;
+  margin-top: 0.75rem;
+  text-align: center;
+  font-family: var(--font-mono, monospace);
+}
+.glb-counter {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.7rem;
+  margin-top: 0.3rem;
+  font-family: var(--font-mono, monospace);
+}
+.glb-close, .glb-prev, .glb-next {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.glb-close:hover, .glb-prev:hover, .glb-next:hover {
+  background: rgba(255,255,255,0.25);
+}
+.glb-close {
+  position: fixed;
+  top: 1.2rem;
+  right: 1.2rem;
+  border-radius: 50%;
+}
+.glb-prev { margin-right: 1.5rem; }
+.glb-next { margin-left: 1.5rem; }
+</style>
+
+<script>
+(function() {
+  var _galleries = {};
+
+  function initGallery(gid) {
+    var container = document.getElementById('gallery-' + gid);
+    if (!container) return;
+    var items = container.querySelectorAll('.gallery-item');
+    var imgs = [];
+    items.forEach(function(item, i) {
+      imgs.push({ src: item.dataset.src, alt: item.dataset.alt || '' });
+      item.addEventListener('click', function() { glbOpen(gid, i); });
+    });
+    _galleries[gid] = { imgs: imgs, current: 0 };
+  }
+
+  window.glbOpen = function(gid, idx) {
+    var g = _galleries[gid];
+    if (!g) return;
+    g.current = idx;
+    glbRender(gid);
+    document.getElementById('glb-' + gid).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.glbClose = function(gid) {
+    document.getElementById('glb-' + gid).classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  window.glbNav = function(gid, dir) {
+    var g = _galleries[gid];
+    if (!g) return;
+    g.current = (g.current + dir + g.imgs.length) % g.imgs.length;
+    glbRender(gid);
+  };
+
+  function glbRender(gid) {
+    var g = _galleries[gid];
+    var lb = document.getElementById('glb-' + gid);
+    var img = lb.querySelector('.glb-img');
+    var cap = lb.querySelector('.glb-caption');
+    var ctr = lb.querySelector('.glb-counter');
+    var item = g.imgs[g.current];
+    img.src = item.src;
+    img.alt = item.alt;
+    cap.textContent = item.alt;
+    ctr.textContent = (g.current + 1) + ' / ' + g.imgs.length;
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('[id^="gallery-"]').forEach(function(el) {
+      var gid = el.id.replace('gallery-', '');
+      initGallery(gid);
+    });
+    document.querySelectorAll('.gallery-lightbox').forEach(function(lb) {
+      lb.addEventListener('click', function(e) {
+        if (e.target === lb) {
+          var gid = lb.id.replace('glb-', '');
+          glbClose(gid);
+        }
+      });
+    });
+    document.addEventListener('keydown', function(e) {
+      var open = document.querySelector('.gallery-lightbox.open');
+      if (!open) return;
+      var gid = open.id.replace('glb-', '');
+      if (e.key === 'Escape') glbClose(gid);
+      if (e.key === 'ArrowLeft') glbNav(gid, -1);
+      if (e.key === 'ArrowRight') glbNav(gid, 1);
+    });
+  });
+})();
+</script>

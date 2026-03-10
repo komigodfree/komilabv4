@@ -1,0 +1,6 @@
+{{ $src := .Get "src" }}
+{{ $alt := .Get "alt" | default "" }}
+<figure class="gallery-item" data-src="{{ $src }}" data-alt="{{ $alt }}">
+  <img src="{{ $src }}" alt="{{ $alt }}" loading="lazy" />
+  {{ with $alt }}<figcaption>{{ . }}</figcaption>{{ end }}
+</figure>
