@@ -18,9 +18,33 @@
     </ul>
 
     <div class="nav-actions">
+      <!-- Language switcher -->
+      <div class="lang-switcher" aria-label="Changer de langue">
+        {{ range .Site.Languages }}
+          {{ $langURL := "/" }}
+          {{ range $.Translations }}
+            {{ if eq .Language.Lang $.Lang }}{{ $langURL = .Permalink }}{{ end }}
+          {{ end }}
+          {{ if eq .Lang $.Site.Language.Lang }}
+            <span class="lang-active">{{ .LanguageName }}</span>
+          {{ else }}
+            {{ range $.Translations }}
+              <a href="{{ .Permalink }}" class="lang-link" hreflang="{{ .Language.Lang }}">{{ .Language.LanguageName }}</a>
+            {{ end }}
+          {{ end }}
+        {{ end }}
+      </div>
+
+      {{ if eq .Site.Language.Lang "fr" }}
       <a href="/labs/" class="btn-nav">
         Explorer les labs &rarr;
       </a>
+      {{ else }}
+      <a href="/en/labs/" class="btn-nav">
+        Explore labs &rarr;
+      </a>
+      {{ end }}
+
       <button class="nav-hamburger" id="nav-hamburger"
         aria-label="Menu" aria-expanded="false" type="button">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -43,7 +67,19 @@
     {{ .Name }}
   </a>
   {{ end }}
+  {{ if eq .Site.Language.Lang "fr" }}
   <a href="/labs/" style="margin-top:0.5rem;color:var(--cyan);font-weight:600">
     Explorer les labs &rarr;
   </a>
+  {{ else }}
+  <a href="/en/labs/" style="margin-top:0.5rem;color:var(--cyan);font-weight:600">
+    Explore labs &rarr;
+  </a>
+  {{ end }}
+  <!-- Language switcher mobile -->
+  <div class="lang-switcher-mobile" style="margin-top:1rem;display:flex;gap:0.5rem;">
+    {{ range $.Translations }}
+      <a href="{{ .Permalink }}" hreflang="{{ .Language.Lang }}" style="color:var(--cyan);font-weight:600;">{{ .Language.LanguageName }}</a>
+    {{ end }}
+  </div>
 </div>
