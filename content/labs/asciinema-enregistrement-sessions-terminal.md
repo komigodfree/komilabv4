@@ -2,19 +2,20 @@
 title: "Asciinema : Enregistrer et partager des sessions terminal"
 date: 2026-02-28
 image: "/images/labs/og-asciinema.png"
-lastmod: 2026-03-09
+lastmod: 2026-03-10
 description: "Installer et utiliser Asciinema sur Ubuntu/Debian pour enregistrer des sessions terminal et les partager en ligne"
 categories: ["Systèmes"]
 tags: ["asciinema", "terminal", "documentation", "linux"]
 difficulty: "debutant"
 author: "Komi Kpodohouin"
 deploy_time: "~15min"
+asciinema: true
 draft: false
 ---
 
 Asciinema enregistre les sessions terminal au format `.cast` et les publie en ligne. Utile pour documenter des procédures IT de façon reproductible, sans capturer de vidéo.
 
-**Systèmes cibles** : Ubuntu 22.04+, Debian 11+
+**Systèmes cibles** : Ubuntu 22.04+, Debian 11+  
 **Niveau requis** : Utilisateur Linux de base (sudo)
 
 ---
@@ -97,6 +98,12 @@ asciinema play mon-lab.cast
 {{< img src="/images/labs/asciinema/asciinema-play.png" width="75%" >}}
 
 Vitesse réduite pour une démo : `-s 0.5`. Accéléré : `-s 2`.
+
+---
+
+## Démonstration — session enregistrée sur komilab
+
+{{< asciinema src="/casts/asciinema.cast" title="Démonstration Asciinema sur komilab" autoplay="false" theme="monokai" >}}
 
 ---
 
