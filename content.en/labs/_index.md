@@ -1,4 +1,4 @@
 ---
 title: "Engineering Labs"
-description: "Ultra-detailed, production-ready technical documentation. Networking, cybersecurity, virtualization, cloud, automation."
+description: "In-depth technical documentation, production-oriented. Networking, cybersecurity, virtualization, cloud, automation."
 ---
