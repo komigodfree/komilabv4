@@ -215,7 +215,7 @@ L'assistant de configuration s'affiche pour créer le compte administrateur et c
 
 ---
 
-## Captures de connexion à l'interface web
+## Captures post déploiement de l'interface de connexion
 
 {{< gallery >}}
   {{< gallery-img src="/images/labs/mattermost/mm-03-landing-browser.png" alt="Page d'accueil Mattermost" >}}
