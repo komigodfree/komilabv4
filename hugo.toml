@@ -73,25 +73,6 @@ enableGitInfo = true
       url    = "/a-propos/"
       weight = 4
 
-  [languages.en]
-    languageName = "EN"
-    weight       = 2
-    contentDir   = "content.en"
-    [languages.en.params]
-      locale = "en_US"
-    [[languages.en.menus.main]]
-      name   = "Labs"
-      url    = "/en/labs/"
-      weight = 1
-    [[languages.en.menus.main]]
-      name   = "Tech Watch"
-      url    = "/en/tech-watch/"
-      weight = 2
-    [[languages.en.menus.main]]
-      name   = "About"
-      url    = "/en/about/"
-      weight = 4
-
 [security]
   enableInlineShortcodes = false
   [security.funcs]
