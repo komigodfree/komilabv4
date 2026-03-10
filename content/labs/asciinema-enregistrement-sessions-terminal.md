@@ -9,7 +9,6 @@ tags: ["asciinema", "terminal", "documentation", "linux"]
 difficulty: "debutant"
 author: "Komi Kpodohouin"
 deploy_time: "~15min"
-asciinema: true
 draft: false
 ---
 
@@ -103,7 +102,7 @@ Vitesse réduite pour une démo : `-s 0.5`. Accéléré : `-s 2`.
 
 ## Démonstration — session enregistrée sur komilab
 
-{{< asciinema src="/casts/asciinema.cast" title="Démonstration Asciinema sur komilab" autoplay="false" theme="monokai" >}}
+{{< asciinema id="h3CWGevW7jt2TTg3" title="Démonstration Asciinema sur komilab" >}}
 
 ---
 
