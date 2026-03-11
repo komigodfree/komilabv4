@@ -93,11 +93,6 @@ asciinema rec -t "Mon lab" --idle-time-limit 2 --cols 120 --rows 30 mon-lab.cast
 ```bash
 asciinema play mon-lab.cast
 ```
-
-{{< img src="/images/labs/asciinema/asciinema-play.png" width="75%" >}}
-
-Vitesse réduite pour une démo : `-s 0.5`. Accéléré : `-s 2`.
-
 ---
 
 ## Uploader et partager
