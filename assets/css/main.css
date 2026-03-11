@@ -1272,6 +1272,23 @@ code {
 }
 .asciinema-fallback a { color: var(--cyan); text-decoration: underline; }
 
+/* ── ASCIINEMA DEMO LINK ──────────────────────────────────── */
+.asciinema-link {
+  color: var(--green-ok);
+  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  text-decoration: none;
+  border-bottom: 2px solid rgba(0, 255, 148, 0.35);
+  padding-bottom: 1px;
+  transition: color var(--transition), border-color var(--transition), text-shadow var(--transition);
+}
+.asciinema-link:hover {
+  color: #00ffaa;
+  border-color: var(--green-ok);
+  text-shadow: 0 0 8px rgba(0, 255, 148, 0.4);
+}
+
 @media (max-width: 768px) {
   .asciinema-embed iframe { height: 320px; }
 }
