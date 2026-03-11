@@ -9,7 +9,7 @@ tags: ["asciinema", "terminal", "documentation", "linux"]
 difficulty: "debutant"
 author: "Komi Kpodohouin"
 deploy_time: "~15min"
-draft: false
+draft: true
 ---
 
 Dans mon homelab KOMI.LAB, je travaille régulièrement sur des VMs via SSH — déploiement de services sur Proxmox, configuration réseau, administration PostgreSQL, intégration Active Directory. Documenter ces opérations avec des captures vidéo est lourd, et les simples blocs de code dans un article ne rendent pas bien la progression d'une commande.
