@@ -93,6 +93,15 @@ asciinema rec -t "Mon lab" --idle-time-limit 2 --cols 120 --rows 30 mon-lab.cast
 ```bash
 asciinema play mon-lab.cast
 ```
+
+Vitesse réduite pour une démo : `-s 0.5`. Accéléré : `-s 2`.
+
+---
+
+## Démonstration — session enregistrée sur komilab
+
+{{< asciinema id="h3CWGevW7jt2TTg3" title="Démonstration Asciinema sur komilab" >}}
+
 ---
 
 ## Uploader et partager
@@ -101,7 +110,13 @@ asciinema play mon-lab.cast
 asciinema upload mon-lab.cast
 ```
 
-**Lien de démonstration** : [asciinema.org/a/h3CWGevW7jt2TTg3](https://asciinema.org/a/TzorJdmNx9fR5RxN)
+{{< img src="/images/labs/asciinema/asciinema-upload.png" width="75%" >}}
+
+Asciinema génère une URL publique. Résultat de la démo komilab (`whoami`, `hostname`, `uname -m`, `uptime` sur aarch64) :
+
+{{< img src="/images/labs/asciinema/asciinema-org-recording.png" width="85%" >}}
+
+**Lien de démonstration** : <a href="https://asciinema.org/a/h3CWGevW7jt2TTg3" target="_blank" class="asciinema-link">▶ asciinema.org/a/h3CWGevW7jt2TTg3</a>
 
 Enregistrer et uploader en une commande :
 
