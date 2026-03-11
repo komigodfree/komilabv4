@@ -2,7 +2,7 @@
 title: "NetBox : Déploiement via Docker sur Ubuntu/Debian"
 date: 2026-01-02
 image: "/images/labs/og-netbox.png"
-lastmod: 2026-03-09
+lastmod: 2026-03-11
 description: "Déployer NetBox Community via Docker Compose sur Ubuntu/Debian pour gérer, documenter et automatiser son infrastructure réseau et datacenter."
 categories: ["Infrastructure"]
 tags: ["netbox", "docker", "docker-compose", "ipam", "dcim", "linux"]
@@ -12,11 +12,13 @@ deploy_time: "~20min"
 draft: false
 ---
 
-## Objectif
+Dans le homelab KOMI.LAB, l'infrastructure grossit vite : deux nœuds Proxmox, des VLANs et VXLANs numérotés (SERVERS 4001, MGT 4033, SOC 4088, DMZ 4090...), un PA-VM en firewall, des LXC, des VMs avec des IPs fixes attribuées à la main. À un moment, le fichier Excel ou le bloc-notes ne suffit plus — on ne sait plus quelle IP est libre, quel VLAN correspond à quoi, où est câblé tel équipement.
 
-Déployer **NetBox Community** via Docker Compose sur Ubuntu/Debian. NetBox est une application web open-source de référence pour la gestion, la documentation et l'automatisation des infrastructures réseau et datacenters couvrant l'IPAM (gestion des adresses IP), le DCIM (gestion des équipements physiques), les VLANs, les circuits, la virtualisation et bien plus.
+C'est pour ça que NetBox est entré dans le lab. L'objectif n'était pas de déployer un outil de plus, mais d'avoir une source de vérité unique pour toute la topologie : adresses IP, préfixes, VLANs, équipements physiques, VMs, interfaces. Ce qui est documenté dans NetBox reflète ce qui existe réellement — et ça sert aussi de référence quand je prépare une procédure ou un MO pour SGMT.
 
-**Systèmes cibles** : Ubuntu 22.04+, Debian 11+
+Le déploiement se fait dans un LXC dédié sur proxmox-01, via Docker Compose. Rien de compliqué, mais il y a quelques points à ne pas rater au premier démarrage.
+
+**Contexte d'usage** : LXC Ubuntu 22.04 sur Proxmox, VLAN SERVERS (4001)
 **Niveau requis** : Administrateur système (sudo)
 
 ---
@@ -197,6 +199,19 @@ http://IP_SERVEUR:8000
 Se connecter avec les identifiants créés à l'étape précédente. Le tableau de bord NetBox s'affiche avec les modules disponibles : Organisation, IPAM, DCIM, VPN, Virtualisation, Circuits.
 
 {{< img src="/images/netbox-dashboard.png" alt="Tableau de bord NetBox Community" >}}
+
+---
+
+## Ce que j'ai documenté dans KOMI.LAB
+
+Une fois NetBox opérationnel, la première chose que j'ai faite c'est structurer les données autour de ce qui existe dans le lab :
+
+- **IPAM** : les préfixes par VLAN (SERVERS, MGT, DMZ...), les IPs fixes attribuées aux VMs et LXC, les plages DHCP réservées
+- **DCIM** : les deux nœuds Proxmox (proxmox-01 / proxmox-02) en tant que dispositifs physiques, avec leurs interfaces et leurs connexions
+- **VLANs** : tous les VLANs numérotés du lab, associés à leurs VNIs VXLAN
+- **Virtualisation** : les VMs et LXC actifs, rattachés à leurs hôtes Proxmox respectifs
+
+Ce n'est pas une documentation exhaustive faite d'un coup — ça se remplit progressivement au fil des déploiements. Mais avoir NetBox comme point de référence évite de chercher dans plusieurs endroits quelle IP est libre ou à quelle interface correspond tel port.
 
 ---
 
