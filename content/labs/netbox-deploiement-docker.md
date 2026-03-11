@@ -16,7 +16,7 @@ draft: false
 
 Déployer **NetBox Community** via Docker Compose sur Ubuntu/Debian. NetBox est une application web open-source de référence pour la gestion, la documentation et l'automatisation des infrastructures réseau et datacenters couvrant l'IPAM (gestion des adresses IP), le DCIM (gestion des équipements physiques), les VLANs, les circuits, la virtualisation et bien plus.
 
-**Systèmes cibles** : Ubuntu 22.04+, Debian 11+
+**Systèmes cibles** : Ubuntu 22.04+, Debian 11+  
 **Niveau requis** : Administrateur système (sudo)
 
 ---
@@ -101,6 +101,8 @@ Vérifier les images téléchargées :
 sudo docker images
 ```
 
+{{< img src="/images/labs/netbox/netbox-docker-images.png" alt="Images Docker téléchargées — netbox, postgres, redis" >}}
+
 ---
 
 ## Démarrer les conteneurs
@@ -108,10 +110,9 @@ sudo docker images
 ```bash
 sudo docker compose up -d
 ```
-{{< img src="/images/labs/netbox/netbox-docker-images.png" alt="Images Docker téléchargées — netbox, postgres, redis" >}}
 
 {{< callout type="warning" >}}
-**s'il y a l'erreur `netbox-docker-netbox-1 is unhealthy` cela est normale. ** Au premier démarrage, NetBox initialise la base PostgreSQL, applique les migrations Django et prépare les fichiers statiques. Cette opération prend entre 2 et 5 minutes. Docker considère le conteneur comme "unhealthy" pendant cette phase car le healthcheck échoue avant que l'application soit opérationnelle.
+**L'erreur `netbox-docker-netbox-1 is unhealthy` est normale et attendue.** Au premier démarrage, NetBox initialise la base PostgreSQL, applique les migrations Django et prépare les fichiers statiques. Cette opération prend entre 2 et 5 minutes. Docker considère le conteneur comme "unhealthy" pendant cette phase car le healthcheck échoue avant que l'application soit opérationnelle.
 
 Attendre quelques minutes avant de continuer.
 {{< /callout >}}
@@ -160,7 +161,7 @@ Se connecter avec les identifiants créés à l'étape précédente. Le tableau 
 
 ## Dépannage
 
-**`netbox-1` reste en erreur après 5 min** : Consulter les logs avec `docker compose logs netbox`.
+**`netbox-1` reste en erreur après 5 min** : Consulter les logs avec `sudo docker compose logs netbox`.
 
 **Interface inaccessible sur le port 8000** : Vérifier le firewall avec `sudo ufw status` et ouvrir si nécessaire avec `sudo ufw allow 8000`.
 
@@ -170,4 +171,4 @@ Se connecter avec les identifiants créés à l'étape précédente. Le tableau 
 
 **Conteneur PostgreSQL en erreur** : Vérifier l'espace disque avec `df -h`.
 
-**Erreur de permission sur les volumes** : Relancer avec `docker compose down -v && docker compose up -d` (supprime les données).
+**Erreur de permission sur les volumes** : Relancer avec `sudo docker compose down -v && sudo docker compose up -d` (supprime les données).
