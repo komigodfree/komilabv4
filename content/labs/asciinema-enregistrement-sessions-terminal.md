@@ -106,12 +106,6 @@ Vitesse réduite pour une démo : `-s 0.5`. Accéléré : `-s 2`.
 asciinema upload mon-lab.cast
 ```
 
-{{< img src="/images/labs/asciinema/asciinema-upload.png" width="75%" >}}
-
-Asciinema génère une URL publique. Résultat de la démo komilab (`whoami`, `hostname`, `uname -m`, `uptime` sur aarch64) :
-
-{{< img src="/images/labs/asciinema/asciinema-org-recording.png" width="85%" >}}
-
 **Lien de démonstration** : [asciinema.org/a/h3CWGevW7jt2TTg3](https://asciinema.org/a/TzorJdmNx9fR5RxN)
 
 Enregistrer et uploader en une commande :
