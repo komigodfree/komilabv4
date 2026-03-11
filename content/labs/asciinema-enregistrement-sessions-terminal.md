@@ -12,18 +12,18 @@ deploy_time: "~15min"
 draft: true
 ---
 
-Dans mon homelab KOMI.LAB, je travaille régulièrement sur des VMs via SSH — déploiement de services sur Proxmox, configuration réseau, administration PostgreSQL, intégration Active Directory. Documenter ces opérations avec des captures vidéo est lourd, et les simples blocs de code dans un article ne rendent pas bien la progression d'une commande.
+Documenter des procédures système avec des captures vidéo est lourd. Les blocs de code seuls ne rendent pas bien la progression d'une commande — on ne voit ni le délai d'exécution, ni la sortie réelle, ni les erreurs éventuelles.
 
-Asciinema règle ce problème : il enregistre exactement ce qui se passe dans le terminal, sortie incluse, et génère un fichier `.cast` léger que j'intègre directement dans mes labs KomiLab. Résultat : le lecteur voit la commande s'exécuter en temps réel, sans setup, sans plugin vidéo.
+Asciinema enregistre exactement ce qui se passe dans le terminal, sortie incluse, et génère un fichier `.cast` léger. Je l'utilise pour documenter des procédures dans le homelab avant de les publier sur KomiLab : le lecteur voit la commande s'exécuter en temps réel, sans setup, sans plugin vidéo.
 
-**Contexte d'usage** : SSH sur les VMs Proxmox du homelab (Ubuntu 22.04, aarch64)  
+**Systèmes cibles** : Ubuntu 22.04+, Debian 11+  
 **Niveau requis** : Utilisateur Linux de base (sudo)
 
 ---
 
 ## Prérequis
 
-Accès sudo sur la VM cible, connexion internet et Python 3.x + pip3. Si pip3 est absent : `sudo apt install python3-pip -y`
+Accès sudo sur la machine cible, connexion internet et Python 3.x + pip3. Si pip3 est absent : `sudo apt install python3-pip -y`
 
 ---
 
@@ -57,7 +57,7 @@ Asciinema affiche une URL à ouvrir dans le navigateur pour lier la machine au c
 
 {{< img src="/images/labs/asciinema/asciinema-auth.png" width="75%" >}}
 
-Une fois associé, le profil komilab est visible sur asciinema.org :
+Une fois associé, le profil est visible sur asciinema.org :
 
 {{< img src="/images/labs/asciinema/asciinema-profil.png" width="75%" >}}
 
@@ -65,11 +65,11 @@ Sans compte, les enregistrements uploadés sont anonymes et disponibles 7 jours.
 
 ---
 
-## Comment je l'utilise dans le homelab
+## Comment je l'utilise
 
-La plupart de mes enregistrements concernent des procédures que je veux garder comme référence ou publier sur KomiLab. Par exemple, pour documenter une installation PostgreSQL sur une VM dédiée ou configurer LDAPS, je lance l'enregistrement avant de commencer, j'exécute mes commandes normalement, et je coupe à la fin.
+Pour documenter une procédure — installation d'un service, configuration réseau, administration d'une base de données — je lance l'enregistrement avant de commencer, j'exécute mes commandes normalement, et je coupe à la fin. Avant de publier, je relis en rejouant localement à vitesse réduite pour vérifier que rien ne manque.
 
-Ce qui m'a convaincu : je peux rejouer l'enregistrement localement pour vérifier que rien ne manque avant de publier, et je peux le re-faire tourner à vitesse réduite si une étape mérite plus d'attention dans la démo.
+Ce qui m'a convaincu par rapport à la vidéo : le fichier `.cast` est léger, copiable, versionnable. Et l'intégration dans un article est transparente — aucun plugin, un simple embed.
 
 ---
 
@@ -96,7 +96,7 @@ Commande complète que j'utilise pour mes labs :
 asciinema rec -t "Mon lab" --idle-time-limit 2 --cols 120 --rows 30 mon-lab.cast
 ```
 
-`--cols` et `--rows` garantissent un rendu cohérent dans le player intégré à KomiLab, quelle que soit la taille de la fenêtre SSH utilisée au moment de l'enregistrement.
+`--cols` et `--rows` garantissent un rendu cohérent dans le player intégré à KomiLab, quelle que soit la taille de la fenêtre terminal utilisée au moment de l'enregistrement.
 
 ---
 
@@ -106,7 +106,7 @@ asciinema rec -t "Mon lab" --idle-time-limit 2 --cols 120 --rows 30 mon-lab.cast
 asciinema play mon-lab.cast
 ```
 
-Vitesse réduite pour une démo : `-s 0.5`. Accéléré : `-s 2`. C'est utile pour se relire avant d'uploader.
+Vitesse réduite pour une relecture : `-s 0.5`. Accéléré : `-s 2`.
 
 ---
 

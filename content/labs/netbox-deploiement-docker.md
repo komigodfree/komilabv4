@@ -12,13 +12,13 @@ deploy_time: "~20min"
 draft: false
 ---
 
-Dans le homelab KOMI.LAB, l'infrastructure grossit vite : deux nœuds Proxmox, des VLANs et VXLANs numérotés (SERVERS 4001, MGT 4033, SOC 4088, DMZ 4090...), un PA-VM en firewall, des LXC, des VMs avec des IPs fixes attribuées à la main. À un moment, le fichier Excel ou le bloc-notes ne suffit plus — on ne sait plus quelle IP est libre, quel VLAN correspond à quoi, où est câblé tel équipement.
+Quand un homelab grossit — plusieurs machines, des VLANs, des IPs fixes attribuées à la main — le fichier Excel ou le bloc-notes atteint ses limites. On ne sait plus quelle IP est libre, quel VLAN correspond à quoi, où est câblé tel équipement.
 
-C'est pour ça que NetBox est entré dans le lab. L'objectif n'était pas de déployer un outil de plus, mais d'avoir une source de vérité unique pour toute la topologie : adresses IP, préfixes, VLANs, équipements physiques, VMs, interfaces. Ce qui est documenté dans NetBox reflète ce qui existe réellement — et ça sert aussi de référence quand je prépare une procédure ou un MO pour SGMT.
+NetBox résout ce problème avec une approche structurée : IPAM pour les adresses et préfixes, DCIM pour les équipements physiques et leurs connexions, et des modules supplémentaires pour les VLANs, les VMs, les circuits. Ce qui est documenté dans NetBox reflète ce qui existe réellement — c'est une source de vérité, pas un wiki qu'on remplit après coup.
 
-Le déploiement se fait dans un LXC dédié sur proxmox-01, via Docker Compose. Rien de compliqué, mais il y a quelques points à ne pas rater au premier démarrage.
+Le déploiement via Docker Compose est la méthode recommandée pour un homelab. Il y a quelques points à ne pas rater au premier démarrage, notamment l'erreur `unhealthy` qui est normale et que la plupart des tutos ne mentionnent pas.
 
-**Contexte d'usage** : LXC Ubuntu 22.04 sur Proxmox, VLAN SERVERS (4001)
+**Systèmes cibles** : Ubuntu 22.04+, Debian 11+  
 **Niveau requis** : Administrateur système (sudo)
 
 ---
@@ -202,16 +202,9 @@ Se connecter avec les identifiants créés à l'étape précédente. Le tableau 
 
 ---
 
-## Ce que j'ai documenté dans KOMI.LAB
+## Par où commencer une fois NetBox en place
 
-Une fois NetBox opérationnel, la première chose que j'ai faite c'est structurer les données autour de ce qui existe dans le lab :
-
-- **IPAM** : les préfixes par VLAN (SERVERS, MGT, DMZ...), les IPs fixes attribuées aux VMs et LXC, les plages DHCP réservées
-- **DCIM** : les deux nœuds Proxmox (proxmox-01 / proxmox-02) en tant que dispositifs physiques, avec leurs interfaces et leurs connexions
-- **VLANs** : tous les VLANs numérotés du lab, associés à leurs VNIs VXLAN
-- **Virtualisation** : les VMs et LXC actifs, rattachés à leurs hôtes Proxmox respectifs
-
-Ce n'est pas une documentation exhaustive faite d'un coup — ça se remplit progressivement au fil des déploiements. Mais avoir NetBox comme point de référence évite de chercher dans plusieurs endroits quelle IP est libre ou à quelle interface correspond tel port.
+Une fois l'instance opérationnelle, la logique est de renseigner les données dans cet ordre : d'abord les préfixes IP et les VLANs qui structurent le réseau, puis les équipements physiques et leurs interfaces, ensuite les VMs rattachées à leurs hôtes. Ce n'est pas une documentation à faire d'un coup — ça se remplit au fil des déploiements. Mais avoir NetBox comme point de référence évite de chercher dans plusieurs endroits quelle adresse est libre ou à quel segment appartient telle interface.
 
 ---
 
