@@ -2,7 +2,7 @@
 title: "NetBox : Déploiement via Docker sur Ubuntu/Debian"
 date: 2026-01-02
 image: "/images/labs/og-netbox.png"
-lastmod: 2026-03-09
+lastmod: 2026-03-11
 description: "Déployer NetBox Community via Docker Compose sur Ubuntu/Debian pour gérer, documenter et automatiser son infrastructure réseau et datacenter."
 categories: ["Infrastructure"]
 tags: ["netbox", "docker", "docker-compose", "ipam", "dcim", "linux"]
@@ -48,13 +48,7 @@ Cloner la branche `release` — toujours stable et recommandée en production :
 git clone -b release https://github.com/netbox-community/netbox-docker.git
 ```
 
-```bash
-ls
-```
-
-{{< result >}}
-netbox-docker
-{{< /result >}}
+{{< img src="/images/labs/netbox/netbox-clone-ls.png" alt="Résultat du git clone — dossier netbox-docker créé" >}}
 
 ```bash
 cd netbox-docker/
@@ -64,9 +58,7 @@ cd netbox-docker/
 ls
 ```
 
-{{< result >}}
-Caddyfile  configuration  docker-compose.yml  env  LICENSE  README.md  startup_scripts
-{{< /result >}}
+{{< img src="/images/labs/netbox/netbox-ls-content.png" alt="Contenu du dossier netbox-docker" >}}
 
 Ne pas modifier `docker-compose.yml` directement. On utilisera un fichier d'override à l'étape suivante.
 
@@ -89,6 +81,8 @@ services:
       - 8000:8080
 ```
 
+{{< img src="/images/labs/netbox/netbox-yml.png" alt="Contenu du fichier docker-compose.override.yml" >}}
+
 Sauvegarder : `Ctrl+X`, `Y`, `Entrée`.
 
 Le port `8080` est le port interne du conteneur. On l'expose sur `8000` de la machine hôte. NetBox sera accessible via `http://IP_SERVEUR:8000`.
@@ -101,18 +95,15 @@ Le port `8080` est le port interne du conteneur. On l'expose sur `8000` de la ma
 docker compose pull
 ```
 
-Cette opération peut prendre plusieurs minutes selon la connexion. Vérifier les images téléchargées :
+{{< img src="/images/labs/netbox/netbox-pull.png" alt="Téléchargement des images Docker en cours" >}}
+
+Vérifier les images téléchargées :
 
 ```bash
 docker images
 ```
 
-{{< result >}}
-REPOSITORY                      TAG       IMAGE ID       CREATED        SIZE
-netboxcommunity/netbox          latest    xxxxxxxxxxxx   x days ago     xxx MB
-postgres                        16        xxxxxxxxxxxx   x days ago     xxx MB
-redis                           7         xxxxxxxxxxxx   x days ago     xxx MB
-{{< /result >}}
+{{< img src="/images/labs/netbox/netbox-docker-images.png" alt="Images Docker téléchargées — netbox, postgres, redis" >}}
 
 ---
 
@@ -121,22 +112,6 @@ redis                           7         xxxxxxxxxxxx   x days ago     xxx MB
 ```bash
 docker compose up -d
 ```
-
-{{< result >}}
-✔ Network netbox-docker_default                Created    0.0s
-✔ Volume netbox-docker_netbox-redis-cache-data Created    0.0s
-✔ Volume netbox-docker_netbox-media-files      Created    0.0s
-✔ Volume netbox-docker_netbox-reports-files    Created    0.0s
-✔ Volume netbox-docker_netbox-scripts-files    Created    0.0s
-✔ Volume netbox-docker_netbox-postgres         Created    0.0s
-✔ Volume netbox-docker_netbox-redis-data       Created    0.0s
-✔ Container netbox-docker-redis-cache-1        Started    0.2s
-✔ Container netbox-docker-postgres-1           Started    0.2s
-✔ Container netbox-docker-redis-1              Started    0.2s
-✘ Container netbox-docker-netbox-1             Error      121.2s
-✔ Container netbox-docker-netbox-worker-1      Created    0.0s
-dependency failed to start: container netbox-docker-netbox-1 is unhealthy
-{{< /result >}}
 
 {{< callout type="warning" >}}
 **L'erreur `netbox-docker-netbox-1 is unhealthy` est normale et attendue.** Au premier démarrage, NetBox initialise la base PostgreSQL, applique les migrations Django et prépare les fichiers statiques. Cette opération prend entre 2 et 5 minutes. Docker considère le conteneur comme "unhealthy" pendant cette phase car le healthcheck échoue avant que l'application soit opérationnelle.
@@ -150,14 +125,7 @@ Vérifier l'état après quelques minutes :
 docker compose ps
 ```
 
-{{< result >}}
-NAME                            STATUS          PORTS
-netbox-docker-netbox-1          healthy         0.0.0.0:8000->8080/tcp
-netbox-docker-postgres-1        healthy
-netbox-docker-redis-1           healthy
-netbox-docker-redis-cache-1     healthy
-netbox-docker-netbox-worker-1   healthy
-{{< /result >}}
+{{< img src="/images/labs/netbox/netbox-docker-ps.png" alt="Tous les conteneurs NetBox en état healthy" >}}
 
 Tous les conteneurs doivent afficher `healthy` avant de continuer. Si `netbox-1` reste en erreur après 5 minutes, consulter la section Dépannage.
 
@@ -169,22 +137,13 @@ Tous les conteneurs doivent afficher `healthy` avant de continuer. Si `netbox-1`
 docker compose exec netbox /opt/netbox/netbox/manage.py createsuperuser
 ```
 
-{{< result >}}
-Username:
-Email address:
-Password:
-Password (again):
-{{< /result >}}
+{{< img src="/images/labs/netbox/netbox-createsuperuser.png" alt="Création du superutilisateur NetBox" >}}
 
 {{< callout type="warning" >}}
 NetBox impose un mot de passe d'au moins **12 caractères** contenant au moins **un chiffre**. Un mot de passe trop simple retourne :
 
 `This password is too short. It must contain at least 12 characters.`
 {{< /callout >}}
-
-{{< result >}}
-Superuser created successfully.
-{{< /result >}}
 
 ---
 
@@ -194,9 +153,11 @@ Superuser created successfully.
 http://IP_SERVEUR:8000
 ```
 
+{{< img src="/images/labs/netbox/netbox-connexion.png" alt="Page de connexion NetBox" >}}
+
 Se connecter avec les identifiants créés à l'étape précédente. Le tableau de bord NetBox s'affiche avec les modules disponibles : Organisation, IPAM, DCIM, VPN, Virtualisation, Circuits.
 
-{{< img src="/images/netbox-dashboard.png" alt="Tableau de bord NetBox Community" >}}
+{{< img src="/images/labs/netbox/netbox-dashboard.png" alt="Tableau de bord NetBox Community" >}}
 
 ---
 
