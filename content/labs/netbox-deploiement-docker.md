@@ -2,7 +2,7 @@
 title: "NetBox : Déploiement via Docker sur Ubuntu/Debian"
 date: 2026-01-02
 image: "/images/labs/og-netbox.png"
-lastmod: 2026-03-11
+lastmod: 2026-03-09
 description: "Déployer NetBox Community via Docker Compose sur Ubuntu/Debian pour gérer, documenter et automatiser son infrastructure réseau et datacenter."
 categories: ["Infrastructure"]
 tags: ["netbox", "docker", "docker-compose", "ipam", "dcim", "linux"]
@@ -12,13 +12,11 @@ deploy_time: "~20min"
 draft: false
 ---
 
-Quand un homelab grossit — plusieurs machines, des VLANs, des IPs fixes attribuées à la main — le fichier Excel ou le bloc-notes atteint ses limites. On ne sait plus quelle IP est libre, quel VLAN correspond à quoi, où est câblé tel équipement.
+## Objectif
 
-NetBox résout ce problème avec une approche structurée : IPAM pour les adresses et préfixes, DCIM pour les équipements physiques et leurs connexions, et des modules supplémentaires pour les VLANs, les VMs, les circuits. Ce qui est documenté dans NetBox reflète ce qui existe réellement — c'est une source de vérité, pas un wiki qu'on remplit après coup.
+Déployer **NetBox Community** via Docker Compose sur Ubuntu/Debian. NetBox est une application web open-source de référence pour la gestion, la documentation et l'automatisation des infrastructures réseau et datacenters couvrant l'IPAM (gestion des adresses IP), le DCIM (gestion des équipements physiques), les VLANs, les circuits, la virtualisation et bien plus.
 
-Le déploiement via Docker Compose est la méthode recommandée pour un homelab. Il y a quelques points à ne pas rater au premier démarrage, notamment l'erreur `unhealthy` qui est normale et que la plupart des tutos ne mentionnent pas.
-
-**Systèmes cibles** : Ubuntu 22.04+, Debian 11+  
+**Systèmes cibles** : Ubuntu 22.04+, Debian 11+
 **Niveau requis** : Administrateur système (sudo)
 
 ---
@@ -199,12 +197,6 @@ http://IP_SERVEUR:8000
 Se connecter avec les identifiants créés à l'étape précédente. Le tableau de bord NetBox s'affiche avec les modules disponibles : Organisation, IPAM, DCIM, VPN, Virtualisation, Circuits.
 
 {{< img src="/images/netbox-dashboard.png" alt="Tableau de bord NetBox Community" >}}
-
----
-
-## Par où commencer une fois NetBox en place
-
-Une fois l'instance opérationnelle, la logique est de renseigner les données dans cet ordre : d'abord les préfixes IP et les VLANs qui structurent le réseau, puis les équipements physiques et leurs interfaces, ensuite les VMs rattachées à leurs hôtes. Ce n'est pas une documentation à faire d'un coup — ça se remplit au fil des déploiements. Mais avoir NetBox comme point de référence évite de chercher dans plusieurs endroits quelle adresse est libre ou à quel segment appartient telle interface.
 
 ---
 
