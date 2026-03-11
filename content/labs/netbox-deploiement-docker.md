@@ -106,8 +106,6 @@ Vérifier les images téléchargées :
 sudo docker images
 ```
 
-{{< img src="/images/labs/netbox/netbox-docker-images.png" alt="Images Docker téléchargées — netbox, postgres, redis" >}}
-
 ---
 
 ## Démarrer les conteneurs
@@ -115,6 +113,7 @@ sudo docker images
 ```bash
 sudo docker compose up -d
 ```
+{{< img src="/images/labs/netbox/netbox-docker-images.png" alt="Images Docker téléchargées — netbox, postgres, redis" >}}
 
 {{< callout type="warning" >}}
 **L'erreur `netbox-docker-netbox-1 is unhealthy` est normale et attendue.** Au premier démarrage, NetBox initialise la base PostgreSQL, applique les migrations Django et prépare les fichiers statiques. Cette opération prend entre 2 et 5 minutes. Docker considère le conteneur comme "unhealthy" pendant cette phase car le healthcheck échoue avant que l'application soit opérationnelle.
