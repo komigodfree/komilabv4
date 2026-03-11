@@ -98,12 +98,6 @@ Vitesse réduite pour une démo : `-s 0.5`. Accéléré : `-s 2`.
 
 ---
 
-## Démonstration — session enregistrée sur komilab
-
-{{< asciinema id="h3CWGevW7jt2TTg3" title="Démonstration Asciinema sur komilab" >}}
-
----
-
 ## Uploader et partager
 
 ```bash
