@@ -12,11 +12,11 @@ deploy_time: "~20min"
 draft: false
 ---
 
-Tu gères une infrastructure réseau sans source de vérité centrale ? Tu sais ce que ça coûte : les conflits d'adresses IP découverts en production, les VLANs documentés nulle part, les équipements dont personne ne sait plus où ils sont câblés, et les nouveaux collègues qui te demandent un schéma réseau que tu n'as jamais eu le temps de tenir à jour.
+La gestion d'une infrastructure réseau sans source de vérité centrale génère des problèmes récurrents : conflits d'adresses IP découverts en production, VLANs non documentés, équipements dont la localisation physique n'est plus tracée, onboarding ralenti faute de schéma réseau à jour. Ces situations sont courantes dans des environnements qui ont grandi sans outil dédié à la documentation d'infrastructure.
 
-NetBox est l'outil qui comble ce vide. C'est la référence open-source pour la gestion documentaire d'une infrastructure IT : IPAM complet, inventaire physique et logique, VLANs, VMs, circuits, câblage. Pas un simple wiki — une base structurée, queryable via API, intégrable dans tes pipelines d'automatisation. Ce que tu documentes aujourd'hui dans NetBox, ton script Ansible ou Terraform peut le consommer demain.
+NetBox répond à ce besoin. C'est la référence open-source pour l'IPAM et le DCIM : gestion des préfixes et adresses IP, inventaire physique et logique, VLANs, VMs, circuits, câblage. Au-delà de la documentation, NetBox expose une API REST complète qui permet d'intégrer ses données dans des pipelines d'automatisation Ansible, Terraform ou tout autre outil de gestion de configuration. Ce qui est documenté dans NetBox devient une source de données exploitable, pas une documentation figée.
 
-C'est utilisé en production dans des équipes réseau et infrastructure de toutes tailles, des PME aux opérateurs télécoms. Et ça se déploie en 20 minutes via Docker.
+L'outil est déployé en production dans des équipes réseau et infrastructure de toutes tailles, des PME aux opérateurs télécoms. Le déploiement via Docker Compose est simple et prend une vingtaine de minutes.
 
 ---
 
@@ -124,7 +124,7 @@ sudo docker compose up -d
 {{< img src="/images/labs/netbox/netbox-docker-images.png" alt="Demarrage des conteneurs" >}}
 
 {{< callout type="warning" >}}
-**Si vous avez l'erreur `netbox-docker-netbox-1 is unhealthy` cela est normale.** Au premier démarrage, NetBox initialise la base PostgreSQL, applique les migrations Django et prépare les fichiers statiques. Cette opération prend entre 2 et 5 minutes. Docker considère le conteneur comme "unhealthy" pendant cette phase car le healthcheck échoue avant que l'application soit opérationnelle.
+**L'erreur `netbox-docker-netbox-1 is unhealthy` au premier démarrage est normale et attendue.** NetBox initialise la base PostgreSQL, applique les migrations Django et prépare les fichiers statiques. Cette opération prend entre 2 et 5 minutes. Docker considère le conteneur comme "unhealthy" pendant cette phase car le healthcheck échoue avant que l'application soit opérationnelle.
 
 Attendre quelques minutes avant de continuer.
 {{< /callout >}}
@@ -177,7 +177,7 @@ Se connecter avec les identifiants créés à l'étape précédente. Le tableau 
 
 **Interface inaccessible sur le port 8000** : Vérifier le firewall avec `sudo ufw status` et ouvrir si nécessaire avec `sudo ufw allow 8000`.
 
-**Erreur `port is already allocated`** : Un service utilise déjà le port 8000, changer dans `docker-compose.override.yml` ex: `8001:8080`.
+**Erreur `port is already allocated`** : Un service utilise déjà le port 8000, changer dans `docker-compose.override.yml` ex : `8001:8080`.
 
 **Mot de passe refusé** : Utiliser au moins 12 caractères avec un chiffre.
 
