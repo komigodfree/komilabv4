@@ -12,7 +12,7 @@ deploy_time: "~20min"
 draft: false
 ---
 
-NetBox est la référence open-source pour la documentation d'infrastructure IT : IPAM, DCIM, VLANs, VMs, câblage. Une API REST complète permet d'en faire une source de données active pour Ansible, Terraform ou tout outil d'automatisation. Conçu pour les équipes réseau et infrastructure, du homelab à l'opérateur télécoms.
+NetBox est la référence open-source pour la documentation d'infrastructure IT. L'IPAM centralise la gestion des adresses IP et des préfixes réseau pour éviter les conflits et garder une vue claire des plages utilisées. Le DCIM inventorie les équipements physiques, leurs emplacements en baie, leurs interfaces et leur câblage. Les modules VLANs et Virtualisation permettent de documenter la segmentation réseau et de rattacher chaque VM à son hôte et à son segment. Conçu pour les équipes réseau et infrastructure, du homelab à l'opérateur télécoms.
 
 ---
 
@@ -22,6 +22,32 @@ Déployer **NetBox Community** via Docker Compose sur Ubuntu/Debian.
 
 **Systèmes cibles** : Ubuntu 22.04+, Debian 11+  
 **Niveau requis** : Administrateur système (sudo)
+
+---
+
+## Prérequis
+
+### Caractéristiques minimales du serveur
+
+| Ressource | Minimum | Recommandé |
+|---|---|---|
+| CPU | 2 vCPU | 4 vCPU |
+| RAM | 4 Go | 8 Go |
+| Disque OS | 20 Go | 40 Go |
+| Disque données | 10 Go | 50 Go |
+| OS | Ubuntu 22.04 LTS 64-bit | Ubuntu 22.04 LTS 64-bit |
+| Réseau | Accès Internet | IP fixe recommandée |
+
+### Vérifications logicielles
+
+| Prérequis | Commande de vérification |
+|---|---|
+| Accès sudo ou root | `sudo -v` |
+| Connexion Internet active | `ping -c 2 google.com` |
+| Docker installé et actif | `docker --version` |
+| Docker Compose installé | `docker compose version` |
+| Git installé | `git --version` |
+| Port 8000 disponible | `ss -tlnp \| grep 8000` |
 
 ---
 
@@ -39,19 +65,6 @@ Vérifier que l'installation est opérationnelle :
 docker --version
 docker compose version
 ```
-
----
-
-## Prérequis
-
-| Prérequis | Commande de vérification |
-|---|---|
-| Accès sudo ou root | `sudo -v` |
-| Connexion Internet active | `ping -c 2 google.com` |
-| Docker installé et actif | `docker --version` |
-| Docker Compose installé | `docker compose version` |
-| Git installé | `git --version` |
-| Port 8000 disponible | `ss -tlnp \| grep 8000` |
 
 ---
 
