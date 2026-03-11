@@ -61,7 +61,7 @@ cd netbox-docker/
 ls
 ```
 
-
+{{< img src="/images/labs/netbox/netbox-ls-content.png" alt="Contenu du dossier netbox-docker" >}}
 
 Ne pas modifier `docker-compose.yml` directement. On utilisera un fichier d'override à l'étape suivante.
 
