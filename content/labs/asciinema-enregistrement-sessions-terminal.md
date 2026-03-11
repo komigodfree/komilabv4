@@ -100,12 +100,6 @@ Vitesse réduite pour une démo : `-s 0.5`. Accéléré : `-s 2`.
 
 ---
 
-## Démonstration session enregistrée sur komilab
-
-{{< asciinema id="h3CWGevW7jt2TTg3" title="Démonstration Asciinema sur komilab" >}}
-
----
-
 ## Uploader et partager
 
 ```bash
@@ -118,7 +112,7 @@ Asciinema génère une URL publique. Résultat de la démo komilab (`whoami`, `h
 
 {{< img src="/images/labs/asciinema/asciinema-org-recording.png" width="85%" >}}
 
-**Lien de démonstration** : [asciinema.org/a/h3CWGevW7jt2TTg3](https://asciinema.org/a/h3CWGevW7jt2TTg3)
+**Lien de démonstration** : [asciinema.org/a/h3CWGevW7jt2TTg3](https://asciinema.org/a/TzorJdmNx9fR5RxN)
 
 Enregistrer et uploader en une commande :
 
