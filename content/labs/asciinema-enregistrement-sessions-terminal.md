@@ -2,7 +2,7 @@
 title: "Asciinema : Enregistrer et partager des sessions terminal"
 date: 2026-02-28
 image: "/images/labs/og-asciinema.png"
-lastmod: 2026-03-10
+lastmod: 2026-03-11
 description: "Installer et utiliser Asciinema sur Ubuntu/Debian pour enregistrer des sessions terminal et les partager en ligne"
 categories: ["Systèmes"]
 tags: ["asciinema", "terminal", "documentation", "linux"]
@@ -112,11 +112,7 @@ asciinema upload mon-lab.cast
 
 {{< img src="/images/labs/asciinema/asciinema-upload.png" width="75%" >}}
 
-Asciinema génère une URL publique. Résultat de la démo komilab (`whoami`, `hostname`, `uname -m`, `uptime` sur aarch64) :
-
-{{< img src="/images/labs/asciinema/asciinema-org-recording.png" width="85%" >}}
-
-**Lien de démonstration** : <a href="https://asciinema.org/a/h3CWGevW7jt2TTg3" target="_blank" class="asciinema-link">▶ asciinema.org/a/h3CWGevW7jt2TTg3</a>
+Asciinema génère une URL publique. **Lien de démonstration** : <a href="https://asciinema.org/a/TzorJdmNx9fR5RxN" target="_blank" class="asciinema-link">▶ asciinema.org/a/TzorJdmNx9fR5RxN</a>
 
 Enregistrer et uploader en une commande :
 
