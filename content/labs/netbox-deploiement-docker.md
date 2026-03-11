@@ -45,10 +45,8 @@ Le projet **netbox-docker** est le dépôt officiel maintenu par la communauté 
 Cloner la branche `release` — toujours stable et recommandée en production :
 
 ```bash
-git clone -b release https://github.com/netbox-community/netbox-docker.git
+sudo git clone -b release https://github.com/netbox-community/netbox-docker.git
 ```
-
-{{< img src="/images/labs/netbox/netbox-clone-ls.png" alt="Résultat du git clone — dossier netbox-docker créé" >}}
 
 ```bash
 cd netbox-docker/
@@ -58,7 +56,7 @@ cd netbox-docker/
 ls
 ```
 
-{{< img src="/images/labs/netbox/netbox-ls-content.png" alt="Contenu du dossier netbox-docker" >}}
+{{< img src="/images/labs/netbox/netbox-clone-ls.png" alt="Résultat du git clone : dossier netbox-docker créé" >}}
 
 Ne pas modifier `docker-compose.yml` directement. On utilisera un fichier d'override à l'étape suivante.
 
@@ -69,7 +67,7 @@ Ne pas modifier `docker-compose.yml` directement. On utilisera un fichier d'over
 NetBox nécessite un fichier de surcharge nommé obligatoirement `docker-compose.override.yml` : Docker Compose le détecte et le fusionne automatiquement avec le fichier principal.
 
 ```bash
-nano docker-compose.override.yml
+sudo nano docker-compose.override.yml
 ```
 
 Attention à l'**indentation** (2 espaces, pas de tabulations) :
@@ -92,7 +90,7 @@ Le port `8080` est le port interne du conteneur. On l'expose sur `8000` de la ma
 ## Télécharger les images Docker
 
 ```bash
-docker compose pull
+sudo docker compose pull
 ```
 
 {{< img src="/images/labs/netbox/netbox-pull.png" alt="Téléchargement des images Docker en cours" >}}
@@ -100,21 +98,20 @@ docker compose pull
 Vérifier les images téléchargées :
 
 ```bash
-docker images
+sudo docker images
 ```
-
-{{< img src="/images/labs/netbox/netbox-docker-images.png" alt="Images Docker téléchargées — netbox, postgres, redis" >}}
 
 ---
 
 ## Démarrer les conteneurs
 
 ```bash
-docker compose up -d
+sudo docker compose up -d
 ```
+{{< img src="/images/labs/netbox/netbox-docker-images.png" alt="Images Docker téléchargées — netbox, postgres, redis" >}}
 
 {{< callout type="warning" >}}
-**L'erreur `netbox-docker-netbox-1 is unhealthy` est normale et attendue.** Au premier démarrage, NetBox initialise la base PostgreSQL, applique les migrations Django et prépare les fichiers statiques. Cette opération prend entre 2 et 5 minutes. Docker considère le conteneur comme "unhealthy" pendant cette phase car le healthcheck échoue avant que l'application soit opérationnelle.
+**s'il y a l'erreur `netbox-docker-netbox-1 is unhealthy` cela est normale. ** Au premier démarrage, NetBox initialise la base PostgreSQL, applique les migrations Django et prépare les fichiers statiques. Cette opération prend entre 2 et 5 minutes. Docker considère le conteneur comme "unhealthy" pendant cette phase car le healthcheck échoue avant que l'application soit opérationnelle.
 
 Attendre quelques minutes avant de continuer.
 {{< /callout >}}
@@ -122,7 +119,7 @@ Attendre quelques minutes avant de continuer.
 Vérifier l'état après quelques minutes :
 
 ```bash
-docker compose ps
+sudo docker compose ps
 ```
 
 {{< img src="/images/labs/netbox/netbox-docker-ps.png" alt="Tous les conteneurs NetBox en état healthy" >}}
@@ -134,7 +131,7 @@ Tous les conteneurs doivent afficher `healthy` avant de continuer. Si `netbox-1`
 ## Créer le compte administrateur
 
 ```bash
-docker compose exec netbox /opt/netbox/netbox/manage.py createsuperuser
+sudo docker compose exec netbox /opt/netbox/netbox/manage.py createsuperuser
 ```
 
 {{< img src="/images/labs/netbox/netbox-createsuperuser.png" alt="Création du superutilisateur NetBox" >}}
