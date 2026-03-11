@@ -12,6 +12,14 @@ deploy_time: "~20min"
 draft: false
 ---
 
+Tu gères une infrastructure réseau sans source de vérité centrale ? Tu sais ce que ça coûte : les conflits d'adresses IP découverts en production, les VLANs documentés nulle part, les équipements dont personne ne sait plus où ils sont câblés, et les nouveaux collègues qui te demandent un schéma réseau que tu n'as jamais eu le temps de tenir à jour.
+
+NetBox est l'outil qui comble ce vide. C'est la référence open-source pour la gestion documentaire d'une infrastructure IT : IPAM complet, inventaire physique et logique, VLANs, VMs, circuits, câblage. Pas un simple wiki — une base structurée, queryable via API, intégrable dans tes pipelines d'automatisation. Ce que tu documentes aujourd'hui dans NetBox, ton script Ansible ou Terraform peut le consommer demain.
+
+C'est utilisé en production dans des équipes réseau et infrastructure de toutes tailles, des PME aux opérateurs télécoms. Et ça se déploie en 20 minutes via Docker.
+
+---
+
 ## Objectif
 
 Déployer **NetBox Community** via Docker Compose sur Ubuntu/Debian. NetBox est une application web open-source de référence pour la gestion, la documentation et l'automatisation des infrastructures réseau et datacenters couvrant l'IPAM (gestion des adresses IP), le DCIM (gestion des équipements physiques), les VLANs, les circuits, la virtualisation et bien plus.
