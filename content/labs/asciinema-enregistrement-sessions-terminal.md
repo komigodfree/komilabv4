@@ -12,16 +12,18 @@ deploy_time: "~15min"
 draft: false
 ---
 
-Asciinema enregistre les sessions terminal au format `.cast` et les publie en ligne. Utile pour documenter des procédures IT de façon reproductible, sans capturer de vidéo.
+Dans mon homelab KOMI.LAB, je travaille régulièrement sur des VMs via SSH — déploiement de services sur Proxmox, configuration réseau, administration PostgreSQL, intégration Active Directory. Documenter ces opérations avec des captures vidéo est lourd, et les simples blocs de code dans un article ne rendent pas bien la progression d'une commande.
 
-**Systèmes cibles** : Ubuntu 22.04+, Debian 11+  
+Asciinema règle ce problème : il enregistre exactement ce qui se passe dans le terminal, sortie incluse, et génère un fichier `.cast` léger que j'intègre directement dans mes labs KomiLab. Résultat : le lecteur voit la commande s'exécuter en temps réel, sans setup, sans plugin vidéo.
+
+**Contexte d'usage** : SSH sur les VMs Proxmox du homelab (Ubuntu 22.04, aarch64)  
 **Niveau requis** : Utilisateur Linux de base (sudo)
 
 ---
 
 ## Prérequis
 
-Accès sudo, connexion internet et Python 3.x + pip3. Si pip3 est absent : `sudo apt install python3-pip -y`
+Accès sudo sur la VM cible, connexion internet et Python 3.x + pip3. Si pip3 est absent : `sudo apt install python3-pip -y`
 
 ---
 
@@ -40,7 +42,7 @@ Version `2.4.0` sur komilab (aarch64) :
 {{< img src="/images/labs/asciinema/asciinema-version.png" width="65%" >}}
 
 {{< callout type="info" >}}
-`pip3 install asciinema` donne la dernière version disponible, mais la version APT est suffisante pour un usage système courant.
+`pip3 install asciinema` donne la dernière version disponible, mais la version APT est suffisante pour documenter des procédures système courantes.
 {{< /callout >}}
 
 ---
@@ -63,6 +65,14 @@ Sans compte, les enregistrements uploadés sont anonymes et disponibles 7 jours.
 
 ---
 
+## Comment je l'utilise dans le homelab
+
+La plupart de mes enregistrements concernent des procédures que je veux garder comme référence ou publier sur KomiLab. Par exemple, pour documenter une installation PostgreSQL sur une VM dédiée ou configurer LDAPS, je lance l'enregistrement avant de commencer, j'exécute mes commandes normalement, et je coupe à la fin.
+
+Ce qui m'a convaincu : je peux rejouer l'enregistrement localement pour vérifier que rien ne manque avant de publier, et je peux le re-faire tourner à vitesse réduite si une étape mérite plus d'attention dans la démo.
+
+---
+
 ## Enregistrer une session
 
 ```bash
@@ -77,14 +87,16 @@ asciinema: press <ctrl-d> or type "exit" when you're done
 {{< /result >}}
 
 {{< callout type="warning" >}}
-Toujours utiliser `--idle-time-limit 2` pour tronquer les longues pauses. Sans ça, une commande qui prend 30 secondes génère 30 secondes de silence dans la lecture.
+Toujours utiliser `--idle-time-limit 2` pour tronquer les longues pauses. Sans ça, une commande qui prend 30 secondes génère 30 secondes de silence dans la lecture — particulièrement gênant pour des installations de paquets ou des `apt upgrade`.
 {{< /callout >}}
 
-Commande complète recommandée :
+Commande complète que j'utilise pour mes labs :
 
 ```bash
 asciinema rec -t "Mon lab" --idle-time-limit 2 --cols 120 --rows 30 mon-lab.cast
 ```
+
+`--cols` et `--rows` garantissent un rendu cohérent dans le player intégré à KomiLab, quelle que soit la taille de la fenêtre SSH utilisée au moment de l'enregistrement.
 
 ---
 
@@ -94,7 +106,7 @@ asciinema rec -t "Mon lab" --idle-time-limit 2 --cols 120 --rows 30 mon-lab.cast
 asciinema play mon-lab.cast
 ```
 
-Vitesse réduite pour une démo : `-s 0.5`. Accéléré : `-s 2`.
+Vitesse réduite pour une démo : `-s 0.5`. Accéléré : `-s 2`. C'est utile pour se relire avant d'uploader.
 
 ---
 
