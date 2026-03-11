@@ -98,7 +98,7 @@ Le port `8080` est le port interne du conteneur. On l'expose sur `8000` de la ma
 sudo docker compose pull
 ```
 
-{{< img src="/images/labs/netbox/netbox-pull.png" alt="Téléchargement des images Docker en cours" >}}
+{{< img src="/images/labs/netbox/netbox-pull.png" alt="Téléchargement des images Docker" >}}
 
 Vérifier les images téléchargées :
 
@@ -116,7 +116,7 @@ sudo docker compose up -d
 {{< img src="/images/labs/netbox/netbox-docker-images.png" alt="Demarrage des conteneurs" >}}
 
 {{< callout type="warning" >}}
-**L'erreur `netbox-docker-netbox-1 is unhealthy` est normale et attendue.** Au premier démarrage, NetBox initialise la base PostgreSQL, applique les migrations Django et prépare les fichiers statiques. Cette opération prend entre 2 et 5 minutes. Docker considère le conteneur comme "unhealthy" pendant cette phase car le healthcheck échoue avant que l'application soit opérationnelle.
+**Si vous avez l'erreur `netbox-docker-netbox-1 is unhealthy` cela est normale.** Au premier démarrage, NetBox initialise la base PostgreSQL, applique les migrations Django et prépare les fichiers statiques. Cette opération prend entre 2 et 5 minutes. Docker considère le conteneur comme "unhealthy" pendant cette phase car le healthcheck échoue avant que l'application soit opérationnelle.
 
 Attendre quelques minutes avant de continuer.
 {{< /callout >}}
