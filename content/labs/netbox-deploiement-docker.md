@@ -12,20 +12,33 @@ deploy_time: "~20min"
 draft: false
 ---
 
-La gestion d'une infrastructure réseau sans source de vérité centrale génère des problèmes récurrents : conflits d'adresses IP découverts en production, VLANs non documentés, équipements dont la localisation physique n'est plus tracée, onboarding ralenti faute de schéma réseau à jour. Ces situations sont courantes dans des environnements qui ont grandi sans outil dédié à la documentation d'infrastructure.
-
-NetBox répond à ce besoin. C'est la référence open-source pour l'IPAM et le DCIM : gestion des préfixes et adresses IP, inventaire physique et logique, VLANs, VMs, circuits, câblage. Au-delà de la documentation, NetBox expose une API REST complète qui permet d'intégrer ses données dans des pipelines d'automatisation Ansible, Terraform ou tout autre outil de gestion de configuration. Ce qui est documenté dans NetBox devient une source de données exploitable, pas une documentation figée.
-
-L'outil est déployé en production dans des équipes réseau et infrastructure de toutes tailles, des PME aux opérateurs télécoms. Le déploiement via Docker Compose est simple et prend une vingtaine de minutes.
+NetBox est la référence open-source pour la documentation d'infrastructure IT : IPAM, DCIM, VLANs, VMs, câblage. Une API REST complète permet d'en faire une source de données active pour Ansible, Terraform ou tout outil d'automatisation. Conçu pour les équipes réseau et infrastructure, du homelab à l'opérateur télécoms.
 
 ---
 
 ## Objectif
 
-Déployer **NetBox Community** via Docker Compose sur Ubuntu/Debian. NetBox est une application web open-source de référence pour la gestion, la documentation et l'automatisation des infrastructures réseau et datacenters couvrant l'IPAM (gestion des adresses IP), le DCIM (gestion des équipements physiques), les VLANs, les circuits, la virtualisation et bien plus.
+Déployer **NetBox Community** via Docker Compose sur Ubuntu/Debian.
 
 **Systèmes cibles** : Ubuntu 22.04+, Debian 11+  
 **Niveau requis** : Administrateur système (sudo)
+
+---
+
+## Installation de Docker
+
+Docker et Docker Compose sont requis avant de commencer. La procédure d'installation officielle est disponible à l'adresse suivante, choisir sa distribution et suivre les instructions :
+
+<a href="https://docs.docker.com/engine/install/" target="_blank" style="color:#00BCD4; font-weight:bold;">docs.docker.com/engine/install</a>
+
+Docker Compose est inclus dans les versions récentes de Docker Engine, aucune installation séparée n'est nécessaire.
+
+Vérifier que l'installation est opérationnelle :
+
+```bash
+docker --version
+docker compose version
+```
 
 ---
 
@@ -39,10 +52,6 @@ Déployer **NetBox Community** via Docker Compose sur Ubuntu/Debian. NetBox est 
 | Docker Compose installé | `docker compose version` |
 | Git installé | `git --version` |
 | Port 8000 disponible | `ss -tlnp \| grep 8000` |
-
-{{< callout type="info" >}}
-Si Docker n'est pas encore installé, se rendre sur [docs.docker.com/engine/install](https://docs.docker.com/engine/install/), choisir sa distribution et suivre les instructions officielles. Docker Compose est inclus dans les versions récentes de Docker Engine.
-{{< /callout >}}
 
 ---
 
