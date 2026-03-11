@@ -49,6 +49,11 @@ sudo git clone -b release https://github.com/netbox-community/netbox-docker.git
 ```
 
 ```bash
+ls
+```
+{{< img src="/images/labs/netbox/netbox-clone-ls.png" alt="Résultat du git clone : dossier netbox-docker créé" >}}
+
+```bash
 cd netbox-docker/
 ```
 
@@ -56,7 +61,7 @@ cd netbox-docker/
 ls
 ```
 
-{{< img src="/images/labs/netbox/netbox-clone-ls.png" alt="Résultat du git clone : dossier netbox-docker créé" >}}
+
 
 Ne pas modifier `docker-compose.yml` directement. On utilisera un fichier d'override à l'étape suivante.
 
