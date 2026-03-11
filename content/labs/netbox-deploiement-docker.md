@@ -29,14 +29,14 @@ Déployer **NetBox Community** via Docker Compose sur Ubuntu/Debian.
 
 ### Caractéristiques minimales du serveur
 
-| Ressource | Minimum | Recommandé |
+| Ressource | Minimum |
 |---|---|---|
-| CPU | 2 vCPU | 4 vCPU |
-| RAM | 4 Go | 8 Go |
-| Disque OS | 20 Go | 40 Go |
-| Disque données | 10 Go | 50 Go |
-| OS | Ubuntu 22.04 LTS 64-bit | Ubuntu 22.04 LTS 64-bit |
-| Réseau | Accès Internet | IP fixe recommandée |
+| CPU | 2 vCPU |
+| RAM | 4 Go |
+| Disque OS | 20 Go |
+| Disque données | 10 Go |
+
+
 
 ### Vérifications logicielles
 
