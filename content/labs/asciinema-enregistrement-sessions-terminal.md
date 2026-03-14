@@ -9,7 +9,7 @@ tags: ["asciinema", "terminal", "documentation", "linux"]
 difficulty: "debutant"
 author: "Komi Kpodohouin"
 deploy_time: "~15min"
-draft: true
+draft: false
 ---
 
 Documenter des procédures système avec des captures vidéo est lourd. Les blocs de code seuls ne rendent pas bien la progression d'une commande — on ne voit ni le délai d'exécution, ni la sortie réelle, ni les erreurs éventuelles.
