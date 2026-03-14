@@ -12,11 +12,9 @@ deploy_time: "~15min"
 draft: false
 ---
 
-Documenter des procédures système avec des captures vidéo est lourd. Les blocs de code seuls ne rendent pas bien la progression d'une commande — on ne voit ni le délai d'exécution, ni la sortie réelle, ni les erreurs éventuelles.
+Asciinema est un outil open source qui enregistre en temps réel tout ce qui se passe dans un terminal : commandes, sorties, délais d'exécution. Il génère un fichier léger rejouable dans n'importe quel navigateur sans plugin, sans vidéo lourde. Et contrairement à une vidéo classique, on peut copier directement les commandes depuis l'enregistrement.
 
-Asciinema enregistre exactement ce qui se passe dans le terminal, sortie incluse, et génère un fichier `.cast` léger. Je l'utilise pour documenter des procédures dans le homelab avant de les publier sur KomiLab : le lecteur voit la commande s'exécuter en temps réel, sans setup, sans plugin vidéo.
-
-**Systèmes cibles** : Ubuntu 22.04+, Debian 11+  
+**Systèmes cibles** : Ubuntu 22.04+, Debian 11+ ...
 **Niveau requis** : Utilisateur Linux de base (sudo)
 
 ---
