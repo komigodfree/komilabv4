@@ -40,7 +40,7 @@ Données issues de la [documentation officielle Mattermost](https://docs.matterm
 | Base de données | PostgreSQL 14.0+ | PostgreSQL 14.0+ |
 | Stockage de base | 600 Mo à 800 Mo (OS + BDD) | 600 Mo à 800 Mo (OS + BDD) |
 | Stockage fichiers | Selon usage (5 à 25 Mo/utilisateur/mois) | Selon usage (5 à 25 Mo/utilisateur/mois) |
-| Réseau | Accès Internet | IP fixe recommandée |
+
 
 ### Vérifications logicielles
 
