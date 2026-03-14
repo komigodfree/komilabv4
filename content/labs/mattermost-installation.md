@@ -9,7 +9,7 @@ tags: ["mattermost", "postgresql", "debian", "ubuntu", "collaboration", "self-ho
 difficulty: "intermédiaire"
 author: "Komi Kpodohouin"
 deploy_time: "~45min"
-draft: true
+draft: false
 ---
 
 Mattermost est une plateforme de messagerie collaborative open source, l'alternative self-hosted à Slack. Ce lab couvre l'installation complète sur Debian/Ubuntu avec PostgreSQL comme base de données.
