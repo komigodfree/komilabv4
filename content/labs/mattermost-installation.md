@@ -12,7 +12,7 @@ deploy_time: "~45min"
 draft: false
 ---
 
-Mattermost est une plateforme de collaboration open source conçue pour les environnements qui exigent le contrôle total des données et des communications. Utilisée comme messagerie instantanée interne en entreprise, elle offre messagerie persistante, canaux structurés, appels audio, automatisation de workflows et intégrations DevSecOps et ITSM avec GitHub, GitLab, Jira, PagerDuty ou ServiceNow — le tout déployé sur votre propre infrastructure. Adoptée par des organisations comme la NASA, l'US Air Force ou Samsung, c'est la référence pour les équipes techniques et les organisations soumises à des exigences de conformité et de souveraineté numérique.
+Mattermost est une plateforme de collaboration open source conçue pour les environnements qui exigent le contrôle total des données et des communications. Utilisée comme messagerie instantanée interne en entreprise, elle offre messagerie persistante, canaux structurés, appels audio, automatisation de workflows et intégrations DevSecOps et ITSM avec GitHub, GitLab, Jira, PagerDuty ou ServiceNow, le tout déployé sur votre propre infrastructure. Adoptée par des organisations comme la NASA, l'US Air Force ou Samsung, c'est la référence pour les équipes techniques et les organisations soumises à des exigences de conformité et de souveraineté numérique.
 
 ---
 
@@ -104,14 +104,14 @@ sudo systemctl status postgresql
 
 ---
 
-## PostgreSQL — création de la base
+## PostgreSQL : création de la base
 
 ```bash
 sudo -u postgres psql
 ```
 
 {{< callout type="warning" >}}
-Évite les mots de passe contenant `@` — ce caractère est interprété comme séparateur dans les chaînes de connexion PostgreSQL et casse le DataSource silencieusement. Utilise un mot de passe robuste de ce type : `Xk9#mP2vLq8nRt5w`
+Évite les mots de passe contenant `@`. Ce caractère est interprété comme séparateur dans les chaînes de connexion PostgreSQL et casse le DataSource silencieusement. Utilise un mot de passe robuste de ce type : `Xk9#mP2vLq8nRt5w`
 {{< /callout >}}
 
 Créer la base de données et l'utilisateur :
@@ -143,7 +143,7 @@ Remplace `mattermost_db` et `mattermost_user` par les noms définis à l'étape 
 
 ---
 
-## systemd — dépendance PostgreSQL
+## systemd : dépendance PostgreSQL
 
 Ne pas modifier `/lib/systemd/system/mattermost.service` directement. Utiliser un fichier d'override qui survit aux mises à jour :
 
@@ -190,7 +190,7 @@ Rechercher `DataSource` et remplacer avec les identifiants créés plus haut :
 ```
 
 {{< callout type="info" >}}
-Remplace `mattermost_user`, `VotreMotDePasse` et `mattermost_db` par les valeurs définies à l'étape PostgreSQL. Le nom d'utilisateur et le nom de la base doivent correspondre exactement à ce qui a été créé — une simple faute de frappe ici cause une erreur silencieuse au démarrage.
+Remplace `mattermost_user`, `VotreMotDePasse` et `mattermost_db` par les valeurs définies à l'étape PostgreSQL. Le nom d'utilisateur et le nom de la base doivent correspondre exactement à ce qui a été créé. Une simple faute de frappe ici cause une erreur silencieuse au démarrage.
 {{< /callout >}}
 
 Rechercher `SiteURL` et définir l'adresse du serveur :
@@ -234,7 +234,7 @@ L'assistant de configuration s'affiche pour créer le compte administrateur et c
 
 ---
 
-## Démonstration — déploiement complet
+## Démonstration : déploiement complet
 
 Enregistrement de la procédure complète réalisée sur un serveur Ubuntu 22.04 :
 
@@ -258,7 +258,7 @@ Enregistrement de la procédure complète réalisée sur un serveur Ubuntu 22.04
 
 **`sudo: unknown user postgres`** : PostgreSQL n'est pas installé ou l'installation a échoué. Réinstaller avec `sudo apt purge postgresql* -y && sudo apt install postgresql postgresql-contrib -y`.
 
-**Service Mattermost ne démarre pas** : Consulter les logs avec `sudo journalctl -u mattermost -f`. Vérifier le `DataSource` dans `config.json` — le nom d'utilisateur, le mot de passe et le nom de la base doivent correspondre exactement à ce qui a été créé dans PostgreSQL.
+**Service Mattermost ne démarre pas** : Consulter les logs avec `sudo journalctl -u mattermost -f`. Vérifier le `DataSource` dans `config.json`. Le nom d'utilisateur, le mot de passe et le nom de la base doivent correspondre exactement à ce qui a été créé dans PostgreSQL.
 
 **Port 8065 inaccessible** : Ouvrir le port avec `sudo ufw allow 8065`.
 
