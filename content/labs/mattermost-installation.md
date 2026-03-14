@@ -29,13 +29,17 @@ Déployer **Mattermost Server** sur Debian/Ubuntu avec PostgreSQL comme base de 
 
 ### Caractéristiques minimales du serveur
 
-| Ressource | Minimum | Recommandé |
+Données issues de la [documentation officielle Mattermost](https://docs.mattermost.com/deployment-guide/software-hardware-requirements.html). Les besoins en RAM peuvent augmenter selon l'activité de partage de fichiers (taille max par défaut : 50 Mo).
+
+| Ressource | Jusqu'à 1 000 utilisateurs | Jusqu'à 2 000 utilisateurs |
 |---|---|---|
-| CPU | 2 vCPU | 4 vCPU |
-| RAM | 4 Go | 8 Go |
-| Disque OS | 20 Go | 40 Go |
-| Disque données | 10 Go | 50 Go |
-| OS | Ubuntu 22.04 LTS 64-bit | Ubuntu 22.04 LTS 64-bit |
+| CPU | 1 vCPU | 2 vCPU |
+| RAM | 2 Go | 4 Go |
+| Architecture | 64-bit x86 | 64-bit x86 |
+| OS | Ubuntu 22.04+ / Debian Buster+ | Ubuntu 22.04+ / Debian Buster+ |
+| Base de données | PostgreSQL 14.0+ | PostgreSQL 14.0+ |
+| Stockage de base | 600 Mo à 800 Mo (OS + BDD) | 600 Mo à 800 Mo (OS + BDD) |
+| Stockage fichiers | Selon usage (5 à 25 Mo/utilisateur/mois) | Selon usage (5 à 25 Mo/utilisateur/mois) |
 | Réseau | Accès Internet | IP fixe recommandée |
 
 ### Vérifications logicielles
