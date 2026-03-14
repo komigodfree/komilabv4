@@ -2,7 +2,7 @@
 title: "Mattermost : Installation sur Debian/Ubuntu"
 date: 2026-03-09
 image: "/images/labs/og-mattermost.png"
-lastmod: 2026-03-09
+lastmod: 2026-03-14
 description: "Guide d'installation complet de Mattermost, une plateforme de messagerie collaborative open source, l'alternative self-hosted à Slack"
 categories: ["Systèmes"]
 tags: ["mattermost", "postgresql", "debian", "ubuntu", "collaboration", "self-hosted"]
@@ -12,16 +12,39 @@ deploy_time: "~45min"
 draft: false
 ---
 
-Mattermost est une plateforme de messagerie collaborative open source, l'alternative self-hosted à Slack. Ce lab couvre l'installation complète sur Debian/Ubuntu avec PostgreSQL comme base de données.
+Mattermost est la plateforme de messagerie collaborative open source de référence pour les équipes IT. Messagerie en temps réel, canaux thématiques, intégrations avec les outils DevOps et ITSM, gestion fine des droits et des équipes — le tout hébergé sur votre infrastructure, sans dépendance à un prestataire cloud. Pour les DSI et les RSSI qui cherchent une alternative souveraine à Slack ou Teams, c'est l'option qui combine contrôle des données, conformité et scalabilité.
+
+---
+
+## Objectif
+
+Déployer **Mattermost Server** sur Debian/Ubuntu avec PostgreSQL comme base de données.
 
 **Systèmes cibles** : Debian 12 ou Ubuntu 22.04+  
-**Niveau requis** : Accès sudo
+**Niveau requis** : Administrateur système (sudo)
 
 ---
 
 ## Prérequis
 
-Serveur Debian 12 ou Ubuntu 22.04+, accès sudo, 2 Go RAM minimum, connexion internet.
+### Caractéristiques minimales du serveur
+
+| Ressource | Minimum | Recommandé |
+|---|---|---|
+| CPU | 2 vCPU | 4 vCPU |
+| RAM | 4 Go | 8 Go |
+| Disque OS | 20 Go | 40 Go |
+| Disque données | 10 Go | 50 Go |
+| OS | Ubuntu 22.04 LTS 64-bit | Ubuntu 22.04 LTS 64-bit |
+| Réseau | Accès Internet | IP fixe recommandée |
+
+### Vérifications logicielles
+
+| Prérequis | Commande de vérification |
+|---|---|
+| Accès sudo ou root | `sudo -v` |
+| Connexion Internet active | `ping -c 2 google.com` |
+| Port 8065 disponible | `ss -tlnp \| grep 8065` |
 
 ---
 
@@ -88,7 +111,7 @@ sudo -u postgres psql
 ```
 
 {{< callout type="warning" >}}
-Évite les mots de passe contenant `@`  ce caractère est interprété comme séparateur dans les chaînes de connexion PostgreSQL et casse le DataSource silencieusement. Utilise un mot de passe robuste de ce type : `Xk9#mP2vLq8nRt5w`
+Évite les mots de passe contenant `@` — ce caractère est interprété comme séparateur dans les chaînes de connexion PostgreSQL et casse le DataSource silencieusement. Utilise un mot de passe robuste de ce type : `Xk9#mP2vLq8nRt5w`
 {{< /callout >}}
 
 Créer la base de données et l'utilisateur :
@@ -167,7 +190,7 @@ Rechercher `DataSource` et remplacer avec les identifiants créés plus haut :
 ```
 
 {{< callout type="info" >}}
-Remplace `mattermost_user`, `VotreMotDePasse` et `mattermost_db` par les valeurs définies à l'étape PostgreSQL.
+Remplace `mattermost_user`, `VotreMotDePasse` et `mattermost_db` par les valeurs définies à l'étape PostgreSQL. Le nom d'utilisateur et le nom de la base doivent correspondre exactement à ce qui a été créé — une simple faute de frappe ici cause une erreur silencieuse au démarrage.
 {{< /callout >}}
 
 Rechercher `SiteURL` et définir l'adresse du serveur :
@@ -175,10 +198,6 @@ Rechercher `SiteURL` et définir l'adresse du serveur :
 ```json
 "SiteURL": "http://IP_SERVEUR:8065",
 ```
-
-{{< callout type="info" >}}
-Remplace `IP_SERVEUR` par l'adresse IP ou le nom de domaine de ton serveur.
-{{< /callout >}}
 
 Sauvegarder : `Ctrl+X`, `Y`, `Entrée`.
 
@@ -215,6 +234,14 @@ L'assistant de configuration s'affiche pour créer le compte administrateur et c
 
 ---
 
+## Démonstration — déploiement complet
+
+Enregistrement de la procédure complète réalisée sur un serveur Ubuntu 22.04 :
+
+{{< asciinema id="0hODfSsbXrIG3Poj" >}}
+
+---
+
 ## Captures post déploiement de l'interface de connexion
 
 {{< gallery >}}
@@ -231,7 +258,7 @@ L'assistant de configuration s'affiche pour créer le compte administrateur et c
 
 **`sudo: unknown user postgres`** : PostgreSQL n'est pas installé ou l'installation a échoué. Réinstaller avec `sudo apt purge postgresql* -y && sudo apt install postgresql postgresql-contrib -y`.
 
-**Service Mattermost ne démarre pas** : Consulter les logs avec `sudo journalctl -u mattermost -f`. Vérifier le `DataSource` dans `config.json`, notamment le mot de passe et le nom de la base.
+**Service Mattermost ne démarre pas** : Consulter les logs avec `sudo journalctl -u mattermost -f`. Vérifier le `DataSource` dans `config.json` — le nom d'utilisateur, le mot de passe et le nom de la base doivent correspondre exactement à ce qui a été créé dans PostgreSQL.
 
 **Port 8065 inaccessible** : Ouvrir le port avec `sudo ufw allow 8065`.
 
