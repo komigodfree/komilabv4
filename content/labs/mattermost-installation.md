@@ -240,9 +240,7 @@ L'assistant de configuration s'affiche pour créer le compte administrateur et c
 
 ## Démonstration : déploiement complet
 
-Enregistrement de la procédure complète réalisée sur un serveur Ubuntu 22.04 :
-
-{{< asciinema id="0hODfSsbXrIG3Poj" >}}
+Enregistrement de la procédure complète réalisée sur un serveur Ubuntu 22.04 : <a href="https://asciinema.org/a/0hODfSsbXrIG3Poj" target="_blank" class="asciinema-link">▶ asciinema.org/a/0hODfSsbXrIG3Poj</a>
 
 ---
 
