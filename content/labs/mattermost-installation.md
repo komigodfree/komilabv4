@@ -12,7 +12,7 @@ deploy_time: "~45min"
 draft: false
 ---
 
-Mattermost est une plateforme de messagerie instantanée open source et auto-hébergée, conçue pour les équipes techniques qui souhaitent collaborer de manière sécurisée. Elle offre la messagerie en temps réel sur tous les terminaux, des canaux publics ou privés pour structurer les échanges, un chiffrement des données avec authentification multifacteur, et une API permettant l'intégration avec des outils comme GitHub, Jira, Google Drive ou Zendesk. Pour les organisations soucieuses de souveraineté des données et de conformité, c'est l'alternative self-hosted crédible à Slack ou Teams.
+Mattermost est une plateforme de collaboration open source conçue pour les environnements qui exigent le contrôle total des données et des communications. Messagerie persistante, canaux structurés, appels audio, automatisation de workflows, intégrations DevSecOps et ITSM avec GitHub, GitLab, Jira, PagerDuty ou ServiceNow — le tout déployé sur votre propre infrastructure. Adoptée par des organisations comme la NASA, l'US Air Force ou Samsung, c'est la référence pour les équipes techniques et les organisations soumises à des exigences de conformité et de souveraineté numérique.
 
 ---
 
