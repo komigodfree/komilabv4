@@ -15,7 +15,7 @@ tags:
 difficulty: intermédiaire
 author: "Komi Kpodohouin"
 deploy_time: "45 minutes"
-draft: false
+draft: true
 ---
 
 Traefik est un reverse proxy moderne conçu nativement pour les environnements conteneurisés. Il détecte automatiquement les services Docker, gère les certificats TLS via Let's Encrypt et s'intègre parfaitement avec Cloudflare pour le challenge DNS-01.
