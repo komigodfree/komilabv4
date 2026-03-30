@@ -15,7 +15,7 @@ tags:
 difficulty: avancé
 author: "Komi Kpodohouin"
 deploy_time: "2 heures"
-draft: true
+draft: false
 ---
 
 Bitwarden Self-Hosted est la référence open-source pour la gestion des mots de passe en entreprise. Contrairement aux solutions SaaS, tes données ne quittent jamais ton infrastructure. Ce lab s'adresse aux équipes IT qui disposent déjà d'une infrastructure en place — un serveur, un domaine, et un certificat TLS — et qui souhaitent déployer Bitwarden en production sans dépendre de Let's Encrypt.
