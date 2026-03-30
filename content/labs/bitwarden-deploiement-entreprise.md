@@ -1,8 +1,8 @@
 ---
-title: "Bitwarden Self-Hosted : Déploiement entreprise avec certificat existant"
+title: "Bitwarden Self-Hosted : Déploiement entreprise avec certificat et un serveur smtp existants"
 date: 2026-03-30
 lastmod: 2026-03-30
-description: "Déploiement complet de Bitwarden Self-Hosted en environnement entreprise sur Ubuntu 24.04 — user dédié, certificat TLS existant, SMTP, politiques de sécurité, sauvegarde et mise à jour."
+description: "Déploiement complet de Bitwarden Self-Hosted en environnement entreprise sur Ubuntu 24.04 user dédié, certificat TLS existant, SMTP, politiques de sécurité, sauvegarde et mise à jour."
 categories:
   - Sécurité
 tags:
@@ -18,7 +18,13 @@ deploy_time: "2 heures"
 draft: false
 ---
 
-Bitwarden Self-Hosted est la référence open-source pour la gestion des mots de passe en entreprise. Contrairement aux solutions SaaS, tes données ne quittent jamais ton infrastructure. Ce lab s'adresse aux équipes IT qui disposent déjà d'une infrastructure en place — un serveur, un domaine, et un certificat TLS — et qui souhaitent déployer Bitwarden en production sans dépendre de Let's Encrypt.
+En entreprise, les mots de passe sont encore souvent stockés dans des fichiers Excel ou sur des pense-bêtes. Ces pratiques exposent directement le système d’information à des risques de compromission.
+
+Il devient donc essentiel de fournir aux utilisateurs un outil sécurisé et simple pour gérer leurs accès.
+
+Bitwarden en self-hosted, solution open source, permet de centraliser et sécuriser les mots de passe tout en gardant un contrôle total sur les données, hébergées en interne.
+
+Ce lab s’adresse aux équipes IT souhaitant déployer une solution robuste sur leur propre infrastructure.
 
 Ce lab utilise le **nginx intégré à Bitwarden** comme seul point d'entrée TLS. Pas de reverse proxy externe.
 
@@ -45,17 +51,17 @@ Les éléments suivants doivent être en place avant de commencer. Ce lab ne les
 | Disque | 40 GB | 80 GB |
 
 {{< callout type="warning" >}}
-Bitwarden utilise Microsoft SQL Server (MSSQL) comme base de données. MSSQL consomme entre 1.5 et 2 GB de RAM au démarrage — d'où le minimum de 4 GB. Déploie Bitwarden sur une VM et non un conteneur LXC, MSSQL ayant des exigences noyau incompatibles avec les LXC Proxmox.
+Bitwarden utilise Microsoft SQL Server (MSSQL) comme base de données. MSSQL consomme entre 1.5 et 2 GB de RAM au démarrage, d'où le minimum de 4 GB. Déploie Bitwarden sur une VM et non un conteneur LXC, MSSQL ayant des exigences noyau incompatibles avec les LXC Proxmox.
 {{< /callout >}}
 
 **Certificat TLS :**
 
 Tu dois disposer de deux fichiers :
-- `certificate.crt` — le certificat (chaîne complète si possible)
-- `private.key` — la clé privée
+- `certificate.crt` : le certificat (chaîne complète si possible)
+- `private.key` : la clé privée
 
 {{< callout type="info" >}}
-Le sous-domaine DNS doit être créé et propagé avant de démarrer l'installation. Vérifie la propagation avec `nslookup bitwarden.example.com` — tu dois voir l'IP de ton serveur.
+Le sous-domaine DNS doit être créé et propagé avant de démarrer l'installation. Vérifie la propagation avec `nslookup bitwarden.example.com` : vous devriez voir l'IP de votre serveur.
 {{< /callout >}}
 
 ---
@@ -75,6 +81,12 @@ Suis la documentation officielle Docker pour Ubuntu :
 
 👉 [https://docs.docker.com/engine/install/ubuntu/](https://docs.docker.com/engine/install/ubuntu/)
 
+### Verifier que docker tourne
+
+```bash
+sudo docker run hello-world
+```
+
 ### Désactiver IPv6 pour Docker
 
 Bitwarden tente de télécharger ses images via IPv6 sur certaines configurations, ce qui provoque des timeouts. Désactive IPv6 au niveau de Docker avant de continuer.
@@ -82,12 +94,14 @@ Bitwarden tente de télécharger ses images via IPv6 sur certaines configuration
 ```bash
 nano /etc/docker/daemon.json
 ```
+copier et coller ce script dans votre fichier daemon.json ouvert
 
 ```json
 {
   "ipv6": false
 }
 ```
+Ensuite redemarrer docker
 
 ```bash
 systemctl restart docker
@@ -104,9 +118,11 @@ rm /etc/resolv.conf
 nano /etc/resolv.conf
 ```
 
+Ici, 10.10.1.10 est l'ip de notre server DNS en local
+
 ```
-nameserver 1.1.1.1
-nameserver 8.8.8.8
+nameserver 10.10.1.10
+
 ```
 
 Vérifie la résolution :
@@ -124,28 +140,32 @@ nano /etc/hosts
 Ajoute :
 
 ```
-127.0.0.1    bitwarden
+127.0.0.1    localhost
 127.0.1.1    bitwarden.example.com
 ```
 
-Remplace `bitwarden` et `bitwarden.example.com` par le hostname réel de ton serveur.
+Remplacer `bitwarden.example.com` par le hostname réel de votre serveur.
 
 ---
 
 ## Étape 2 — Créer le compte de service Bitwarden
 
-La documentation officielle Bitwarden recommande de ne pas installer en root. Crée un compte de service dédié qui isolera Bitwarden des autres applications du serveur.
+La documentation officielle Bitwarden recommande de ne pas installer en root. Créer un compte de service dédié qui isolera Bitwarden sur le serveur.
 
 ```bash
 # Créer l'utilisateur bitwarden
 adduser bitwarden
+```
 
+```bash
 # Définir un mot de passe fort
 passwd bitwarden
 
 # Créer le groupe docker si nécessaire
 groupadd docker
+```
 
+```bash
 # Ajouter bitwarden au groupe docker
 usermod -aG docker bitwarden
 
