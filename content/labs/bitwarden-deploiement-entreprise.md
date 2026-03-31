@@ -2,6 +2,7 @@
 title: "Bitwarden Self-Hosted : Déploiement entreprise avec certificat et un serveur smtp existants"
 date: 2026-03-30
 lastmod: 2026-03-30
+image: /images/labs/og-bitwarden.png
 description: "Déploiement complet de Bitwarden Self-Hosted en environnement entreprise sur Ubuntu 24.04 user dédié, certificat TLS existant, SMTP, politiques de sécurité, sauvegarde et mise à jour."
 categories:
   - Sécurité
