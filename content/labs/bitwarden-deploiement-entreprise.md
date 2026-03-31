@@ -145,6 +145,7 @@ Ajoute :
 ```
 
 Remplacer `bitwarden.example.com` par le hostname réel de votre serveur.
+Tout endroit ou vous verrez example.bitwarden.com dans ce lab, le remplacer par le FQDN de votre serveur
 
 ---
 
@@ -161,7 +162,7 @@ adduser bitwarden
 # Définir un mot de passe fort
 passwd bitwarden
 
-# Créer le groupe docker si nécessaire
+# Créer le groupe docker si nécessaire 
 groupadd docker
 ```
 
@@ -183,6 +184,15 @@ chown -R bitwarden:bitwarden /opt/bitwarden
 Toutes les commandes d'installation qui suivent doivent être exécutées en tant qu'utilisateur `bitwarden` depuis `/opt/bitwarden`. Ne pas installer en root.
 {{< /callout >}}
 
+```bash
+# se connecter en tant qu'utilisateur bitwarden
+su - bitwarden
+```
+```bash
+# se positionner dans le bon repertoire
+cd /opt/bitwarden
+```
+
 ---
 
 ## Étape 3 — Placer le certificat TLS
@@ -192,17 +202,24 @@ Bitwarden s'attend à trouver les fichiers de certificat dans un dossier spécif
 ```bash
 # Créer le dossier de certificats
 mkdir -p /opt/bitwarden/bwdata/ssl/bitwarden.example.com
+```
 
-# Copier les fichiers de certificat
-cp /tmp/certificate.crt /opt/bitwarden/bwdata/ssl/bitwarden.example.com/certificate.crt
-cp /tmp/private.key /opt/bitwarden/bwdata/ssl/bitwarden.example.com/private.key
+Copier les fichiers de certificat dans les dossiers suivants sur le serveur bitwarden
+Utiliser un outil comme WINSCP pour copier le certificat et la clé privée depuis votre poste vers les dossiers suivant sur le serveur bitwarden
 
+```bash
+# Ici certificate.crt est le certificat et private.key est la clé privée
+/opt/bitwarden/bwdata/ssl/bitwarden.example.com/certificate.crt
+/opt/bitwarden/bwdata/ssl/bitwarden.example.com/private.key
+```
+
+```bash
 # Corriger les permissions
 chown -R bitwarden:bitwarden /opt/bitwarden/bwdata/ssl/
 chmod 600 /opt/bitwarden/bwdata/ssl/bitwarden.example.com/private.key
 ```
 
-Vérifie que les fichiers sont bien en place :
+Vérifier que les fichiers sont bien en place :
 
 ```bash
 ls -la /opt/bitwarden/bwdata/ssl/bitwarden.example.com/
@@ -229,7 +246,7 @@ X509v3 Subject Alternative Name:
 {{< /result >}}
 
 {{< callout type="info" >}}
-Si tu utilises un certificat wildcard `*.example.com`, il couvre automatiquement `bitwarden.example.com` et tous les futurs sous-domaines. C'est la configuration recommandée en entreprise — un seul certificat à renouveler pour tous les services.
+utiliser un certificat wildcard `*.example.com`, il couvre automatiquement `bitwarden.example.com` et tous les futurs sous-domaines. C'est la configuration recommandée en entreprise un seul certificat à renouveler pour tous les services.
 {{< /callout >}}
 
 ---
@@ -244,15 +261,17 @@ Bitwarden nécessite un **Installation ID** et une **Installation Key** pour s'e
 4. Clique **Submit**
 5. **Copie l'Installation ID et l'Installation Key** — ils ne s'affichent qu'une seule fois
 
+
+
 {{< callout type="warning" >}}
-Ces identifiants sont liés à ton domaine. Si tu changes de domaine, tu devras en générer de nouveaux sur bitwarden.com/host.
+Ces identifiants sont liés à votre domaine. Si vous changez de domaine, vous devrez en générer de nouveaux sur bitwarden.com/host.
 {{< /callout >}}
 
 ---
 
 ## Étape 5 — Installer Bitwarden
 
-Switche sur le compte bitwarden :
+Switcher sur le compte bitwarden :
 
 ```bash
 su - bitwarden
@@ -265,24 +284,28 @@ Télécharge et lance le script d'installation :
 curl -Lso bitwarden.sh \
   "https://func.bitwarden.com/api/dl/?app=self-host&platform=linux"
 chmod 700 bitwarden.sh
+```
+Installer bitwarden
+
+```bash
 ./bitwarden.sh install
 ```
 
-Réponds aux questions comme suit :
+Répondre aux questions comme suit :
 
 | Question | Réponse |
 |---|---|
 | Enter the domain name | `bitwarden.example.com` |
 | Do you want to use Let's Encrypt | `n` — on utilise notre propre certificat |
+| Enter the database name | `bitwarden` |
 | Do you have a SSL certificate to use | `y` |
 | Is this a trusted SSL certificate | `n` |
-| Enter the database name | `bitwarden` |
 | Enter your Installation ID | *(colle l'ID de l'étape 4)* |
 | Enter your Installation Key | *(colle la Key de l'étape 4)* |
-| Enter your region | `EU` ou `US` selon ta région |
+| Enter your region | `EU` ou `US` selon votre région selectionée |
 
 {{< callout type="info" >}}
-On répond `n` à "trusted SSL certificate" car Bitwarden demande ici si tu as un fichier `ca.crt` séparé. Un certificat Let's Encrypt ou un wildcard d'une CA reconnue n'a pas besoin de ce fichier séparé — la chaîne complète est déjà dans `certificate.crt`.
+On répond `n` à "trusted SSL certificate" car Bitwarden demande ici si vous avez un fichier `.crt` séparé. Un certificat Let's Encrypt ou un wildcard d'une CA reconnue n'a pas besoin de ce fichier séparé :la chaîne complète est déjà dans notre certificat `certificate.crt`.
 {{< /callout >}}
 
 ### Vérifier la structure créée
