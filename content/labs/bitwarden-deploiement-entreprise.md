@@ -1,5 +1,5 @@
 ---
-title: "Bitwarden Self-Hosted : Déploiement entreprise avec certificat et un serveur smtp existants"
+title: "Bitwarden Self-Hosted : Déploiement type entreprise"
 date: 2026-03-30
 lastmod: 2026-03-30
 image: /images/labs/og-bitwarden.png
@@ -42,6 +42,20 @@ Les éléments suivants doivent être en place avant de commencer. Ce lab ne les
 | Nom de domaine | Avec accès au gestionnaire DNS |
 | Sous-domaine | `bitwarden.example.com` créé et propagé vers l'IP du serveur |
 | Certificat TLS | Wildcard ou dédié couvrant `bitwarden.example.com` |
+
+## Sécurité du serveur
+
+### Positionnement
+- VLAN serveur sécurisé isolé
+
+### Accès
+- Accès HTTPS uniquement via le firewall
+- Reverse proxy en DMZ
+
+### Mesures de sécurité
+- Authentification à deux facteurs (2FA) obligatoire
+- Sauvegardes régulières avec chiffrement des données
+- Supervision, journalisation et analyse des logs
 
 **Ressources serveur :**
 
