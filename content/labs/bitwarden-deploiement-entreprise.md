@@ -15,7 +15,7 @@ tags:
 difficulty: avancé
 author: "Komi Kpodohouin"
 deploy_time: "2 heures"
-draft: true
+draft: false
 ---
 
 En entreprise, les mots de passe sont encore souvent stockés dans des fichiers Excel ou sur des pense-bêtes. Ces pratiques exposent directement le système d'information à des risques de compromission.
@@ -395,6 +395,11 @@ Si votre mot de passe SMTP contient le caractère `$`, échappez-le en le doubla
 *Le fichier `global.override.env` après configuration — les lignes SMTP et admin sont surlignées. Les informations sensibles ont été floutées.*
 
 Après avoir modifié `global.override.env`, enregistrer les changements : CTRL + X, Y puis ENTRER
+
+Voici l'apercu de notre fichier final. Les informations sensibles ont été floutté pour des raisons de sécurité
+
+{{< img src="/images/labs/bitwarden/og-bitwarden-global-override-env.png" width="800" >}}
+*Le fichier `global.override.env` après configuration — les lignes SMTP et admin sont surlignées. Les informations sensibles ont été floutées.*
 
 Appliquer les changements avec la commande
 
