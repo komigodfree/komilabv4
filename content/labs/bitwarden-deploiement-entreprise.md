@@ -15,16 +15,16 @@ tags:
 difficulty: avancé
 author: "Komi Kpodohouin"
 deploy_time: "2 heures"
-draft: false
+draft: true
 ---
 
-En entreprise, les mots de passe sont encore souvent stockés dans des fichiers Excel ou sur des pense-bêtes. Ces pratiques exposent directement le système d’information à des risques de compromission.
+En entreprise, les mots de passe sont encore souvent stockés dans des fichiers Excel ou sur des pense-bêtes. Ces pratiques exposent directement le système d'information à des risques de compromission.
 
 Il devient donc essentiel de fournir aux utilisateurs un outil sécurisé et simple pour gérer leurs accès.
 
 Bitwarden en self-hosted, solution open source, permet de centraliser et sécuriser les mots de passe tout en gardant un contrôle total sur les données, hébergées en interne.
 
-Ce lab s’adresse aux équipes IT souhaitant déployer une solution robuste sur leur propre infrastructure.
+Ce lab s'adresse aux équipes IT souhaitant déployer une solution robuste sur leur propre infrastructure.
 
 Ce lab utilise le **nginx intégré à Bitwarden** comme seul point d'entrée TLS. Pas de reverse proxy externe.
 
@@ -64,6 +64,8 @@ Tu dois disposer de deux fichiers :
 Le sous-domaine DNS doit être créé et propagé avant de démarrer l'installation. Vérifie la propagation avec `nslookup bitwarden.example.com` : vous devriez voir l'IP de votre serveur.
 {{< /callout >}}
 
+{{< img src="/images/labs/bitwarden/og-bitwarden-dns-propagation.png" width="800" >}}
+
 ---
 
 ## Étape 1 — Préparer le serveur
@@ -86,6 +88,8 @@ Suis la documentation officielle Docker pour Ubuntu :
 ```bash
 sudo docker run hello-world
 ```
+
+{{< img src="/images/labs/bitwarden/og-bitwarden-docker-verify.png" width="800" >}}
 
 ### Désactiver IPv6 pour Docker
 
@@ -131,6 +135,8 @@ Vérifie la résolution :
 nslookup ghcr.io
 ```
 
+{{< img src="/images/labs/bitwarden/og-bitwarden-dns-ghcr.png" width="800" >}}
+
 ### Corriger le hostname
 
 ```bash
@@ -147,6 +153,14 @@ Ajoute :
 Remplacer `bitwarden.example.com` par le hostname réel de votre serveur.
 Tout endroit ou vous verrez example.bitwarden.com dans ce lab, le remplacer par le FQDN de votre serveur
 
+Vérifie que le domaine répond bien depuis le serveur :
+
+```bash
+ping -c 3 bitwarden.example.com
+```
+
+{{< img src="/images/labs/bitwarden/og-bitwarden-ping-domaine.png" width="800" >}}
+
 ---
 
 ## Étape 2 — Créer le compte de service Bitwarden
@@ -162,7 +176,7 @@ adduser bitwarden
 # Définir un mot de passe fort
 passwd bitwarden
 
-# Créer le groupe docker si nécessaire 
+# Créer le groupe docker si nécessaire
 groupadd docker
 ```
 
@@ -204,7 +218,7 @@ Bitwarden s'attend à trouver les fichiers de certificat dans un dossier spécif
 mkdir -p /opt/bitwarden/bwdata/ssl/bitwarden.example.com
 ```
 
-Copier les fichiers de certificat dans les dossiers suivants sur le serveur bitwarden
+Copier les fichiers de certificat dans les dossiers suivants sur le serveur bitwarden.
 Utiliser un outil comme WINSCP pour copier le certificat et la clé privée depuis votre poste vers les dossiers suivant sur le serveur bitwarden
 
 ```bash
@@ -230,6 +244,8 @@ ls -la /opt/bitwarden/bwdata/ssl/bitwarden.example.com/
 -rw------- 1 bitwarden bitwarden  1675 Mar 28 22:49 private.key
 {{< /result >}}
 
+{{< img src="/images/labs/bitwarden/og-bitwarden-ssl-files.png" width="800" >}}
+
 Vérifie que le certificat couvre bien ton domaine :
 
 ```bash
@@ -244,6 +260,8 @@ notAfter=Jun 26 22:49:30 2026 GMT
 X509v3 Subject Alternative Name:
     DNS:*.example.com, DNS:example.com
 {{< /result >}}
+
+{{< img src="/images/labs/bitwarden/og-bitwarden-certificat-verification.png" width="800" >}}
 
 {{< callout type="info" >}}
 utiliser un certificat wildcard `*.example.com`, il couvre automatiquement `bitwarden.example.com` et tous les futurs sous-domaines. C'est la configuration recommandée en entreprise un seul certificat à renouveler pour tous les services.
@@ -261,7 +279,9 @@ Bitwarden nécessite un **Installation ID** et une **Installation Key** pour s'e
 4. Clique **Submit**
 5. **Copie l'Installation ID et l'Installation Key** — ils ne s'affichent qu'une seule fois
 
+{{< img src="/images/labs/bitwarden/og-bitwarden-installation-id-form.png" width="800" >}}
 
+{{< img src="/images/labs/bitwarden/og-bitwarden-installation-id-result.png" width="800" >}}
 
 {{< callout type="warning" >}}
 Ces identifiants sont liés à votre domaine. Si vous changez de domaine, vous devrez en générer de nouveaux sur bitwarden.com/host.
@@ -318,6 +338,8 @@ ls /opt/bitwarden/bwdata/
 ca-certificates  docker  env     letsencrypt  nginx    ssl
 config.yml       core    identity  logs         scripts  web
 {{< /result >}}
+
+{{< img src="/images/labs/bitwarden/og-bitwarden-bwdata-structure.png" width="800" >}}
 
 ---
 
@@ -405,6 +427,8 @@ bitwarden-sso            Up 5 minutes (healthy)   5000/tcp
 bitwarden-web            Up 5 minutes (healthy)   5000/tcp
 {{< /result >}}
 
+{{< img src="/images/labs/bitwarden/og-bitwarden-nginx-health.png" width="800" >}}
+
 {{< callout type="warning" >}}
 Si certains conteneurs restent en `unhealthy` après 10 minutes, MSSQL est probablement en cours d'initialisation. Attends encore quelques minutes. Si le problème persiste, consulte les logs avec `docker logs bitwarden-mssql`.
 {{< /callout >}}
@@ -437,13 +461,33 @@ X509v3 Subject Alternative Name:
     DNS:*.example.com, DNS:example.com
 {{< /result >}}
 
+{{< img src="/images/labs/bitwarden/og-bitwarden-certificat-charge.png" width="800" >}}
+
 ---
 
 ## Étape 9 — Créer le premier compte et accéder au panneau admin
 
 ### Créer le compte utilisateur
 
-Ouvre `https://bitwarden.example.com` dans ton navigateur et clique sur **Create account**. Utilise l'adresse email définie dans `adminSettings__admins` pour avoir accès au panneau d'administration.
+Ouvre `https://bitwarden.example.com` dans ton navigateur. Tu dois voir la page de connexion Bitwarden.
+
+{{< img src="/images/labs/bitwarden/og-bitwarden-login-page.png" width="800" >}}
+
+Clique sur **Create account**. Utilise l'adresse email définie dans `adminSettings__admins` pour avoir accès au panneau d'administration.
+
+{{< img src="/images/labs/bitwarden/og-bitwarden-create-account.png" width="800" >}}
+
+Définis un mot de passe maître fort — c'est le seul mot de passe que l'utilisateur devra retenir.
+
+{{< img src="/images/labs/bitwarden/og-bitwarden-master-password.png" width="800" >}}
+
+Une fois connecté, Bitwarden propose d'installer l'extension navigateur.
+
+{{< img src="/images/labs/bitwarden/og-bitwarden-extension-prompt.png" width="800" >}}
+
+Le coffre est désormais accessible depuis le tableau de bord.
+
+{{< img src="/images/labs/bitwarden/og-bitwarden-vault-dashboard.png" width="800" >}}
 
 {{< callout type="info" >}}
 Le premier compte créé n'est pas automatiquement administrateur de l'instance. L'administration de l'instance se gère via le panneau `/admin` séparé, accessible uniquement aux emails listés dans `adminSettings__admins`.
