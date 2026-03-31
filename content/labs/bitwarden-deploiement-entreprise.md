@@ -77,7 +77,6 @@ Le sous-domaine DNS du serveur doit être créé et propagé avant de démarrer 
 
 ```bash
 apt update && apt upgrade -y
-apt install -y curl wget openssl git
 ```
 
 ### Installer Docker
@@ -431,12 +430,8 @@ Si certains conteneurs restent en `unhealthy` après 10 minutes, MSSQL est proba
 curl -k -I https://localhost
 ```
 
-{{< result >}}
-HTTP/2 200
-server: nginx
-content-type: text/html
-strict-transport-security: max-age=15768000
-{{< /result >}}
+{{< img src="/images/labs/bitwarden/og-bitwarden-nginx-health.png" width="800" >}}
+
 
 ### Le certificat est bien chargé
 
@@ -453,19 +448,21 @@ echo | openssl s_client -connect localhost:443 2>/dev/null \
 
 ### Créer le compte utilisateur
 
-Ouvre `https://bitwarden.example.com` dans ton navigateur. Tu dois voir la page de connexion Bitwarden.
+Ouvrir `https://bitwarden.example.com` dans votre navigateur. La page de connexion Bitwarden s'affiche. Cliquer sur **Create account**
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-login-page.png" width="800" >}}
 
-Clique sur **Create account**. Utilise l'adresse email définie dans `adminSettings__admins` pour avoir accès au panneau d'administration.
+Entrer un mail
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-create-account.png" width="800" >}}
 
-Définis un mot de passe maître fort — c'est le seul mot de passe que l'utilisateur devra retenir.
+Définis un mot de passe maître fort : c'est le seul mot de passe que l'utilisateur devra retenir.
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-master-password.png" width="800" >}}
 
 Une fois connecté, Bitwarden propose d'installer l'extension navigateur.
+Il est conseillé de ne pas installer l'extension dans le navigateur. Privilégez l'application desktop
+Cette premiere connexion nous permet juste la création du compte
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-extension-prompt.png" width="800" >}}
 
@@ -474,7 +471,7 @@ Le coffre est désormais accessible depuis le tableau de bord.
 {{< img src="/images/labs/bitwarden/og-bitwarden-vault-dashboard.png" width="800" >}}
 
 {{< callout type="info" >}}
-Le premier compte créé n'est pas automatiquement administrateur de l'instance. L'administration de l'instance se gère via le panneau `/admin` séparé, accessible uniquement aux emails listés dans `adminSettings__admins`.
+Le premier compte créé n'est pas automatiquement administrateur de l'instance. L'administration de l'instance se gère via le panneau `https://bitwarden.example.com/admin` séparé, accessible uniquement aux emails listés dans `adminSettings__admins`.
 {{< /callout >}}
 
 ### Accéder au panneau d'administration
@@ -483,9 +480,9 @@ Le premier compte créé n'est pas automatiquement administrateur de l'instance.
 https://bitwarden.example.com/admin
 ```
 
-Entre ton email et clique **Send email**. Tu recevras un lien magique — clique dessus pour accéder au panneau sans mot de passe.
+Entrer ton email et clique **Send email**. Tu recevras un lien magique clique dessus pour accéder au panneau sans mot de passe.
 
-Depuis le panneau admin tu peux :
+Depuis le panneau admin on peut:
 - Gérer les utilisateurs et leurs comptes
 - Configurer les organisations
 - Consulter les logs d'événements
