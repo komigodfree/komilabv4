@@ -382,6 +382,8 @@ Si votre mot de passe SMTP contient le caractère `$`, échappez-le en le doubla
 
 Voici ce a quoi ressemble notre fichier final
 
+{{< img src="/images/labs/bitwarden/og-bitwarden-global-override-env.png" width="800" >}}
+
 Après avoir modifié `global.override.env`, enregistrer les changements : CTRL + X, Y puis ENTRER
 
 Voici l'apercu de notre fichier final. Les informations sensibles ont été floutté pour des raisons de sécurité
@@ -418,8 +420,6 @@ Le premier démarrage prend entre 3 et 7 minutes : MSSQL initialise la base de d
 ```bash
 docker ps | grep bitwarden
 ```
-
-{{< img src="/images/labs/bitwarden/og-bitwarden-nginx-health.png" width="800" >}}
 
 {{< callout type="warning" >}}
 Si certains conteneurs restent en `unhealthy` après 10 minutes, MSSQL est probablement en cours d'initialisation. Attends encore quelques minutes. Si le problème persiste, consulte les logs avec `docker logs bitwarden-mssql`.
