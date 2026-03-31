@@ -239,11 +239,6 @@ Vérifier que les fichiers sont bien en place :
 ls -la /opt/bitwarden/bwdata/ssl/bitwarden.example.com/
 ```
 
-{{< result >}}
--rw------- 1 bitwarden bitwarden  3456 Mar 28 22:49 certificate.crt
--rw------- 1 bitwarden bitwarden  1675 Mar 28 22:49 private.key
-{{< /result >}}
-
 {{< img src="/images/labs/bitwarden/og-bitwarden-ssl-files.png" width="800" >}}
 
 Vérifie que le certificat couvre bien ton domaine :
@@ -252,14 +247,6 @@ Vérifie que le certificat couvre bien ton domaine :
 openssl x509 -in /opt/bitwarden/bwdata/ssl/bitwarden.example.com/certificate.crt \
   -noout -subject -dates -ext subjectAltName
 ```
-
-{{< result >}}
-subject=CN = example.com
-notBefore=Mar 28 22:49:31 2026 GMT
-notAfter=Jun 26 22:49:30 2026 GMT
-X509v3 Subject Alternative Name:
-    DNS:*.example.com, DNS:example.com
-{{< /result >}}
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-certificat-verification.png" width="800" >}}
 
@@ -273,11 +260,12 @@ utiliser un certificat wildcard `*.example.com`, il couvre automatiquement `bitw
 
 Bitwarden nécessite un **Installation ID** et une **Installation Key** pour s'enregistrer auprès des serveurs Bitwarden. Ces identifiants permettent à ton instance de recevoir les mises à jour et les licences.
 
-1. Va sur [https://bitwarden.com/host/](https://bitwarden.com/host/)
-2. Connecte-toi avec ton compte Bitwarden (ou crée-en un gratuit)
-3. Entre ton domaine : `bitwarden.example.com`
+1. Aller sur [https://bitwarden.com/host/](https://bitwarden.com/host/)
+2. Mettre un compte admin
+3. Choisir la région
 4. Clique **Submit**
-5. **Copie l'Installation ID et l'Installation Key** — ils ne s'affichent qu'une seule fois
+5. **Copie l'Installation ID et l'Installation Key**: ils ne s'affichent qu'une seule fois
+Voir les captures suivantes
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-installation-id-form.png" width="800" >}}
 
@@ -334,11 +322,6 @@ On répond `n` à "trusted SSL certificate" car Bitwarden demande ici si vous av
 ls /opt/bitwarden/bwdata/
 ```
 
-{{< result >}}
-ca-certificates  docker  env     letsencrypt  nginx    ssl
-config.yml       core    identity  logs         scripts  web
-{{< /result >}}
-
 {{< img src="/images/labs/bitwarden/og-bitwarden-bwdata-structure.png" width="800" >}}
 
 ---
@@ -379,7 +362,7 @@ globalSettings__disableUserRegistration=false
 | SMTP local | 127.0.0.1 | 25 | false | false |
 
 {{< callout type="warning" >}}
-Si ton mot de passe SMTP contient le caractère `$`, échappe-le en le doublant dans le fichier `.env`. Par exemple : `monP@$$word` s'écrit `monP@$$$$word`. Sans cet échappement, Docker interprétera `$word` comme une variable d'environnement vide.
+Si votre mot de passe SMTP contient le caractère `$`, échappez-le en le doublant dans le fichier `.env`. Par exemple : `monP@$$word` s'écrit `monP@$$$$word`. Sans cet échappement, Docker interprétera `$word` comme une variable d'environnement vide.
 {{< /callout >}}
 
 Après avoir modifié `global.override.env`, applique les changements :
