@@ -56,7 +56,7 @@ Bitwarden utilise Microsoft SQL Server (MSSQL) comme base de données. MSSQL con
 
 **Certificat TLS :**
 
-Disposer de deux fichiers :
+Disposer du certificat et la clé privée :
 
 - `certificate.crt` : le certificat (chaîne complète si possible)
 - `private.key` : la clé privée
@@ -64,7 +64,7 @@ Disposer de deux fichiers :
 {{< img src="/images/labs/bitwarden/og-bitwarden-ssl-files.png" width="800" >}}
 
 {{< callout type="info" >}}
-Le sous-domaine DNS doit être créé et propagé avant de démarrer l'installation. Vérifie la propagation avec `nslookup bitwarden.example.com` : vous devriez voir l'IP de votre serveur.
+Le sous-domaine DNS du serveur doit être créé et propagé avant de démarrer l'installation. Vérifie la propagation avec `nslookup bitwarden.example.com` : vous devriez voir l'IP de votre serveur.
 {{< /callout >}}
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-dns-propagation.png" width="800" >}}
@@ -114,9 +114,9 @@ Ensuite redemarrer docker
 systemctl restart docker
 ```
 
-### Corriger le DNS systemd-resolved
+### Mettre à jour le DNS systemd-resolved
 
-Sur Ubuntu 24.04, `systemd-resolved` écoute sur `127.0.0.53` et peut provoquer des timeouts DNS lors du téléchargement des images Bitwarden depuis `ghcr.io`. Désactive-le et configure un DNS statique fiable.
+Sur Ubuntu 24.04, `systemd-resolved` écoute sur `127.0.0.53` et peut provoquer des timeouts DNS lors du téléchargement des images Bitwarden depuis `ghcr.io`. Il est nécessaire de le désactiver et configurer un DNS statique fiable.
 
 ```bash
 systemctl disable systemd-resolved
@@ -142,11 +142,13 @@ nslookup ghcr.io
 
 ### Corriger le hostname
 
+Ouvrir le dossier hosts 
+
 ```bash
 nano /etc/hosts
 ```
 
-Ajoute :
+Mettre à jour :
 
 ```
 127.0.0.1    localhost
@@ -159,7 +161,7 @@ Tout endroit ou vous verrez example.bitwarden.com dans ce lab, le remplacer par 
 Vérifie que le domaine répond bien depuis le serveur :
 
 ```bash
-ping -c 3 bitwarden.example.com
+ping -c 4 bitwarden.example.com
 ```
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-ping-domaine.png" width="800" >}}
@@ -178,21 +180,21 @@ adduser bitwarden
 ```bash
 # Définir un mot de passe fort
 passwd bitwarden
-
-# Créer le groupe docker si nécessaire
-groupadd docker
 ```
 
 ```bash
 # Ajouter bitwarden au groupe docker
 usermod -aG docker bitwarden
+```
 
+```bash
 # Créer le répertoire d'installation
 mkdir /opt/bitwarden
-
 # Définir les permissions
 chmod -R 700 /opt/bitwarden
+```
 
+```bash
 # Bitwarden devient propriétaire du dossier
 chown -R bitwarden:bitwarden /opt/bitwarden
 ```
@@ -214,7 +216,7 @@ cd /opt/bitwarden
 
 ## Étape 3 — Placer le certificat TLS
 
-Bitwarden s'attend à trouver les fichiers de certificat dans un dossier spécifique avant le démarrage. Crée cette structure depuis ton compte administrateur (avec sudo).
+Bitwarden s'attend à trouver les fichiers de certificat dans un dossier spécifique avant le démarrage. Crée cette structure depuis votre compte administrateur (avec sudo).
 
 ```bash
 # Créer le dossier de certificats
@@ -224,12 +226,15 @@ mkdir -p /opt/bitwarden/bwdata/ssl/bitwarden.example.com
 Copier les fichiers de certificat dans les dossiers suivants sur le serveur bitwarden.
 Utiliser un outil comme WINSCP pour copier le certificat et la clé privée depuis votre poste vers les dossiers suivant sur le serveur bitwarden
 
+Le dossier dans lequel il faudra mettre les certificats est /opt/bitwarden/bwdata/ssl/bitwarden.example.com/ nouvellement créé précédement
+
 ```bash
 # Ici certificate.crt est le certificat et private.key est la clé privée
 /opt/bitwarden/bwdata/ssl/bitwarden.example.com/certificate.crt
 /opt/bitwarden/bwdata/ssl/bitwarden.example.com/private.key
 ```
 
+NB :  Ne pas oublier de remplacer private.key par le vrai nom de votre clé privée
 ```bash
 # Corriger les permissions
 chown -R bitwarden:bitwarden /opt/bitwarden/bwdata/ssl/
@@ -254,23 +259,21 @@ openssl x509 -in /opt/bitwarden/bwdata/ssl/bitwarden.example.com/certificate.crt
 {{< img src="/images/labs/bitwarden/og-bitwarden-certificat-verification.png" width="800" >}}
 
 {{< callout type="info" >}}
-utiliser un certificat wildcard `*.example.com`, il couvre automatiquement `bitwarden.example.com` et tous les futurs sous-domaines. C'est la configuration recommandée en entreprise un seul certificat à renouveler pour tous les services.
+Utiliser un certificat wildcard `*.example.com`, il couvre automatiquement `bitwarden.example.com` et tous les futurs sous-domaines. C'est la configuration recommandée en entreprise un seul certificat à renouveler pour tous les services.
 {{< /callout >}}
 
 ---
 
 ## Étape 4 — Obtenir les identifiants d'installation
 
-Bitwarden nécessite un **Installation ID** et une **Installation Key** pour s'enregistrer auprès des serveurs Bitwarden. Ces identifiants permettent à ton instance de recevoir les mises à jour et les licences.
+Bitwarden nécessite un **Installation ID** et une **Installation Key** pour s'enregistrer auprès des serveurs Bitwarden. Ces identifiants permettent à votre instance de recevoir les mises à jour et les licences.
 
 1. Aller sur [https://bitwarden.com/host/](https://bitwarden.com/host/)
-2. Mettre un compte admin
-3. Choisir la région
-4. Clique **Submit**
-5. **Copie l'Installation ID et l'Installation Key**: ils ne s'affichent qu'une seule fois
-Voir les captures suivantes
+2. Mettre un compte admin, choisir la région et faire **Submit**
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-installation-id-form.png" width="800" >}}
+
+3. **Copie l'Installation ID et l'Installation Key**: ils ne s'affichent qu'une seule fois
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-installation-id-result.png" width="800" >}}
 
@@ -286,6 +289,9 @@ Switcher sur le compte bitwarden :
 
 ```bash
 su - bitwarden
+```
+
+```bash
 cd /opt/bitwarden
 ```
 
@@ -294,6 +300,10 @@ Télécharge et lance le script d'installation :
 ```bash
 curl -Lso bitwarden.sh \
   "https://func.bitwarden.com/api/dl/?app=self-host&platform=linux"
+```
+
+Appliquer les permissions 
+```bash
 chmod 700 bitwarden.sh
 ```
 Installer bitwarden
@@ -315,6 +325,8 @@ Répondre aux questions comme suit :
 | Enter your Installation Key | *(colle la Key de l'étape 4)* |
 | Enter your region | `EU` ou `US` selon votre région selectionée |
 
+{{< img src="/images/labs/bitwarden/og-bitwarden-install-script.png" width="800" >}}
+
 {{< callout type="info" >}}
 On répond `n` à "trusted SSL certificate" car Bitwarden demande ici si vous avez un fichier `.crt` séparé. Un certificat Let's Encrypt ou un wildcard d'une CA reconnue n'a pas besoin de ce fichier séparé :la chaîne complète est déjà dans notre certificat `certificate.crt`.
 {{< /callout >}}
@@ -335,7 +347,7 @@ ls /opt/bitwarden/bwdata/
 nano /opt/bitwarden/bwdata/env/global.override.env
 ```
 
-Modifie ou ajoute ces paramètres :
+Mettre à jour ces lignes dans le fichier selon votre environnement:
 
 ```bash
 # SMTP — obligatoire pour les invitations et vérifications
@@ -368,7 +380,15 @@ globalSettings__disableUserRegistration=false
 Si votre mot de passe SMTP contient le caractère `$`, échappez-le en le doublant dans le fichier `.env`. Par exemple : `monP@$$word` s'écrit `monP@$$$$word`. Sans cet échappement, Docker interprétera `$word` comme une variable d'environnement vide.
 {{< /callout >}}
 
-Après avoir modifié `global.override.env`, applique les changements :
+Voici ce a quoi ressemble notre fichier final
+
+Après avoir modifié `global.override.env`, enregistrer les changements : CTRL + X, Y puis ENTRER
+
+Voici l'apercu de notre fichier final. Les informations sensibles ont été floutté pour des raisons de sécurité
+
+{{< img src="/images/labs/bitwarden/og-bitwarden-global-override-env.png" width="800" >}}
+
+Appliquer les changements avec la commande 
 
 ```bash
 ./bitwarden.sh restart
@@ -387,7 +407,7 @@ cd /opt/bitwarden
 ./bitwarden.sh start
 ```
 
-Le premier démarrage prend entre 3 et 7 minutes — MSSQL initialise la base de données et applique toutes les migrations.
+Le premier démarrage prend entre 3 et 7 minutes : MSSQL initialise la base de données et applique toutes les migrations.
 
 ---
 
@@ -398,20 +418,6 @@ Le premier démarrage prend entre 3 et 7 minutes — MSSQL initialise la base de
 ```bash
 docker ps | grep bitwarden
 ```
-
-{{< result >}}
-bitwarden-nginx          Up 5 minutes (healthy)   0.0.0.0:80->8080/tcp, 0.0.0.0:443->8443/tcp
-bitwarden-admin          Up 5 minutes (healthy)   5000/tcp
-bitwarden-api            Up 5 minutes (healthy)   5000/tcp
-bitwarden-attachments    Up 5 minutes (healthy)   5000/tcp
-bitwarden-events         Up 5 minutes (healthy)   5000/tcp
-bitwarden-icons          Up 5 minutes (healthy)   5000/tcp
-bitwarden-identity       Up 5 minutes (healthy)   5000/tcp
-bitwarden-mssql          Up 5 minutes (healthy)   1433/tcp
-bitwarden-notifications  Up 5 minutes (healthy)   5000/tcp
-bitwarden-sso            Up 5 minutes (healthy)   5000/tcp
-bitwarden-web            Up 5 minutes (healthy)   5000/tcp
-{{< /result >}}
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-nginx-health.png" width="800" >}}
 
@@ -438,14 +444,6 @@ strict-transport-security: max-age=15768000
 echo | openssl s_client -connect localhost:443 2>/dev/null \
   | openssl x509 -noout -subject -dates -ext subjectAltName
 ```
-
-{{< result >}}
-subject=CN = example.com
-notBefore=Mar 28 22:49:31 2026 GMT
-notAfter=Jun 26 22:49:30 2026 GMT
-X509v3 Subject Alternative Name:
-    DNS:*.example.com, DNS:example.com
-{{< /result >}}
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-certificat-charge.png" width="800" >}}
 
