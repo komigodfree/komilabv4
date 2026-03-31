@@ -15,7 +15,7 @@ tags:
 difficulty: avancé
 author: "Komi Kpodohouin"
 deploy_time: "2 heures"
-draft: false
+draft: true
 ---
 
 En entreprise, les mots de passe sont encore souvent stockés dans des fichiers Excel ou sur des pense-bêtes. Ces pratiques exposent directement le système d'information à des risques de compromission.
@@ -62,12 +62,14 @@ Disposer du certificat et la clé privée :
 - `private.key` : la clé privée
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-ssl-files.png" width="800" >}}
+*Les deux fichiers du certificat TLS placés dans le dossier de destination sur le serveur.*
 
 {{< callout type="info" >}}
 Le sous-domaine DNS du serveur doit être créé et propagé avant de démarrer l'installation. Vérifie la propagation avec `nslookup bitwarden.example.com` : vous devriez voir l'IP de votre serveur.
 {{< /callout >}}
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-dns-propagation.png" width="800" >}}
+*Vérification de la propagation DNS — le sous-domaine retourne bien l'IP du serveur.*
 
 ---
 
@@ -92,6 +94,7 @@ sudo docker run hello-world
 ```
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-docker-verify.png" width="800" >}}
+*Docker fonctionne correctement — l'image hello-world a bien été téléchargée et exécutée.*
 
 ### Désactiver IPv6 pour Docker
 
@@ -138,10 +141,11 @@ nslookup ghcr.io
 ```
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-dns-ghcr.png" width="800" >}}
+*La résolution DNS de `ghcr.io` retourne une IP — le registre d'images Bitwarden est accessible.*
 
 ### Corriger le hostname
 
-Ouvrir le dossier hosts 
+Ouvrir le dossier hosts
 
 ```bash
 nano /etc/hosts
@@ -164,6 +168,7 @@ ping -c 4 bitwarden.example.com
 ```
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-ping-domaine.png" width="800" >}}
+*Le serveur répond correctement aux pings sur son propre FQDN.*
 
 ---
 
@@ -247,6 +252,7 @@ ls -la /opt/bitwarden/bwdata/ssl/bitwarden.example.com/
 ```
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-ssl-files.png" width="800" >}}
+*Les fichiers `certificate.crt` et `private.key` sont présents avec les bonnes permissions.*
 
 Vérifie que le certificat couvre bien ton domaine :
 
@@ -256,6 +262,7 @@ openssl x509 -in /opt/bitwarden/bwdata/ssl/bitwarden.example.com/certificate.crt
 ```
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-certificat-verification.png" width="800" >}}
+*Le certificat wildcard couvre bien le domaine cible — les dates de validité et les SANs sont visibles.*
 
 {{< callout type="info" >}}
 Utiliser un certificat wildcard `*.example.com`, il couvre automatiquement `bitwarden.example.com` et tous les futurs sous-domaines. C'est la configuration recommandée en entreprise un seul certificat à renouveler pour tous les services.
@@ -271,14 +278,16 @@ Bitwarden nécessite un **Installation ID** et une **Installation Key** pour s'e
 2. Mettre un compte admin, choisir la région et faire **Submit**
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-installation-id-form.png" width="800" >}}
+*Formulaire de génération des identifiants sur bitwarden.com/host — renseigner le domaine et la région.*
 
 3. **Copie l'Installation ID et l'Installation Key**: ils ne s'affichent qu'une seule fois
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-installation-id-result.png" width="800" >}}
+*L'Installation ID et la Key générés — à copier immédiatement, ils ne s'affichent qu'une fois.*
 
 {{< callout type="warning" >}}
 Ces identifiants sont liés à votre domaine. Si vous changez de domaine, vous devrez en générer de nouveaux sur bitwarden.com/host.
-Juste pour précision l'id et la clé affichés sont confidentiels, NE JAMAIS LES EXPOSER,
+Juste pour précision l'id et la clé affichés sont confidentiels, NE JAMAIS LES EXPOSER.
 {{< /callout >}}
 
 ---
@@ -302,7 +311,7 @@ curl -Lso bitwarden.sh \
   "https://func.bitwarden.com/api/dl/?app=self-host&platform=linux"
 ```
 
-Appliquer les permissions 
+Appliquer les permissions
 ```bash
 chmod 700 bitwarden.sh
 ```
@@ -326,6 +335,7 @@ Répondre aux questions comme suit :
 | Enter your region | `EU` ou `US` selon votre région selectionée |
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-install-script.png" width="800" >}}
+*Le script d'installation interactif — domaine, base de données, Installation ID/Key et région renseignés.*
 
 {{< callout type="info" >}}
 On répond `n` à "trusted SSL certificate" car Bitwarden demande ici si vous avez un fichier `.crt` séparé. Un certificat Let's Encrypt ou un wildcard d'une CA reconnue n'a pas besoin de ce fichier séparé :la chaîne complète est déjà dans notre certificat `certificate.crt`.
@@ -338,6 +348,7 @@ ls /opt/bitwarden/bwdata/
 ```
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-bwdata-structure.png" width="800" >}}
+*Le dossier `bwdata` généré par le script d'installation — tous les sous-dossiers de configuration sont présents.*
 
 ---
 
@@ -380,17 +391,12 @@ globalSettings__disableUserRegistration=false
 Si votre mot de passe SMTP contient le caractère `$`, échappez-le en le doublant dans le fichier `.env`. Par exemple : `monP@$$word` s'écrit `monP@$$$$word`. Sans cet échappement, Docker interprétera `$word` comme une variable d'environnement vide.
 {{< /callout >}}
 
-Voici ce a quoi ressemble notre fichier final
-
 {{< img src="/images/labs/bitwarden/og-bitwarden-global-override-env.png" width="800" >}}
+*Le fichier `global.override.env` après configuration — les lignes SMTP et admin sont surlignées. Les informations sensibles ont été floutées.*
 
 Après avoir modifié `global.override.env`, enregistrer les changements : CTRL + X, Y puis ENTRER
 
-Voici l'apercu de notre fichier final. Les informations sensibles ont été floutté pour des raisons de sécurité
-
-{{< img src="/images/labs/bitwarden/og-bitwarden-global-override-env.png" width="800" >}}
-
-Appliquer les changements avec la commande 
+Appliquer les changements avec la commande
 
 ```bash
 ./bitwarden.sh restart
@@ -432,7 +438,7 @@ curl -k -I https://localhost
 ```
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-nginx-health.png" width="800" >}}
-
+*Nginx retourne HTTP/2 200 — les 11 conteneurs sont healthy et le service est opérationnel.*
 
 ### Le certificat est bien chargé
 
@@ -442,6 +448,7 @@ echo | openssl s_client -connect localhost:443 2>/dev/null \
 ```
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-certificat-charge.png" width="800" >}}
+*Le certificat wildcard est bien chargé par nginx — le domaine, les dates de validité et les SANs sont corrects.*
 
 ---
 
@@ -452,24 +459,29 @@ echo | openssl s_client -connect localhost:443 2>/dev/null \
 Ouvrir `https://bitwarden.example.com` dans votre navigateur. La page de connexion Bitwarden s'affiche. Cliquer sur **Create account**
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-login-page.png" width="800" >}}
+*La page de connexion Bitwarden — l'instance est accessible via HTTPS avec un certificat valide.*
 
 Entrer un mail
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-create-account.png" width="800" >}}
+*Formulaire de création de compte — renseigner l'email qui servira aussi à accéder au panneau `/admin`.*
 
 Définis un mot de passe maître fort : c'est le seul mot de passe que l'utilisateur devra retenir.
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-master-password.png" width="800" >}}
+*Définition du mot de passe maître — il doit respecter les critères de complexité recommandés par Bitwarden.*
 
 Une fois connecté, Bitwarden propose d'installer l'extension navigateur.
-Il est conseillé de ne pas installer l'extension dans le navigateur. Privilégez l'application desktop
-Cette premiere connexion nous permet juste la création du compte
+Il est conseillé de ne pas installer l'extension dans le navigateur. Privilégez l'application desktop.
+Cette premiere connexion nous permet juste la création du compte.
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-extension-prompt.png" width="800" >}}
+*Bitwarden propose l'installation de l'extension navigateur après la première connexion.*
 
 Le coffre est désormais accessible depuis le tableau de bord.
 
 {{< img src="/images/labs/bitwarden/og-bitwarden-vault-dashboard.png" width="800" >}}
+*Le coffre Bitwarden est vide et prêt — l'instance est opérationnelle et accessible aux utilisateurs.*
 
 {{< callout type="info" >}}
 Le premier compte créé n'est pas automatiquement administrateur de l'instance. L'administration de l'instance se gère via le panneau `https://bitwarden.example.com/admin` séparé, accessible uniquement aux emails listés dans `adminSettings__admins`.
