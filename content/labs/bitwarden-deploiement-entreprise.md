@@ -56,9 +56,12 @@ Bitwarden utilise Microsoft SQL Server (MSSQL) comme base de données. MSSQL con
 
 **Certificat TLS :**
 
-Tu dois disposer de deux fichiers :
+Disposer de deux fichiers :
+
 - `certificate.crt` : le certificat (chaîne complète si possible)
 - `private.key` : la clé privée
+
+{{< img src="/images/labs/bitwarden/og-bitwarden-ssl-files.png" width="800" >}}
 
 {{< callout type="info" >}}
 Le sous-domaine DNS doit être créé et propagé avant de démarrer l'installation. Vérifie la propagation avec `nslookup bitwarden.example.com` : vous devriez voir l'IP de votre serveur.
