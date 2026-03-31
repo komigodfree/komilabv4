@@ -278,6 +278,7 @@ Bitwarden nécessite un **Installation ID** et une **Installation Key** pour s'e
 
 {{< callout type="warning" >}}
 Ces identifiants sont liés à votre domaine. Si vous changez de domaine, vous devrez en générer de nouveaux sur bitwarden.com/host.
+Juste pour précision l'id et la clé affichés sont confidentiels, NE JAMAIS LES EXPOSER,
 {{< /callout >}}
 
 ---
