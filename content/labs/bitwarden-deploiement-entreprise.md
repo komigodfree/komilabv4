@@ -15,7 +15,7 @@ tags:
 difficulty: avancé
 author: "Komi Kpodohouin"
 deploy_time: "2 heures"
-draft: true
+draft: false
 ---
 
 En entreprise, les mots de passe sont encore souvent stockés dans des fichiers Excel ou sur des pense-bêtes. Ces pratiques exposent directement le système d'information à des risques de compromission.
